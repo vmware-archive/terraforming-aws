@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ElasticRuntimeS3Permissions",
+      "Effect": "Allow",
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": [
+        "${buildpacks_bucket_arn}",
+        "${buildpacks_bucket_arn}/*",
+        "${droplets_bucket_arn}",
+        "${droplets_bucket_arn}/*",
+        "${packages_bucket_arn}",
+        "${packages_bucket_arn}/*",
+        "${resources_bucket_arn}",
+        "${resources_bucket_arn}/*"
+      ]
+    }
+  ]
+}
