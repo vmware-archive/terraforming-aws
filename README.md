@@ -12,6 +12,15 @@ A booted ops-manager plus a whole BOATLOAD of other goodies, including:
 - SSH/HTTPS/TCP ELBs
 - An IAM User
 
+## Looking to setup a different IAAS
+
+We have have other terraform templates to help you!
+
+- [azure](https://github.com/pivotal-cf/terraforming-azure)
+- [gcp](https://github.com/pivotal-cf/terraforming-gcp)
+
+This list will be updated when more infrastructures come along.
+
 ## Prerequisites
 
 ```bash
