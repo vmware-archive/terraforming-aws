@@ -779,6 +779,6 @@ resource "aws_elb" "tcp_elb" {
     lb_protocol       = "tcp"
   }
 
-  security_groups = ["${aws_security_group.tcp_elb_security_group1.id}", "${aws_security_group.tcp_elb_security_group2.id}"]
+  security_groups = ["${aws_security_group.tcp_elb_security_group.id}"]
   subnets         = ["${aws_subnet.public_subnet1.id}", "${aws_subnet.public_subnet2.id}"]
 }
