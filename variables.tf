@@ -8,12 +8,10 @@ variable "secret_key" {}
 
 variable "region" {
   type    = "string"
-  default = "us-west-1"
 }
 
 variable "availability_zones" {
   type    = "list"
-  default = ["us-west-1b", "us-west-1c"]
 }
 
 variable "nat_key_pair_name" {}
@@ -31,7 +29,6 @@ variable "rds_db_password" {}
 
 variable "rds_instance_class" {
   type    = "string"
-  default = "db.m4.xlarge"
 }
 
 variable "rds_instance_count" {

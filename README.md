@@ -41,8 +41,7 @@ RDS instances take FOREVER to deploy, keep that in mind.
 - access_key **(required)** Your Amazon access_key, used for deployment
 - secret_key: **(require)** You Amazon secret_key, also used for deployment
 - region: **(required)** Region you want to deploy your resources to
-- availability_zone1: **(required)** First AZ you want to deploy to
-- availability_zone2: **(required)** Second AZ you want to deploy to
+- availability_zones: **(required)** List of AZs you want to deploy to
 - nat_key_pair_name: **(required)** Name of the key pair to add to the nat box
 - ops_manager_ami: **(default: ami-2e02454e)**  Ops-manager AMI
 - rds_db_name: **(default: bosh)**  Name of the RDS instance deployed
