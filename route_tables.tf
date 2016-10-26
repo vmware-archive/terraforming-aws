@@ -8,19 +8,16 @@ resource "aws_route_table" "public_route_table" {
   }
 }
 
-resource "aws_route_table_association" "route_public_subnet1" {
-  subnet_id      = "${aws_subnet.public_subnet1.id}"
+resource "aws_route_table_association" "route_public_subnets" {
+  count = "${length(var.availability_zones)}"
+  subnet_id      = "${element(aws_subnet.public_subnets.*.id, count.index)}"
   route_table_id = "${aws_route_table.public_route_table.id}"
 }
 
-resource "aws_route_table_association" "route_public_subnet2" {
-  subnet_id      = "${aws_subnet.public_subnet2.id}"
-  route_table_id = "${aws_route_table.public_route_table.id}"
-}
-
-resource "aws_route_table" "private_route_table1" {
+resource "aws_route_table" "private_route_tables" {
+  count = "${length(var.availability_zones)}"
   vpc_id     = "${aws_vpc.vpc.id}"
-  depends_on = ["aws_subnet.private_subnet1"]
+  depends_on = ["aws_subnet.private_subnets"]
 
   route {
     cidr_block  = "0.0.0.0/0"
@@ -28,22 +25,8 @@ resource "aws_route_table" "private_route_table1" {
   }
 }
 
-resource "aws_route_table" "private_route_table2" {
-  vpc_id     = "${aws_vpc.vpc.id}"
-  depends_on = ["aws_subnet.private_subnet2"]
-
-  route {
-    cidr_block  = "0.0.0.0/0"
-    instance_id = "${aws_instance.nat.id}"
-  }
-}
-
-resource "aws_route_table_association" "route_private_subnet1" {
-  subnet_id      = "${aws_subnet.private_subnet1.id}"
-  route_table_id = "${aws_route_table.private_route_table1.id}"
-}
-
-resource "aws_route_table_association" "route_private_subnet2" {
-  subnet_id      = "${aws_subnet.private_subnet2.id}"
-  route_table_id = "${aws_route_table.private_route_table2.id}"
+resource "aws_route_table_association" "route_private_subnets" {
+  count = "${length(var.availability_zones)}"
+  subnet_id      = "${element(aws_subnet.private_subnets.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.private_route_tables.*.id, count.index)}"
 }

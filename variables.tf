@@ -11,14 +11,9 @@ variable "region" {
   default = "us-west-1"
 }
 
-variable "availability_zone1" {
-  type    = "string"
-  default = "us-west-1b"
-}
-
-variable "availability_zone2" {
-  type    = "string"
-  default = "us-west-1c"
+variable "availability_zones" {
+  type    = "list"
+  default = ["us-west-1b", "us-west-1c"]
 }
 
 variable "nat_key_pair_name" {}

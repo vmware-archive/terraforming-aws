@@ -37,7 +37,7 @@ resource "aws_elb" "elb" {
   }
 
   security_groups = ["${aws_security_group.elb_security_group.id}"]
-  subnets         = ["${aws_subnet.public_subnet1.id}", "${aws_subnet.public_subnet2.id}"]
+  subnets         = ["${aws_subnet.public_subnets.*.id}"]
 }
 
 resource "aws_elb" "ssh_elb" {
@@ -62,7 +62,7 @@ resource "aws_elb" "ssh_elb" {
   }
 
   security_groups = ["${aws_security_group.ssh_elb_security_group.id}"]
-  subnets         = ["${aws_subnet.public_subnet1.id}", "${aws_subnet.public_subnet2.id}"]
+  subnets         = ["${aws_subnet.public_subnets.*.id}"]
 }
 
 resource "aws_elb" "tcp_elb" {
@@ -780,5 +780,5 @@ resource "aws_elb" "tcp_elb" {
   }
 
   security_groups = ["${aws_security_group.tcp_elb_security_group.id}"]
-  subnets         = ["${aws_subnet.public_subnet1.id}", "${aws_subnet.public_subnet2.id}"]
+  subnets         = ["${aws_subnet.public_subnets.*.id}"]
 }

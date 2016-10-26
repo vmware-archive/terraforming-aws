@@ -79,35 +79,35 @@ output "vms_security_group_id" {
 }
 
 output "public_subnet1_id" {
-  value = "${aws_subnet.public_subnet1.id}"
+  value = "${aws_subnet.public_subnets.0.id}"
 }
 
 output "public_subnet2_id" {
-  value = "${aws_subnet.public_subnet2.id}"
+  value = "${aws_subnet.public_subnets.1.id}"
 }
 
 output "public_subnet1_availability_zone" {
-  value = "${aws_subnet.public_subnet1.availability_zone}"
+  value = "${aws_subnet.public_subnets.0.availability_zone}"
 }
 
 output "public_subnet2_availability_zone" {
-  value = "${aws_subnet.public_subnet2.availability_zone}"
+  value = "${aws_subnet.public_subnets.1.availability_zone}"
 }
 
 output "private_subnet1_id" {
-  value = "${aws_subnet.private_subnet1.id}"
+  value = "${aws_subnet.private_subnets.0.id}"
 }
 
 output "private_subnet2_id" {
-  value = "${aws_subnet.private_subnet2.id}"
+  value = "${aws_subnet.private_subnets.1.id}"
 }
 
 output "private_subnet1_availability_zone" {
-  value = "${aws_subnet.private_subnet1.availability_zone}"
+  value = "${aws_subnet.private_subnets.0.availability_zone}"
 }
 
 output "private_subnet2_availability_zone" {
-  value = "${aws_subnet.private_subnet2.availability_zone}"
+  value = "${aws_subnet.private_subnets.1.availability_zone}"
 }
 
 output "vpc_id" {
