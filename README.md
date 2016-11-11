@@ -60,8 +60,7 @@ terraform apply \
   -var "access_key=access-key-id" \
   -var "secret_key=secret-access-key" \
   -var "region=us-west-1" \
-  -var "availability_zone1=us-west-1a" \
-  -var "availability_zone2=us-west-1b" \
+  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"] \
   -var "nat_key_pair_name=key-pair-name" \
   -var "ops_manager_ami=ami-2e02454e" \
   -var "rds_db_name=rds-db" \
@@ -79,8 +78,7 @@ terraform destroy \
   -var "access_key=access-key-id" \
   -var "secret_key=secret-access-key" \
   -var "region=us-west-1" \
-  -var "availability_zone1=us-west-1a" \
-  -var "availability_zone2=us-west-1b" \
+  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"] \
   -var "nat_key_pair_name=key-pair-name" \
   -var "ops_manager_ami=ami-2e02454e" \
   -var "rds_db_name=rds-db" \
