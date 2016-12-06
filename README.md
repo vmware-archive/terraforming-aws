@@ -49,6 +49,7 @@ RDS instances take FOREVER to deploy, keep that in mind.
 - rds_db_password: **(required)** Password for RDS authentication
 - rds_instance_class: **(required)** Size of the RDS to deploy
 - rds_instance_count: **(default: 1)** Whether or not you would like an RDS for your deployment
+- dns_suffix: **(required)** Domain to add environment subdomain to
 
 ## Running
 
