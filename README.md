@@ -68,7 +68,8 @@ terraform apply \
   -var "rds_db_username=rds-username" \
   -var "rds_db_password=rds-password" \
   -var "rds_instance_class=db.m3.xlarge" \
-  -var "rds_instance_count=1"
+  -var "rds_instance_count=1" \
+  -var "dns_suffix=myparentzone.cool.com"
 ```
 
 ### Tearing down environment
@@ -86,5 +87,6 @@ terraform destroy \
   -var "rds_db_username=rds-username" \
   -var "rds_db_password=rds-password" \
   -var "rds_instance_class=db.m3.xlarge" \
-  -var "rds_instance_count=1"
+  -var "rds_instance_count=1" \
+  -var "dns_suffix=myparentzone.cool.com"
 ```
