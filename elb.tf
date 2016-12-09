@@ -4,9 +4,9 @@ resource "aws_elb" "elb" {
   cross_zone_load_balancing = true
 
   health_check {
-    healthy_threshold   = 10
-    unhealthy_threshold = 2
-    interval            = 30
+    healthy_threshold   = 6
+    unhealthy_threshold = 3
+    interval            = 5
     target              = "TCP:80"
     timeout             = 5
   }
