@@ -45,11 +45,11 @@ resource "aws_elb" "ssh_elb" {
   cross_zone_load_balancing = true
 
   health_check {
-    healthy_threshold   = 10
-    unhealthy_threshold = 2
-    interval            = 30
+    healthy_threshold   = 6
+    unhealthy_threshold = 3
+    interval            = 5
     target              = "TCP:2222"
-    timeout             = 5
+    timeout             = 3
   }
 
   idle_timeout = 3600
@@ -70,11 +70,11 @@ resource "aws_elb" "tcp_elb" {
   cross_zone_load_balancing = true
 
   health_check {
-    healthy_threshold   = 10
-    unhealthy_threshold = 2
-    interval            = 30
+    healthy_threshold   = 6
+    unhealthy_threshold = 3
+    interval            = 5
     target              = "TCP:80"
-    timeout             = 5
+    timeout             = 3
   }
 
   idle_timeout = 3600
