@@ -125,3 +125,11 @@ output "ops_manager_private_key" {
 output "ops_manager_public_key_name" {
   value = "${aws_key_pair.ops_manager.key_name}"
 }
+
+output "region" {
+  value = "${var.region}"
+}
+
+output "azs" {
+  value = "${var.availability_zones}"
+}
