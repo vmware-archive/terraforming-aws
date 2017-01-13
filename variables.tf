@@ -7,14 +7,12 @@ variable "access_key" {}
 variable "secret_key" {}
 
 variable "region" {
-  type    = "string"
+  type = "string"
 }
 
 variable "availability_zones" {
-  type    = "list"
+  type = "list"
 }
-
-variable "nat_key_pair_name" {}
 
 variable "ops_manager_ami" {
   type    = "string"
@@ -28,7 +26,7 @@ variable "rds_db_username" {}
 variable "rds_db_password" {}
 
 variable "rds_instance_class" {
-  type    = "string"
+  type = "string"
 }
 
 variable "rds_instance_count" {
