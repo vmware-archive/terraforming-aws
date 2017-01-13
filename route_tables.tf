@@ -1,6 +1,5 @@
 resource "aws_route_table" "public_route_table" {
-  vpc_id     = "${aws_vpc.vpc.id}"
-  depends_on = ["aws_internet_gateway.ig"]
+  vpc_id = "${aws_vpc.vpc.id}"
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -9,15 +8,14 @@ resource "aws_route_table" "public_route_table" {
 }
 
 resource "aws_route_table_association" "route_public_subnets" {
-  count = "${length(var.availability_zones)}"
+  count          = "${length(var.availability_zones)}"
   subnet_id      = "${element(aws_subnet.public_subnets.*.id, count.index)}"
   route_table_id = "${aws_route_table.public_route_table.id}"
 }
 
 resource "aws_route_table" "private_route_tables" {
-  count = "${length(var.availability_zones)}"
-  vpc_id     = "${aws_vpc.vpc.id}"
-  depends_on = ["aws_subnet.private_subnets"]
+  count  = "${length(var.availability_zones)}"
+  vpc_id = "${aws_vpc.vpc.id}"
 
   route {
     cidr_block  = "0.0.0.0/0"

@@ -1,6 +1,5 @@
 resource "aws_subnet" "public_subnets" {
-  count = "${length(var.availability_zones)}"
-  depends_on        = ["aws_vpc.vpc"]
+  count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
   cidr_block        = "${cidrsubnet("10.0.0.0/22", 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
@@ -11,8 +10,7 @@ resource "aws_subnet" "public_subnets" {
 }
 
 resource "aws_subnet" "private_subnets" {
-  count = "${length(var.availability_zones)}"
-  depends_on        = ["aws_vpc.vpc"]
+  count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
   cidr_block        = "${cidrsubnet("10.0.64.0/18", 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
@@ -23,8 +21,7 @@ resource "aws_subnet" "private_subnets" {
 }
 
 resource "aws_subnet" "rds_subnets" {
-  count = "${length(var.availability_zones)}"
-  depends_on        = ["aws_vpc.vpc"]
+  count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
   cidr_block        = "${cidrsubnet("10.0.128.0/22", 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"

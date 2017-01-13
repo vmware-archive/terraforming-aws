@@ -1,5 +1,4 @@
 resource "aws_instance" "ops_manager" {
-  depends_on             = ["aws_security_group.ops_manager_security_group", "aws_subnet.public_subnets"]
   ami                    = "${var.ops_manager_ami}"
   instance_type          = "m3.medium"
   key_name               = "${aws_key_pair.ops_manager.key_name}"

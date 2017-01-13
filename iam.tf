@@ -35,8 +35,7 @@ resource "aws_iam_instance_profile" "iam_instance_profile" {
 }
 
 data "template_file" "ops_manager" {
-  template   = "${file("${path.root}/templates/iam_ops_manager_policy.json")}"
-  depends_on = ["aws_s3_bucket.ops_manager_bucket"]
+  template = "${file("${path.root}/templates/iam_ops_manager_policy.json")}"
 
   vars {
     iam_instance_profile_arn = "${aws_iam_instance_profile.iam_instance_profile.arn}"
@@ -47,13 +46,6 @@ data "template_file" "ops_manager" {
 
 data "template_file" "ert" {
   template = "${file("${path.root}/templates/iam_ert_buckets_policy.json")}"
-
-  depends_on = [
-    "aws_s3_bucket.buildpacks_bucket",
-    "aws_s3_bucket.droplets_bucket",
-    "aws_s3_bucket.packages_bucket",
-    "aws_s3_bucket.resources_bucket",
-  ]
 
   vars {
     buildpacks_bucket_arn = "${aws_s3_bucket.buildpacks_bucket.arn}"

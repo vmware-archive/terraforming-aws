@@ -1,7 +1,6 @@
 resource "aws_security_group" "nat_security_group" {
   name        = "nat_security_group"
   description = "NAT Security Group"
-  depends_on  = ["aws_vpc.vpc"]
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
@@ -19,7 +18,6 @@ resource "aws_security_group" "nat_security_group" {
 resource "aws_security_group" "ops_manager_security_group" {
   name        = "ops_manager_security_group"
   description = "Ops Manager Security Group"
-  depends_on  = ["aws_vpc.vpc"]
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
@@ -72,7 +70,6 @@ resource "aws_security_group" "ops_manager_security_group" {
 resource "aws_security_group" "vms_security_group" {
   name        = "vms_security_group"
   description = "VMs Security Group"
-  depends_on  = ["aws_vpc.vpc"]
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
@@ -90,7 +87,6 @@ resource "aws_security_group" "vms_security_group" {
 resource "aws_security_group" "mysql_security_group" {
   name        = "mysql_security_group"
   description = "MySQL Security Group"
-  depends_on  = ["aws_vpc.vpc"]
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
@@ -108,7 +104,6 @@ resource "aws_security_group" "mysql_security_group" {
 resource "aws_security_group" "elb_security_group" {
   name        = "elb_security_group"
   description = "ELB Security Group"
-  depends_on  = ["aws_vpc.vpc"]
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
@@ -140,7 +135,6 @@ resource "aws_security_group" "elb_security_group" {
 resource "aws_security_group" "ssh_elb_security_group" {
   name        = "ssh_elb_security_group"
   description = "ELB SSH Security Group"
-  depends_on  = ["aws_vpc.vpc"]
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
@@ -158,7 +152,6 @@ resource "aws_security_group" "ssh_elb_security_group" {
 resource "aws_security_group" "tcp_elb_security_group" {
   name        = "tcp_elb_security_group"
   description = "ELB TCP Security Group"
-  depends_on  = ["aws_vpc.vpc"]
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {

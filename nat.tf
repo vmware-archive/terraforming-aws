@@ -15,7 +15,6 @@ variable "nat_ami_map" {
 }
 
 resource "aws_instance" "nat" {
-  depends_on             = ["aws_security_group.nat_security_group", "aws_subnet.public_subnets"]
   ami                    = "${lookup(var.nat_ami_map, var.region)}"
   instance_type          = "t2.medium"
   key_name               = "${var.nat_key_pair_name}"
