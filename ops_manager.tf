@@ -2,7 +2,7 @@ resource "aws_instance" "ops_manager" {
   depends_on             = ["aws_security_group.ops_manager_security_group", "aws_subnet.public_subnets"]
   ami                    = "${var.ops_manager_ami}"
   instance_type          = "m3.medium"
-  key_name               = "${var.nat_key_pair_name}"
+  key_name               = "${aws_key_pair.ops_manager.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ops_manager_security_group.id}"]
   source_dest_check      = false
   subnet_id              = "${aws_subnet.public_subnets.0.id}"
@@ -17,7 +17,17 @@ resource "aws_instance" "ops_manager" {
   }
 }
 
+resource "aws_key_pair" "ops_manager" {
+  key_name   = "${var.env_name}-ops-manager-key"
+  public_key = "${tls_private_key.ops_manager.public_key_openssh}"
+}
+
 resource "aws_eip" "ops_manager_eip" {
   instance = "${aws_instance.ops_manager.id}"
   vpc      = true
+}
+
+resource "tls_private_key" "ops_manager" {
+  algorithm = "RSA"
+  rsa_bits  = "4096"
 }

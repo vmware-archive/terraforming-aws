@@ -113,3 +113,11 @@ output "private_subnet2_availability_zone" {
 output "vpc_id" {
   value = "${aws_vpc.vpc.id}"
 }
+
+output "ops_manager_private_key" {
+  value = "${tls_private_key.ops_manager.private_key_pem}"
+}
+
+output "ops_manager_public_key_name" {
+  value = "${aws_key_pair.ops_manager.key_name}"
+}
