@@ -26,16 +26,16 @@ output "env_dns_zone_name_servers" {
   value = "${aws_route53_zone.pcf_zone.name_servers}"
 }
 
-output "web_elb_dns_name" {
-  value = "${aws_elb.web_elb.dns_name}"
+output "sys_domain" {
+  value = "sys.${var.env_name}.${var.dns_suffix}"
 }
 
-output "ssh_elb_dns_name" {
-  value = "${aws_elb.ssh_elb.dns_name}"
+output "apps_domain" {
+  value = "apps.${var.env_name}.${var.dns_suffix}"
 }
 
-output "tcp_elb_dns_name" {
-  value = "${aws_elb.tcp_elb.dns_name}"
+output "tcp_domain" {
+  value = "tcp.${var.env_name}.${var.dns_suffix}"
 }
 
 output "iam_user_name" {
