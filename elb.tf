@@ -1,6 +1,5 @@
-resource "aws_elb" "elb" {
-  name                      = "${var.env_name}-elb"
-  depends_on                = ["tls_self_signed_cert.self_signed_cert"]
+resource "aws_elb" "web_elb" {
+  name                      = "${var.env_name}-web-elb"
   cross_zone_load_balancing = true
 
   health_check {

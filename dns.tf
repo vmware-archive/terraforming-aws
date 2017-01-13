@@ -19,7 +19,7 @@ resource "aws_route53_record" "wildcard" {
   name    = "*.${var.env_name}.${var.dns_suffix}"
   type    = "CNAME"
   ttl     = "5"
-  records = ["${aws_elb.elb.dns_name}"]
+  records = ["${aws_elb.web_elb.dns_name}"]
 }
 
 resource "aws_route53_record" "ssh" {
