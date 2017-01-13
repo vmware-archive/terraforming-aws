@@ -9,21 +9,43 @@ resource "aws_subnet" "public_subnets" {
   }
 }
 
-resource "aws_subnet" "private_subnets" {
+resource "aws_subnet" "director_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.64.0/18", 2, count.index)}"
+  cidr_block        = "${cidrsubnet("10.0.16.0/26", 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
-    Name = "${var.env_name}-private-subnet${count.index}"
+    Name = "${var.env_name}-director-subnet${count.index}"
+  }
+}
+
+resource "aws_subnet" "ert_subnets" {
+  count             = "${length(var.availability_zones)}"
+  vpc_id            = "${aws_vpc.vpc.id}"
+  cidr_block        = "${cidrsubnet("10.0.4.0/22", 2, count.index)}"
+  availability_zone = "${element(var.availability_zones, count.index)}"
+
+  tags {
+    Name = "${var.env_name}-ert-subnet${count.index}"
+  }
+}
+
+resource "aws_subnet" "service_subnets" {
+  count             = "${length(var.availability_zones)}"
+  vpc_id            = "${aws_vpc.vpc.id}"
+  cidr_block        = "${cidrsubnet("10.0.8.0/22", 2, count.index)}"
+  availability_zone = "${element(var.availability_zones, count.index)}"
+
+  tags {
+    Name = "${var.env_name}-service-subnet${count.index}"
   }
 }
 
 resource "aws_subnet" "rds_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.128.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet("10.0.12.0/22", 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {

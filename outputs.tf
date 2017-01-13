@@ -78,36 +78,36 @@ output "vms_security_group_id" {
   value = "${aws_security_group.vms_security_group.id}"
 }
 
-output "public_subnet1_id" {
-  value = "${aws_subnet.public_subnets.0.id}"
+output "public_subnet_ids" {
+  value = "${join(",", aws_subnet.public_subnets.*.id)}"
 }
 
-output "public_subnet2_id" {
-  value = "${aws_subnet.public_subnets.1.id}"
+output "public_subnet_availability_zones" {
+  value = "${join(",", aws_subnet.public_subnets.*.availability_zone)}"
 }
 
-output "public_subnet1_availability_zone" {
-  value = "${aws_subnet.public_subnets.0.availability_zone}"
+output "director_subnet_ids" {
+  value = "${join(",", aws_subnet.director_subnets.*.id)}"
 }
 
-output "public_subnet2_availability_zone" {
-  value = "${aws_subnet.public_subnets.1.availability_zone}"
+output "director_subnet_availability_zones" {
+  value = "${join(",", aws_subnet.director_subnets.*.availability_zone)}"
 }
 
-output "private_subnet1_id" {
-  value = "${aws_subnet.private_subnets.0.id}"
+output "ert_subnet_ids" {
+  value = "${join(",", aws_subnet.ert_subnets.*.id)}"
 }
 
-output "private_subnet2_id" {
-  value = "${aws_subnet.private_subnets.1.id}"
+output "ert_subnet_availability_zones" {
+  value = "${join(",", aws_subnet.ert_subnets.*.availability_zone)}"
 }
 
-output "private_subnet1_availability_zone" {
-  value = "${aws_subnet.private_subnets.0.availability_zone}"
+output "service_subnet_ids" {
+  value = "${join(",", aws_subnet.service_subnets.*.id)}"
 }
 
-output "private_subnet2_availability_zone" {
-  value = "${aws_subnet.private_subnets.1.availability_zone}"
+output "service_subnet_availability_zones" {
+  value = "${join(",", aws_subnet.service_subnets.*.availability_zone)}"
 }
 
 output "vpc_id" {

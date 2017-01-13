@@ -13,7 +13,7 @@ resource "aws_route_table_association" "route_public_subnets" {
   route_table_id = "${aws_route_table.public_route_table.id}"
 }
 
-resource "aws_route_table" "private_route_tables" {
+resource "aws_route_table" "private_route_table" {
   count  = "${length(var.availability_zones)}"
   vpc_id = "${aws_vpc.vpc.id}"
 
@@ -23,8 +23,20 @@ resource "aws_route_table" "private_route_tables" {
   }
 }
 
-resource "aws_route_table_association" "route_private_subnets" {
-  count = "${length(var.availability_zones)}"
-  subnet_id      = "${element(aws_subnet.private_subnets.*.id, count.index)}"
-  route_table_id = "${element(aws_route_table.private_route_tables.*.id, count.index)}"
+resource "aws_route_table_association" "route_director_subnets" {
+  count          = "${length(var.availability_zones)}"
+  subnet_id      = "${element(aws_subnet.director_subnets.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
+}
+
+resource "aws_route_table_association" "route_ert_subnets" {
+  count          = "${length(var.availability_zones)}"
+  subnet_id      = "${element(aws_subnet.ert_subnets.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
+}
+
+resource "aws_route_table_association" "route_service_subnets" {
+  count          = "${length(var.availability_zones)}"
+  subnet_id      = "${element(aws_subnet.service_subnets.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
 }
