@@ -19,6 +19,11 @@ variable "ops_manager_ami" {
   default = "ami-2e02454e"
 }
 
+variable "optional_ops_manager_ami" {
+  type    = "string"
+  default = ""
+}
+
 variable "rds_db_name" {}
 
 variable "rds_db_username" {}

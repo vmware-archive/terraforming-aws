@@ -22,6 +22,10 @@ output "ops_manager_dns" {
   value = "${aws_route53_record.ops_manager.name}"
 }
 
+output "optional_ops_manager_dns" {
+  value = "${aws_route53_record.optional_ops_manager.name}"
+}
+
 output "env_dns_zone_name_servers" {
   value = "${aws_route53_zone.pcf_zone.name_servers}"
 }
