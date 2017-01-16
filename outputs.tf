@@ -83,47 +83,47 @@ output "vms_security_group_id" {
 }
 
 output "public_subnet_ids" {
-  value = "${join(",", aws_subnet.public_subnets.*.id)}"
+  value = ["${aws_subnet.public_subnets.*.id}"]
 }
 
 output "public_subnet_availability_zones" {
-  value = "${join(",", aws_subnet.public_subnets.*.availability_zone)}"
+  value = ["${aws_subnet.public_subnets.*.availability_zone}"]
 }
 
 output "director_subnet_ids" {
-  value = "${join(",", aws_subnet.director_subnets.*.id)}"
+  value = ["${aws_subnet.director_subnets.*.id}"]
 }
 
 output "director_subnet_availability_zones" {
-  value = "${join(",", aws_subnet.director_subnets.*.availability_zone)}"
+  value = ["${aws_subnet.director_subnets.*.availability_zone}"]
 }
 
 output "director_subnet_cidrs" {
-  value = "${join(",", aws_subnet.director_subnets.*.cidr_block)}"
+  value = ["${aws_subnet.director_subnets.*.cidr_block}"]
 }
 
 output "ert_subnet_ids" {
-  value = "${join(",", aws_subnet.ert_subnets.*.id)}"
+  value = ["${aws_subnet.ert_subnets.*.id}"]
 }
 
 output "ert_subnet_availability_zones" {
-  value = "${join(",", aws_subnet.ert_subnets.*.availability_zone)}"
+  value = ["${aws_subnet.ert_subnets.*.availability_zone}"]
 }
 
 output "ert_subnet_cidrs" {
-  value = "${join(",", aws_subnet.ert_subnets.*.cidr_block)}"
+  value = ["${aws_subnet.ert_subnets.*.cidr_block}"]
 }
 
 output "service_subnet_ids" {
-  value = "${join(",", aws_subnet.service_subnets.*.id)}"
+  value = ["${aws_subnet.service_subnets.*.id}"]
 }
 
 output "service_subnet_availability_zones" {
-  value = "${join(",", aws_subnet.service_subnets.*.availability_zone)}"
+  value = ["${aws_subnet.service_subnets.*.availability_zone}"]
 }
 
 output "service_subnet_cidrs" {
-  value = "${join(",", aws_subnet.service_subnets.*.cidr_block)}"
+  value = ["${aws_subnet.service_subnets.*.cidr_block}"]
 }
 
 output "vpc_id" {
