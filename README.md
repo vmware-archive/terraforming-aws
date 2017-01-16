@@ -44,11 +44,9 @@ RDS instances take FOREVER to deploy, keep that in mind.
 - availability_zones: **(required)** List of AZs you want to deploy to
 - nat_key_pair_name: **(required)** Name of the key pair to add to the nat box
 - ops_manager_ami: **(default: ami-2e02454e)**  Ops-manager AMI
-- rds_db_name: **(default: bosh)**  Name of the RDS instance deployed
-- rds_db_username: **(required)** Username for RDS authentication
-- rds_db_password: **(required)** Password for RDS authentication
-- rds_instance_class: **(required)** Size of the RDS to deploy
-- rds_instance_count: **(default: 1)** Whether or not you would like an RDS for your deployment
+- rds_db_username: **(default: admin)** Username for RDS authentication
+- rds_instance_class: **(default: db.m3.large)** Size of the RDS to deploy
+- rds_instance_count: **(default: 0)** Whether or not you would like an RDS for your deployment
 - dns_suffix: **(required)** Domain to add environment subdomain to
 
 ## Running

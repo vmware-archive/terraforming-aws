@@ -67,11 +67,7 @@ output "rds_username" {
 }
 
 output "rds_password" {
-  value = "${var.rds_db_password}"
-}
-
-output "rds_db_name" {
-  value = "${aws_db_instance.rds.name}"
+  value = "${aws_db_instance.rds.password}"
 }
 
 output "ops_manager_security_group_id" {

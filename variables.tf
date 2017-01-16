@@ -24,17 +24,17 @@ variable "optional_ops_manager_ami" {
   default = ""
 }
 
-variable "rds_db_name" {}
-
-variable "rds_db_username" {}
-
-variable "rds_db_password" {}
+variable "rds_db_username" {
+  type    = "string"
+  default = "admin"
+}
 
 variable "rds_instance_class" {
-  type = "string"
+  type    = "string"
+  default = "db.m3.large"
 }
 
 variable "rds_instance_count" {
   type    = "string"
-  default = 1
+  default = 0
 }
