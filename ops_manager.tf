@@ -40,12 +40,12 @@ resource "aws_key_pair" "ops_manager" {
   public_key = "${tls_private_key.ops_manager.public_key_openssh}"
 }
 
-resource "aws_eip" "ops_manager_eip" {
+resource "aws_eip" "ops_manager" {
   instance = "${aws_instance.ops_manager.id}"
   vpc      = true
 }
 
-resource "aws_eip" "optional_ops_manager_eip" {
+resource "aws_eip" "optional_ops_manager" {
   instance = "${aws_instance.optional_ops_manager.id}"
   count    = "${min(length(split("", var.optional_ops_manager_ami)),1)}"
   vpc      = true

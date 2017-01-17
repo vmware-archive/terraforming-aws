@@ -18,6 +18,10 @@ output "ert_resources_bucket" {
   value = "${aws_s3_bucket.resources_bucket.arn}"
 }
 
+output "ops_manager_public_ip" {
+  value = "${aws_eip.ops_manager.public_ip}"
+}
+
 output "ops_manager_dns" {
   value = "${aws_route53_record.ops_manager.name}"
 }

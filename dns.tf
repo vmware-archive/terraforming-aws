@@ -12,7 +12,7 @@ resource "aws_route53_record" "ops_manager" {
   type    = "A"
   ttl     = 300
 
-  records = ["${aws_eip.ops_manager_eip.public_ip}"]
+  records = ["${aws_eip.ops_manager.public_ip}"]
 }
 
 resource "aws_route53_record" "optional_ops_manager" {
@@ -22,7 +22,7 @@ resource "aws_route53_record" "optional_ops_manager" {
   ttl     = 300
   count   = "${min(length(split("", var.optional_ops_manager_ami)),1)}"
 
-  records = ["${aws_eip.optional_ops_manager_eip.public_ip}"]
+  records = ["${aws_eip.optional_ops_manager.public_ip}"]
 }
 
 resource "aws_route53_record" "wildcard_sys_dns" {
