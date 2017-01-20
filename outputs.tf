@@ -90,16 +90,16 @@ output "public_subnet_availability_zones" {
   value = ["${aws_subnet.public_subnets.*.availability_zone}"]
 }
 
-output "director_subnet_ids" {
-  value = ["${aws_subnet.director_subnets.*.id}"]
+output "management_subnet_ids" {
+  value = ["${aws_subnet.management_subnets.*.id}"]
 }
 
-output "director_subnet_availability_zones" {
-  value = ["${aws_subnet.director_subnets.*.availability_zone}"]
+output "management_subnet_availability_zones" {
+  value = ["${aws_subnet.management_subnets.*.availability_zone}"]
 }
 
-output "director_subnet_cidrs" {
-  value = ["${aws_subnet.director_subnets.*.cidr_block}"]
+output "management_subnet_cidrs" {
+  value = ["${aws_subnet.management_subnets.*.cidr_block}"]
 }
 
 output "ert_subnet_ids" {
@@ -114,27 +114,27 @@ output "ert_subnet_cidrs" {
   value = ["${aws_subnet.ert_subnets.*.cidr_block}"]
 }
 
-output "service_subnet_ids" {
-  value = ["${aws_subnet.service_subnets.*.id}"]
+output "services_subnet_ids" {
+  value = ["${aws_subnet.services_subnets.*.id}"]
 }
 
-output "service_subnet_availability_zones" {
-  value = ["${aws_subnet.service_subnets.*.availability_zone}"]
+output "services_subnet_availability_zones" {
+  value = ["${aws_subnet.services_subnets.*.availability_zone}"]
 }
 
-output "service_subnet_cidrs" {
-  value = ["${aws_subnet.service_subnets.*.cidr_block}"]
+output "services_subnet_cidrs" {
+  value = ["${aws_subnet.services_subnets.*.cidr_block}"]
 }
 
 output "vpc_id" {
   value = "${aws_vpc.vpc.id}"
 }
 
-output "ops_manager_private_key" {
+output "ops_manager_ssh_private_key" {
   value = "${tls_private_key.ops_manager.private_key_pem}"
 }
 
-output "ops_manager_public_key_name" {
+output "ops_manager_ssh_public_key_name" {
   value = "${aws_key_pair.ops_manager.key_name}"
 }
 

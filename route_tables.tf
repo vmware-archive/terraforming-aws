@@ -23,9 +23,9 @@ resource "aws_route_table" "private_route_table" {
   }
 }
 
-resource "aws_route_table_association" "route_director_subnets" {
+resource "aws_route_table_association" "route_management_subnets" {
   count          = "${length(var.availability_zones)}"
-  subnet_id      = "${element(aws_subnet.director_subnets.*.id, count.index)}"
+  subnet_id      = "${element(aws_subnet.management_subnets.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
 }
 
@@ -35,8 +35,8 @@ resource "aws_route_table_association" "route_ert_subnets" {
   route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
 }
 
-resource "aws_route_table_association" "route_service_subnets" {
+resource "aws_route_table_association" "route_services_subnets" {
   count          = "${length(var.availability_zones)}"
-  subnet_id      = "${element(aws_subnet.service_subnets.*.id, count.index)}"
+  subnet_id      = "${element(aws_subnet.services_subnets.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
 }
