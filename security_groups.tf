@@ -62,6 +62,13 @@ resource "aws_security_group" "ops_manager_security_group" {
     to_port     = 6868
   }
 
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
   tags {
     Name = "${var.env_name}-ops-manager-security-group"
   }
