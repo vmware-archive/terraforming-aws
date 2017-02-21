@@ -149,3 +149,15 @@ output "region" {
 output "azs" {
   value = "${var.availability_zones}"
 }
+
+output "web_elb_name" {
+  value = "${aws_elb.web_elb.name}"
+}
+
+output "ssh_elb_name" {
+  value = "${aws_elb.ssh_elb.name}"
+}
+
+output "tcp_elb_name" {
+  value = "${aws_elb.tcp_elb.name}"
+}
