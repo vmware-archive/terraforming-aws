@@ -8,14 +8,8 @@
         "s3:*"
       ],
       "Resource": [
-        "${buildpacks_bucket_arn}",
-        "${buildpacks_bucket_arn}/*",
-        "${droplets_bucket_arn}",
-        "${droplets_bucket_arn}/*",
-        "${packages_bucket_arn}",
-        "${packages_bucket_arn}/*",
-        "${resources_bucket_arn}",
-        "${resources_bucket_arn}/*"
+        "${env_bucket_arn}",
+        "${env_bucket_arn}/*"
       ]
     }
   ]

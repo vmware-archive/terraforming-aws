@@ -1,21 +1,21 @@
 output "ops_manager_bucket" {
-  value = "${aws_s3_bucket.ops_manager_bucket.arn}"
+  value = "${aws_s3_bucket.top_level.arn}/ops-manager"
 }
 
 output "ert_buildpacks_bucket" {
-  value = "${aws_s3_bucket.buildpacks_bucket.arn}"
+  value = "${aws_s3_bucket.top_level.arn}/buildpacks"
 }
 
 output "ert_droplets_bucket" {
-  value = "${aws_s3_bucket.droplets_bucket.arn}"
+  value = "${aws_s3_bucket.top_level.arn}/droplets"
 }
 
 output "ert_packages_bucket" {
-  value = "${aws_s3_bucket.packages_bucket.arn}"
+  value = "${aws_s3_bucket.top_level.arn}/packages"
 }
 
 output "ert_resources_bucket" {
-  value = "${aws_s3_bucket.resources_bucket.arn}"
+  value = "${aws_s3_bucket.top_level.arn}/resources"
 }
 
 output "ops_manager_public_ip" {
