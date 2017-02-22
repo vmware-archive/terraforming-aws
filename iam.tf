@@ -40,7 +40,7 @@ data "template_file" "ops_manager" {
   vars {
     iam_instance_profile_arn = "${aws_iam_instance_profile.iam_instance_profile.arn}"
     iam_role_arn             = "${aws_iam_role.iam_role.arn}"
-    ops_manager_bucket_arn   = "${aws_s3_bucket.top_level.arn}"
+    ops_manager_bucket_arn   = "${aws_s3_bucket.ops_manager_bucket.arn}"
   }
 }
 
@@ -48,7 +48,10 @@ data "template_file" "ert" {
   template = "${file("${path.root}/templates/iam_ert_buckets_policy.json")}"
 
   vars {
-    env_bucket_arn = "${aws_s3_bucket.top_level.arn}"
+    buildpacks_bucket_arn = "${aws_s3_bucket.buildpacks_bucket.arn}"
+    droplets_bucket_arn   = "${aws_s3_bucket.droplets_bucket.arn}"
+    packages_bucket_arn   = "${aws_s3_bucket.packages_bucket.arn}"
+    resources_bucket_arn  = "${aws_s3_bucket.resources_bucket.arn}"
   }
 }
 
