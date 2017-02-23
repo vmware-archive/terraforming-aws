@@ -93,6 +93,13 @@ resource "aws_security_group" "vms_security_group" {
     to_port     = 0
   }
 
+  egress {
+    cidr_blocks = ["10.0.0.0/16"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
   tags {
     Name = "${var.env_name}-vms-security-group"
   }
