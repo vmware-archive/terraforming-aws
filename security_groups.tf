@@ -10,6 +10,13 @@ resource "aws_security_group" "nat_security_group" {
     to_port     = 0
   }
 
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
   tags {
     Name = "${var.env_name}-nat-security-group"
   }
