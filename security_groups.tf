@@ -117,6 +117,13 @@ resource "aws_security_group" "mysql_security_group" {
     to_port     = 3306
   }
 
+  egress {
+    cidr_blocks = ["10.0.0.0/16"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
   tags {
     Name = "${var.env_name}-mysql-security-group"
   }
@@ -148,6 +155,13 @@ resource "aws_security_group" "elb_security_group" {
     to_port     = 4443
   }
 
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
   tags {
     Name = "${var.env_name}-elb-security-group"
   }
@@ -165,6 +179,13 @@ resource "aws_security_group" "ssh_elb_security_group" {
     to_port     = 2222
   }
 
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
   tags {
     Name = "${var.env_name}-ssh-elb-security-group"
   }
@@ -180,6 +201,13 @@ resource "aws_security_group" "tcp_elb_security_group" {
     protocol    = "tcp"
     from_port   = 1024
     to_port     = 1123
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
   }
 
   tags {
