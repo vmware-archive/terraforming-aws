@@ -167,6 +167,44 @@ resource "aws_security_group" "elb_security_group" {
   }
 }
 
+resource "aws_security_group" "isoseg_elb_security_group" {
+  name        = "isoseg_elb_security_group"
+  description = "Isoseg ELB Security Group"
+  vpc_id      = "${aws_vpc.vpc.id}"
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 80
+    to_port     = 80
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 4443
+    to_port     = 4443
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  tags {
+    Name = "${var.env_name}-isoseg-elb-security-group"
+  }
+}
+
 resource "aws_security_group" "ssh_elb_security_group" {
   name        = "ssh_elb_security_group"
   description = "ELB SSH Security Group"

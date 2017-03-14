@@ -158,6 +158,10 @@ output "tcp_elb_name" {
   value = "${aws_elb.tcp_elb.name}"
 }
 
+output "isoseg_elb_name" {
+  value = "${aws_elb.isoseg.name}"
+}
+
 output "dns_zone_id" {
   value = "${aws_route53_zone.pcf_zone.id}"
 }

@@ -781,3 +781,44 @@ resource "aws_elb" "tcp_elb" {
   security_groups = ["${aws_security_group.tcp_elb_security_group.id}"]
   subnets         = ["${aws_subnet.public_subnets.*.id}"]
 }
+
+resource "aws_elb" "isoseg" {
+  name                      = "${var.env_name}-isoseg-elb"
+  cross_zone_load_balancing = true
+
+  health_check {
+    healthy_threshold   = 6
+    unhealthy_threshold = 3
+    interval            = 5
+    target              = "HTTP:8080/health"
+    timeout             = 3
+  }
+
+  idle_timeout = 3600
+
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+
+  listener {
+    instance_port      = 80
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+    ssl_certificate_id = "${aws_iam_server_certificate.isoseg_self_signed_cert.arn}"
+  }
+
+  listener {
+    instance_port      = 80
+    instance_protocol  = "tcp"
+    lb_port            = 4443
+    lb_protocol        = "ssl"
+    ssl_certificate_id = "${aws_iam_server_certificate.isoseg_self_signed_cert.arn}"
+  }
+
+  security_groups = ["${aws_security_group.isoseg_elb_security_group.id}"]
+  subnets         = ["${aws_subnet.public_subnets.*.id}"]
+}
