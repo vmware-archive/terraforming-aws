@@ -48,6 +48,11 @@ RDS instances take FOREVER to deploy, keep that in mind.
 - rds_instance_count: **(default: 0)** Whether or not you would like an RDS for your deployment
 - dns_suffix: **(required)** Domain to add environment subdomain to
 
+## Isolation Segments (optional)
+- create_isoseg_resources *(optional)* Set to 1 to create HTTP load-balancer across 3 zones for isolation segments. If set, the following 2 isoseg variables are also required.
+- isoseg_ssl_cert: *(optional)* SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
+- isoseg_ssl_cert_private_key:  *(optional)* Private key for above SSL certificate.
+
 ## Running
 
 ### Standing up environment
