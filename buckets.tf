@@ -1,12 +1,3 @@
-resource "aws_s3_bucket" "ops_manager_bucket" {
-  bucket        = "${var.env_name}-ops-manager-bucket"
-  force_destroy = true
-
-  tags {
-    Name = "Ops Manager S3 Bucket"
-  }
-}
-
 resource "aws_s3_bucket" "buildpacks_bucket" {
   bucket        = "${var.env_name}-buildpacks-bucket"
   force_destroy = true
