@@ -1,5 +1,5 @@
 output "ops_manager_bucket" {
-  value = "${aws_s3_bucket.ops_manager_bucket.bucket}"
+  value = "${module.ops_manager.bucket}"
 }
 
 output "ert_buildpacks_bucket" {
@@ -19,15 +19,15 @@ output "ert_resources_bucket" {
 }
 
 output "ops_manager_public_ip" {
-  value = "${aws_eip.ops_manager.public_ip}"
+  value = "${module.ops_manager.public_ip}"
 }
 
 output "ops_manager_dns" {
-  value = "${aws_route53_record.ops_manager.name}"
+  value = "${module.ops_manager.dns}"
 }
 
-output "optional_ops_manager_dns" {
-  value = "${aws_route53_record.optional_ops_manager.name}"
+output "upgrade_ops_manager_dns" {
+  value = "${module.ops_manager.upgrade_dns}"
 }
 
 output "env_dns_zone_name_servers" {
@@ -75,7 +75,7 @@ output "rds_password" {
 }
 
 output "ops_manager_security_group_id" {
-  value = "${aws_security_group.ops_manager_security_group.id}"
+  value = "${module.ops_manager.security_group_id}"
 }
 
 output "vms_security_group_id" {
@@ -135,11 +135,11 @@ output "vpc_id" {
 }
 
 output "ops_manager_ssh_private_key" {
-  value = "${tls_private_key.ops_manager.private_key_pem}"
+  value = "${module.ops_manager.ssh_private_key}"
 }
 
 output "ops_manager_ssh_public_key_name" {
-  value = "${aws_key_pair.ops_manager.key_name}"
+  value = "${module.ops_manager.ssh_public_key_name}"
 }
 
 output "region" {

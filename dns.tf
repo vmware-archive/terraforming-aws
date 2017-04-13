@@ -6,25 +6,6 @@ resource "aws_route53_zone" "pcf_zone" {
   }
 }
 
-resource "aws_route53_record" "ops_manager" {
-  zone_id = "${aws_route53_zone.pcf_zone.id}"
-  name    = "pcf.${var.env_name}.${var.dns_suffix}"
-  type    = "A"
-  ttl     = 300
-
-  records = ["${aws_eip.ops_manager.public_ip}"]
-}
-
-resource "aws_route53_record" "optional_ops_manager" {
-  zone_id = "${aws_route53_zone.pcf_zone.id}"
-  name    = "pcf-optional.${var.env_name}.${var.dns_suffix}"
-  type    = "A"
-  ttl     = 300
-  count   = "${min(length(split("", var.optional_ops_manager_ami)),1)}"
-
-  records = ["${aws_eip.optional_ops_manager.public_ip}"]
-}
-
 resource "aws_route53_record" "wildcard_sys_dns" {
   zone_id = "${aws_route53_zone.pcf_zone.id}"
   name    = "*.sys.${var.env_name}.${var.dns_suffix}"
