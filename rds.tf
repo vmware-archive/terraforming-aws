@@ -11,6 +11,7 @@ resource "aws_db_instance" "rds" {
   vpc_security_group_ids = ["${aws_security_group.mysql_security_group.id}"]
   iops                   = 1000
   multi_az               = true
+  name                   = "bosh"
 
   count = "${var.rds_instance_count}"
 }
