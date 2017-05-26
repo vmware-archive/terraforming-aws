@@ -23,9 +23,17 @@ This list will be updated when more infrastructures come along.
 
 ## Prerequisites
 
+### Install Terraform
 ```bash
 go get -u github.com/hashicorp/terraform
 ```
+### AWS Permissions
+- AmazonEC2FullAccess
+- AmazonRDSFullAccess
+- AmazonS3FullAccess
+- AmazonVPCFullAccess
+- AmazonRoute53FullAccess
+- IAMFullAccess
 
 ## Notes
 
