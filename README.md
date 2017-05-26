@@ -41,7 +41,7 @@ RDS instances take FOREVER to deploy, keep that in mind.
 - secret_key: **(required)** Your Amazon secret_key, also used for deployment
 - region: **(required)** Region you want to deploy your resources to
 - availability_zones: **(required)** List of AZs you want to deploy to
-- ops_manager_ami: **(required)**  Ops Manager AMI
+- ops_manager_ami: **(default: ami-2e02454e)**  Ops-manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Povital Network](https://network.pivotal.io/products/ops-manager)
 - ops_manager_instance_type: **(default: m4.large)** Ops Manager instance type
 - rds_db_username: **(default: admin)** Username for RDS authentication
 - rds_instance_class: **(default: db.m4.large)** Size of the RDS to deploy
@@ -63,7 +63,7 @@ terraform apply \
   -var "access_key=access-key-id" \
   -var "secret_key=secret-access-key" \
   -var "region=us-west-1" \
-  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"] \
+  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"]" \
   -var "ops_manager_ami=ami-2e02454e" \
   -var "rds_instance_count=1" \
   -var "dns_suffix=myparentzone.cool.com"
@@ -77,7 +77,7 @@ terraform destroy \
   -var "access_key=access-key-id" \
   -var "secret_key=secret-access-key" \
   -var "region=us-west-1" \
-  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"] \
+  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"]" \
   -var "ops_manager_ami=ami-2e02454e" \
   -var "rds_instance_count=1" \
   -var "dns_suffix=myparentzone.cool.com"
