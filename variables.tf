@@ -19,7 +19,7 @@ variable "ops_manager_ami" {
   default = ""
 }
 
-variable "upgrade_ops_manager_ami" {
+variable "optional_ops_manager_ami" {
   type    = "string"
   default = ""
 }
@@ -43,7 +43,7 @@ variable "ops_manager" {
   default = true
 }
 
-variable "upgrade_ops_manager" {
+variable "optional_ops_manager" {
   default = false
 }
 

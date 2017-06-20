@@ -10,8 +10,8 @@ output "dns" {
   value = "${aws_route53_record.ops_manager.name}"
 }
 
-output "upgrade_dns" {
-  value = "${aws_route53_record.upgrade_ops_manager.name}"
+output "optional_dns" {
+  value = "${aws_route53_record.optional_ops_manager.name}"
 }
 
 output "security_group_id" {

@@ -26,8 +26,8 @@ output "ops_manager_dns" {
   value = "${module.ops_manager.dns}"
 }
 
-output "upgrade_ops_manager_dns" {
-  value = "${module.ops_manager.upgrade_dns}"
+output "optional_ops_manager_dns" {
+  value = "${module.ops_manager.optional_dns}"
 }
 
 output "env_dns_zone_name_servers" {

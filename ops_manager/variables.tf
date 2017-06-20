@@ -1,12 +1,12 @@
 variable "count" {}
 
-variable "upgrade_count" {}
+variable "optional_count" {}
 
 variable "env_name" {}
 
 variable "ami" {}
 
-variable "upgrade_ami" {}
+variable "optional_ami" {}
 
 variable "subnet_id" {}
 

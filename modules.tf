@@ -1,12 +1,12 @@
 module "ops_manager" {
   source = "./ops_manager"
 
-  count         = "${var.ops_manager ? 1 : 0}"
-  upgrade_count = "${var.upgrade_ops_manager ? 1 : 0}"
+  count          = "${var.ops_manager ? 1 : 0}"
+  optional_count = "${var.optional_ops_manager ? 1 : 0}"
 
   env_name      = "${var.env_name}"
   ami           = "${var.ops_manager_ami}"
-  upgrade_ami   = "${var.upgrade_ops_manager_ami}"
+  optional_ami  = "${var.optional_ops_manager_ami}"
   subnet_id     = "${aws_subnet.public_subnets.0.id}"
   vpc_id        = "${aws_vpc.vpc.id}"
   dns_suffix    = "${var.dns_suffix}"

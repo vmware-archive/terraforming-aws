@@ -1,11 +1,11 @@
-resource "aws_instance" "upgrade_ops_manager" {
-  ami                    = "${var.upgrade_ami}"
+resource "aws_instance" "optional_ops_manager" {
+  ami                    = "${var.optional_ami}"
   instance_type          = "m3.medium"
   key_name               = "${aws_key_pair.ops_manager.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ops_manager_security_group.id}"]
   source_dest_check      = false
   subnet_id              = "${var.subnet_id}"
-  count                  = "${var.upgrade_count}"
+  count                  = "${var.optional_count}"
 
   root_block_device {
     volume_type = "gp2"
@@ -13,6 +13,6 @@ resource "aws_instance" "upgrade_ops_manager" {
   }
 
   tags {
-    Name = "${var.env_name}-upgrade-ops-manager"
+    Name = "${var.env_name}-optional-ops-manager"
   }
 }
