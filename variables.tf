@@ -16,10 +16,10 @@ variable "availability_zones" {
 
 variable "ops_manager_ami" {
   type    = "string"
-  default = "ami-2e02454e"
+  default = ""
 }
 
-variable "optional_ops_manager_ami" {
+variable "upgrade_ops_manager_ami" {
   type    = "string"
   default = ""
 }
@@ -37,6 +37,14 @@ variable "rds_instance_class" {
 variable "rds_instance_count" {
   type    = "string"
   default = 0
+}
+
+variable "ops_manager" {
+  default = true
+}
+
+variable "upgrade_ops_manager" {
+  default = false
 }
 
 /*****************************
