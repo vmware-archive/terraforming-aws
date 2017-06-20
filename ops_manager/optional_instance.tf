@@ -1,6 +1,6 @@
 resource "aws_instance" "optional_ops_manager" {
   ami                    = "${var.optional_ami}"
-  instance_type          = "m3.medium"
+  instance_type          = "${var.instance_type}"
   key_name               = "${aws_key_pair.ops_manager.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ops_manager_security_group.id}"]
   source_dest_check      = false

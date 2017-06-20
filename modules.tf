@@ -7,6 +7,7 @@ module "ops_manager" {
   env_name      = "${var.env_name}"
   ami           = "${var.ops_manager_ami}"
   optional_ami  = "${var.optional_ops_manager_ami}"
+  instance_type = "${var.ops_manager_instance_type}"
   subnet_id     = "${aws_subnet.public_subnets.0.id}"
   vpc_id        = "${aws_vpc.vpc.id}"
   dns_suffix    = "${var.dns_suffix}"

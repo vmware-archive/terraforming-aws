@@ -24,6 +24,11 @@ variable "optional_ops_manager_ami" {
   default = ""
 }
 
+variable "ops_manager_instance_type" {
+  type    = "string"
+  default = "m3.large"
+}
+
 variable "rds_db_username" {
   type    = "string"
   default = "admin"
