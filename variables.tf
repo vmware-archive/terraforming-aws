@@ -26,7 +26,7 @@ variable "optional_ops_manager_ami" {
 
 variable "ops_manager_instance_type" {
   type    = "string"
-  default = "m3.large"
+  default = "m4.large"
 }
 
 variable "rds_db_username" {
@@ -36,7 +36,7 @@ variable "rds_db_username" {
 
 variable "rds_instance_class" {
   type    = "string"
-  default = "db.m3.large"
+  default = "db.m4.large"
 }
 
 variable "rds_instance_count" {
