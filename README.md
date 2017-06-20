@@ -30,8 +30,7 @@ go get -u github.com/hashicorp/terraform
 ## Notes
 
 You can choose whether you would like an RDS or not. By default we have
-`rds_instance_count` set to `1` but setting it to zero will skip RDS
-deployment.
+`rds_instance_count` set to `0` but setting it to 1 will deploy an RDS.
 
 RDS instances take FOREVER to deploy, keep that in mind.
 
@@ -39,12 +38,13 @@ RDS instances take FOREVER to deploy, keep that in mind.
 
 - env_name: **(required)** An arbitrary unique name for namespacing resources
 - access_key **(required)** Your Amazon access_key, used for deployment
-- secret_key: **(require)** You Amazon secret_key, also used for deployment
+- secret_key: **(required)** Your Amazon secret_key, also used for deployment
 - region: **(required)** Region you want to deploy your resources to
 - availability_zones: **(required)** List of AZs you want to deploy to
-- ops_manager_ami: **(default: ami-2e02454e)**  Ops-manager AMI
+- ops_manager_ami: **(required)**  Ops Manager AMI
+- ops_manager_instance_type: **(default: m4.large)** Ops Manager instance type
 - rds_db_username: **(default: admin)** Username for RDS authentication
-- rds_instance_class: **(default: db.m3.large)** Size of the RDS to deploy
+- rds_instance_class: **(default: db.m4.large)** Size of the RDS to deploy
 - rds_instance_count: **(default: 0)** Whether or not you would like an RDS for your deployment
 - dns_suffix: **(required)** Domain to add environment subdomain to
 
