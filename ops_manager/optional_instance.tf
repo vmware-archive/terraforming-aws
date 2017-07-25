@@ -9,7 +9,7 @@ resource "aws_instance" "optional_ops_manager" {
 
   root_block_device {
     volume_type = "gp2"
-    volume_size = 50
+    volume_size = 150
   }
 
   tags {
