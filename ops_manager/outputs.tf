@@ -25,3 +25,7 @@ output "ssh_private_key" {
 output "ssh_public_key_name" {
   value = "${aws_key_pair.ops_manager.key_name}"
 }
+
+output "ops_manager_private_ip" {
+  value = "${aws_instance.ops_manager.private_ip}"
+}

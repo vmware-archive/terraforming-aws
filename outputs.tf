@@ -165,3 +165,7 @@ output "isoseg_elb_name" {
 output "dns_zone_id" {
   value = "${aws_route53_zone.pcf_zone.id}"
 }
+
+output "ops_manager_private_ip" {
+  value = "${module.ops_manager.ops_manager_private_ip}"
+}
