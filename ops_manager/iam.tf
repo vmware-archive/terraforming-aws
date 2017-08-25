@@ -38,7 +38,7 @@ EOF
 resource "aws_iam_instance_profile" "iam_instance_profile" {
   name  = "${var.env_name}_iam_instance_profile"
   count = "${var.count}"
-  roles = ["${aws_iam_role.iam_role.name}"]
+  role  = "${aws_iam_role.iam_role.name}"
 }
 
 data "template_file" "ops_manager" {
