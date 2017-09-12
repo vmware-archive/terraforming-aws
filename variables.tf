@@ -16,7 +16,6 @@ variable "availability_zones" {
 
 variable "ops_manager_ami" {
   type    = "string"
-  default = ""
 }
 
 variable "optional_ops_manager_ami" {
