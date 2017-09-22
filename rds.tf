@@ -2,7 +2,7 @@ resource "aws_db_instance" "rds" {
   allocated_storage      = 100
   instance_class         = "${var.rds_instance_class}"
   engine                 = "mysql"
-  engine_version         = "5.6.22"
+  engine_version         = "5.6.35"
   identifier             = "${var.env_name}"
   username               = "${var.rds_db_username}"
   password               = "${md5(timestamp())}"
@@ -11,6 +11,7 @@ resource "aws_db_instance" "rds" {
   vpc_security_group_ids = ["${aws_security_group.mysql_security_group.id}"]
   iops                   = 1000
   multi_az               = true
+  skip_final_snapshot    = true
 
   count = "${var.rds_instance_count}"
 }

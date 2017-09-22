@@ -23,9 +23,9 @@ This list will be updated when more infrastructures come along.
 
 ## Prerequisites
 
-### Install Terraform
 ```bash
-go get -u github.com/hashicorp/terraform
+brew update
+brew install terraform
 ```
 
 ### AWS Permissions
@@ -42,6 +42,23 @@ You can choose whether you would like an RDS or not. By default we have
 `rds_instance_count` set to `0` but setting it to 1 will deploy an RDS.
 
 RDS instances take FOREVER to deploy, keep that in mind.
+
+### Var File
+
+Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project.
+These vars will be used when you run `terraform  apply`.
+You should fill in the stub values with the correct content.
+
+```hcl
+env_name = "some-environment-name"
+access_key = "access-key-id"
+secret_key = "secret-access-key"
+region = "us-west-1"
+availability_zones = ["us-west-1a", "us-west-1c"]
+ops_manager_ami = "ami-4f291f2f"
+rds_instance_count = 1
+dns_suffix = "example.com"
+```
 
 ## Variables
 
@@ -71,30 +88,17 @@ RDS instances take FOREVER to deploy, keep that in mind.
 
 ## Running
 
+Note: please make sure you have created the `terraform.tfvars` file above as mentioned.
+
 ### Standing up environment
 
 ```bash
-terraform apply \
-  -var "env_name=durian" \
-  -var "access_key=access-key-id" \
-  -var "secret_key=secret-access-key" \
-  -var "region=us-west-1" \
-  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"]" \
-  -var "ops_manager_ami=ami-2e02454e" \
-  -var "rds_instance_count=1" \
-  -var "dns_suffix=example.com"
+terraform init
+terraform apply
 ```
 
 ### Tearing down environment
 
 ```bash
-terraform destroy \
-  -var "env_name=durian" \
-  -var "access_key=access-key-id" \
-  -var "secret_key=secret-access-key" \
-  -var "region=us-west-1" \
-  -var "availability_zones=[\"us-west-1a\", \"us-west-1b\"]" \
-  -var "ops_manager_ami=ami-2e02454e" \
-  -var "rds_instance_count=1" \
-  -var "dns_suffix=example.com"
+terraform destroy
 ```
