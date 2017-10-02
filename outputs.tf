@@ -74,6 +74,10 @@ output "rds_password" {
   value = "${aws_db_instance.rds.password}"
 }
 
+output "ops_manager_security_group_id" {
+  value = "${module.ops_manager.security_group_id}"
+}
+
 output "vms_security_group_id" {
   value = "${aws_security_group.vms_security_group.id}"
 }
