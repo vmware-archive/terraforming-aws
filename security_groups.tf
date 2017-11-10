@@ -109,6 +109,8 @@ resource "aws_security_group" "elb_security_group" {
 }
 
 resource "aws_security_group" "isoseg_elb_security_group" {
+  count = "${var.create_isoseg_resources}"
+
   name        = "isoseg_elb_security_group"
   description = "Isoseg ELB Security Group"
   vpc_id      = "${aws_vpc.vpc.id}"

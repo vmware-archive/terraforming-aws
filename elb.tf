@@ -783,6 +783,8 @@ resource "aws_elb" "tcp_elb" {
 }
 
 resource "aws_elb" "isoseg" {
+  count = "${var.create_isoseg_resources}"
+
   name                      = "${var.env_name}-isoseg-elb"
   cross_zone_load_balancing = true
 

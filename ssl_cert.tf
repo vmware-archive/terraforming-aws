@@ -36,11 +36,15 @@ resource "aws_iam_server_certificate" "self_signed_cert" {
 }
 
 resource "tls_private_key" "isoseg_private_key" {
+  count = "${var.create_isoseg_resources}"
+
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
 resource "tls_self_signed_cert" "isoseg_self_signed_cert" {
+  count = "${var.create_isoseg_resources}"
+
   key_algorithm   = "RSA"
   private_key_pem = "${tls_private_key.isoseg_private_key.private_key_pem}"
 
@@ -63,6 +67,8 @@ resource "tls_self_signed_cert" "isoseg_self_signed_cert" {
 }
 
 resource "aws_iam_server_certificate" "isoseg_self_signed_cert" {
+  count = "${var.create_isoseg_resources}"
+
   name_prefix      = "${var.env_name}-isoseg"
   certificate_body = "${tls_self_signed_cert.isoseg_self_signed_cert.cert_pem}"
   private_key      = "${tls_private_key.isoseg_private_key.private_key_pem}"
