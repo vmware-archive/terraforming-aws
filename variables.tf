@@ -6,36 +6,29 @@ variable "access_key" {}
 
 variable "secret_key" {}
 
-variable "region" {
-  type = "string"
-}
+variable "region" {}
 
 variable "availability_zones" {
   type = "list"
 }
 
 variable "ops_manager_ami" {
-  type    = "string"
   default = ""
 }
 
 variable "optional_ops_manager_ami" {
-  type    = "string"
   default = ""
 }
 
 variable "ops_manager_instance_type" {
-  type    = "string"
   default = "m4.large"
 }
 
 variable "rds_db_username" {
-  type    = "string"
   default = "admin"
 }
 
 variable "rds_instance_class" {
-  type    = "string"
   default = "db.m4.large"
 }
 
