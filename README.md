@@ -50,22 +50,24 @@ These vars will be used when you run `terraform  apply`.
 You should fill in the stub values with the correct content.
 
 ```hcl
-env_name = "some-environment-name"
-access_key = "access-key-id"
-secret_key = "secret-access-key"
-region = "us-west-1"
+env_name           = "some-environment-name"
+access_key         = "access-key-id"
+secret_key         = "secret-access-key"
+region             = "us-west-1"
 availability_zones = ["us-west-1a", "us-west-1c"]
-ops_manager_ami = "ami-4f291f2f"
+ops_manager_ami    = "ami-4f291f2f"
 rds_instance_count = 1
-dns_suffix = "example.com"
+dns_suffix         = "example.com"
+
 ssl_cert = <<EOF
 -----BEGIN CERTIFICATE-----
-[.......] # cert contents
+some cert
 -----END CERTIFICATE-----
 EOF
+
 ssl_private_key = <<EOF
 -----BEGIN RSA PRIVATE KEY-----
-[.......] # cert contents
+some cert private key
 -----END RSA PRIVATE KEY-----
 EOF
 ```
