@@ -45,6 +45,18 @@ variable "optional_ops_manager" {
   default = false
 }
 
+variable "ssl_cert" {
+  type        = "string"
+  description = "ssl certificate arn"
+  default     = ""
+}
+
+variable "ssl_private_key" {
+  type        = "string"
+  description = "ssl certificate private key arn"
+  default     = ""
+}
+
 /*****************************
  * Isolation Segment Options *
  *****************************/

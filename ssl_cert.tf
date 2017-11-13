@@ -1,77 +1,19 @@
-resource "tls_private_key" "private_key" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "tls_self_signed_cert" "self_signed_cert" {
-  key_algorithm   = "RSA"
-  private_key_pem = "${tls_private_key.private_key.private_key_pem}"
-
-  subject {
-    common_name         = "${var.env_name}.cf-app.com"
-    country             = "US"
-    province            = "California"
-    locality            = "San Fransisco"
-    organization        = "Pivotal"
-    organizational_unit = "PCF Release Engineering"
-  }
-
-  validity_period_hours = 8760
-
-  allowed_uses = [
-    "key_encipherment",
-    "digital_signature",
-    "server_auth",
-  ]
-}
-
-resource "aws_iam_server_certificate" "self_signed_cert" {
+resource "aws_iam_server_certificate" "cert" {
   name_prefix      = "${var.env_name}-"
-  certificate_body = "${tls_self_signed_cert.self_signed_cert.cert_pem}"
-  private_key      = "${tls_private_key.private_key.private_key_pem}"
+  certificate_body = "${var.ssl_cert}"
+  private_key      = "${var.ssl_private_key}"
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
-resource "tls_private_key" "isoseg_private_key" {
-  count = "${var.create_isoseg_resources}"
-
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "tls_self_signed_cert" "isoseg_self_signed_cert" {
-  count = "${var.create_isoseg_resources}"
-
-  key_algorithm   = "RSA"
-  private_key_pem = "${tls_private_key.isoseg_private_key.private_key_pem}"
-
-  subject {
-    common_name         = "iso.${var.env_name}.cf-app.com"
-    country             = "US"
-    province            = "California"
-    locality            = "San Fransisco"
-    organization        = "Pivotal"
-    organizational_unit = "PCF Release Engineering"
-  }
-
-  validity_period_hours = 8760
-
-  allowed_uses = [
-    "key_encipherment",
-    "digital_signature",
-    "server_auth",
-  ]
-}
-
-resource "aws_iam_server_certificate" "isoseg_self_signed_cert" {
+resource "aws_iam_server_certificate" "isoseg_cert" {
   count = "${var.create_isoseg_resources}"
 
   name_prefix      = "${var.env_name}-isoseg"
-  certificate_body = "${tls_self_signed_cert.isoseg_self_signed_cert.cert_pem}"
-  private_key      = "${tls_private_key.isoseg_private_key.private_key_pem}"
+  certificate_body = "${var.isoseg_ssl_cert}"
+  private_key      = "${var.isoseg_ssl_cert_private_key}"
 
   lifecycle {
     create_before_destroy = true

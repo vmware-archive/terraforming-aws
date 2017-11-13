@@ -58,6 +58,16 @@ availability_zones = ["us-west-1a", "us-west-1c"]
 ops_manager_ami = "ami-4f291f2f"
 rds_instance_count = 1
 dns_suffix = "example.com"
+ssl_cert = <<EOF
+-----BEGIN CERTIFICATE-----
+[.......] # cert contents
+-----END CERTIFICATE-----
+EOF
+ssl_private_key = <<EOF
+-----BEGIN RSA PRIVATE KEY-----
+[.......] # cert contents
+-----END RSA PRIVATE KEY-----
+EOF
 ```
 
 ## Variables
@@ -68,6 +78,8 @@ dns_suffix = "example.com"
 - region: **(required)** Region you want to deploy your resources to
 - availability_zones: **(required)** List of AZs you want to deploy to
 - dns_suffix: **(required)** Domain to add environment subdomain to
+- ssl_cert: **(required)** SSL certificate for HTTP load balancer configuration. Can be either trusted or self-signed.
+- ssl_private_key: **(required)** Private key for above SSL certificate.
 
 ## Ops Manager (optional)
 - ops_manager: **(default: true)** Set to false if you don't want an Ops Manager
