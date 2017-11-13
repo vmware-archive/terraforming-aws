@@ -47,13 +47,13 @@ variable "optional_ops_manager" {
 
 variable "ssl_cert" {
   type        = "string"
-  description = "ssl certificate arn"
+  description = "ssl certificate content"
   default     = ""
 }
 
 variable "ssl_private_key" {
   type        = "string"
-  description = "ssl certificate private key arn"
+  description = "ssl certificate private key content"
   default     = ""
 }
 
