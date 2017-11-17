@@ -163,7 +163,7 @@ output "tcp_elb_name" {
 }
 
 output "isoseg_elb_name" {
-  value = "${aws_elb.isoseg.name}"
+  value = "${element(concat(aws_elb.isoseg.name, list("")), 0)}"
 }
 
 output "dns_zone_id" {

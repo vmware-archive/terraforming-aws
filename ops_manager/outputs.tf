@@ -11,7 +11,7 @@ output "dns" {
 }
 
 output "optional_dns" {
-  value = "${aws_route53_record.optional_ops_manager.name}"
+  value = "${element(concat(aws_route53_record.optional_ops_manager.name, list("")), 0)}"
 }
 
 output "security_group_id" {
