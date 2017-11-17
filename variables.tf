@@ -67,7 +67,7 @@ variable "isoseg_ssl_cert" {
   default     = ""
 }
 
-variable "isoseg_ssl_cert_private_key" {
+variable "isoseg_ssl_private_key" {
   type        = "string"
   description = "ssl certificate private key content"
   default     = ""

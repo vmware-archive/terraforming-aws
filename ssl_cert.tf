@@ -13,7 +13,7 @@ resource "aws_iam_server_certificate" "isoseg_cert" {
 
   name_prefix      = "${var.env_name}-isoseg"
   certificate_body = "${var.isoseg_ssl_cert}"
-  private_key      = "${var.isoseg_ssl_cert_private_key}"
+  private_key      = "${var.isoseg_ssl_private_key}"
 
   lifecycle {
     create_before_destroy = true
