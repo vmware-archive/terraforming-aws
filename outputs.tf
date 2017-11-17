@@ -2,19 +2,19 @@ output "ops_manager_bucket" {
   value = "${module.ops_manager.bucket}"
 }
 
-output "ert_buildpacks_bucket" {
+output "pas_buildpacks_bucket" {
   value = "${aws_s3_bucket.buildpacks_bucket.bucket}"
 }
 
-output "ert_droplets_bucket" {
+output "pas_droplets_bucket" {
   value = "${aws_s3_bucket.droplets_bucket.bucket}"
 }
 
-output "ert_packages_bucket" {
+output "pas_packages_bucket" {
   value = "${aws_s3_bucket.packages_bucket.bucket}"
 }
 
-output "ert_resources_bucket" {
+output "pas_resources_bucket" {
   value = "${aws_s3_bucket.resources_bucket.bucket}"
 }
 
@@ -106,16 +106,16 @@ output "management_subnet_cidrs" {
   value = ["${aws_subnet.management_subnets.*.cidr_block}"]
 }
 
-output "ert_subnet_ids" {
-  value = ["${aws_subnet.ert_subnets.*.id}"]
+output "pas_subnet_ids" {
+  value = ["${aws_subnet.pas_subnets.*.id}"]
 }
 
-output "ert_subnet_availability_zones" {
-  value = ["${aws_subnet.ert_subnets.*.availability_zone}"]
+output "pas_subnet_availability_zones" {
+  value = ["${aws_subnet.pas_subnets.*.availability_zone}"]
 }
 
-output "ert_subnet_cidrs" {
-  value = ["${aws_subnet.ert_subnets.*.cidr_block}"]
+output "pas_subnet_cidrs" {
+  value = ["${aws_subnet.pas_subnets.*.cidr_block}"]
 }
 
 output "services_subnet_ids" {
