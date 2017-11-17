@@ -20,7 +20,7 @@ resource "aws_subnet" "management_subnets" {
   }
 }
 
-resource "aws_subnet" "ert_subnets" {
+resource "aws_subnet" "pas_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
   cidr_block        = "${cidrsubnet("10.0.4.0/22", 2, count.index)}"

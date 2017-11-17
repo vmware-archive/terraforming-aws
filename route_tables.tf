@@ -29,9 +29,9 @@ resource "aws_route_table_association" "route_management_subnets" {
   route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
 }
 
-resource "aws_route_table_association" "route_ert_subnets" {
+resource "aws_route_table_association" "route_pas_subnets" {
   count          = "${length(var.availability_zones)}"
-  subnet_id      = "${element(aws_subnet.ert_subnets.*.id, count.index)}"
+  subnet_id      = "${element(aws_subnet.pas_subnets.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
 }
 
