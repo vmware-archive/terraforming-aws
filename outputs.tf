@@ -59,19 +59,19 @@ output "iam_user_secret_access_key" {
 }
 
 output "rds_address" {
-  value = "${aws_db_instance.rds.address}"
+  value = "${element(concat(aws_db_instance.rds.*.address, list("")), 0)}"
 }
 
 output "rds_port" {
-  value = "${aws_db_instance.rds.port}"
+  value = "${element(concat(aws_db_instance.rds.*.port, list("")), 0)}"
 }
 
 output "rds_username" {
-  value = "${aws_db_instance.rds.username}"
+  value = "${element(concat(aws_db_instance.rds.*.username, list("")), 0)}"
 }
 
 output "rds_password" {
-  value = "${aws_db_instance.rds.password}"
+  value = "${element(concat(aws_db_instance.rds.*.password, list("")), 0)}"
 }
 
 output "ops_manager_security_group_id" {

@@ -1,13 +1,13 @@
 output "bucket" {
-  value = "${aws_s3_bucket.ops_manager_bucket.bucket}"
+  value = "${element(concat(aws_s3_bucket.ops_manager_bucket.*.bucket, list("")), 0)}"
 }
 
 output "public_ip" {
-  value = "${aws_eip.ops_manager.public_ip}"
+  value = "${element(concat(aws_eip.ops_manager.*.public_ip, list("")), 0)}"
 }
 
 output "dns" {
-  value = "${aws_route53_record.ops_manager.name}"
+  value = "${element(concat(aws_route53_record.ops_manager.*.name, list("")), 0)}"
 }
 
 output "optional_dns" {
@@ -15,17 +15,17 @@ output "optional_dns" {
 }
 
 output "security_group_id" {
-  value = "${aws_security_group.ops_manager_security_group.id}"
+  value = "${element(concat(aws_security_group.ops_manager_security_group.*.id, list("")), 0)}"
 }
 
 output "ssh_private_key" {
-  value = "${tls_private_key.ops_manager.private_key_pem}"
+  value = "${element(concat(tls_private_key.ops_manager.*.private_key_pem, list("")), 0)}"
 }
 
 output "ssh_public_key_name" {
-  value = "${aws_key_pair.ops_manager.key_name}"
+  value = "${element(concat(aws_key_pair.ops_manager.*.key_name, list("")), 0)}"
 }
 
 output "ops_manager_private_ip" {
-  value = "${aws_instance.ops_manager.private_ip}"
+  value = "${element(concat(aws_instance.ops_manager.*.private_ip, list("")), 0)}"
 }
