@@ -3,6 +3,7 @@ variable "nat_ami_map" {
 
   default = {
     us-east-1      = "ami-303b1458"
+    us-east-2      = "ami-4e8fa32b"
     us-west-1      = "ami-7da94839"
     us-west-2      = "ami-69ae8259"
     eu-west-1      = "ami-6975eb1e"
