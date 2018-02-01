@@ -17,6 +17,8 @@ resource "aws_db_instance" "rds" {
   iops                   = 1000
   multi_az               = true
   skip_final_snapshot    = true
+  backup_retention_period = 7
+  apply_immediately       = true
 
   count = "${var.rds_instance_count}"
 }
