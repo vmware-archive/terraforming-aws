@@ -58,6 +58,10 @@ output "iam_user_secret_access_key" {
   value = "${aws_iam_access_key.iam_user_access_key.secret}"
 }
 
+output "pas_bucket_iam_instance_profile_name" {
+  value = "${aws_iam_instance_profile.pas_bucket_access.name}"
+}
+
 output "rds_address" {
   value = "${element(concat(aws_db_instance.rds.*.address, list("")), 0)}"
 }
