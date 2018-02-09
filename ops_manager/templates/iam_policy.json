@@ -108,7 +108,9 @@
         "ec2:CreateVolume",
         "ec2:AttachVolume",
         "ec2:DeleteVolume",
-        "ec2:DetachVolume"
+        "ec2:DetachVolume",
+        "ec2:CopyImage",
+        "ec2:CopySnapshot"
       ],
       "Resource": [
         "*"
