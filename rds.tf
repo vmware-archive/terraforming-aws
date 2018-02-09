@@ -1,5 +1,6 @@
 resource "random_string" "rds_password" {
   length = 16
+  special = false
 }
 
 resource "aws_db_instance" "rds" {
