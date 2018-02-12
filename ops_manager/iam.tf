@@ -7,7 +7,6 @@ resource "aws_iam_policy" "ops_manager" {
 resource "aws_iam_policy_attachment" "ops_manager_policy" {
   name       = "${var.env_name}_iam_user_policy"
   users      = ["${var.iam_user_name}"]
-  roles      = ["${aws_iam_role.iam_role.name}"]
   policy_arn = "${aws_iam_policy.ops_manager.arn}"
   count      = "${var.count}"
 }
