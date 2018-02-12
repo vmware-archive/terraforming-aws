@@ -43,6 +43,7 @@ resource "aws_iam_instance_profile" "iam_instance_profile" {
 
 data "template_file" "ops_manager" {
   template = "${file("${path.module}/templates/iam_policy.json")}"
+  count    = "${var.count}"
 
   vars {
     iam_instance_profile_arn = "${aws_iam_instance_profile.iam_instance_profile.arn}"
