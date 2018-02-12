@@ -33,3 +33,13 @@ resource "aws_s3_bucket" "resources_bucket" {
     Name = "Elastic Runtime S3 Resources Bucket"
   }
 }
+
+resource "aws_kms_key" "blobstore_kms_key" {
+  description             = "${var.env_name} KMS key"
+  deletion_window_in_days = 7
+}
+
+resource "aws_kms_alias" "blobstore_kms_key_alias" {
+  name          = "alias/${var.env_name}"
+  target_key_id = "${aws_kms_key.blobstore_kms_key.key_id}"
+}

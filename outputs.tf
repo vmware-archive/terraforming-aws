@@ -18,6 +18,10 @@ output "pas_resources_bucket" {
   value = "${aws_s3_bucket.resources_bucket.bucket}"
 }
 
+output "blobstore_kms_key_id" {
+  value = "${aws_kms_key.blobstore_kms_key.key_id}"
+}
+
 output "ops_manager_public_ip" {
   value = "${module.ops_manager.public_ip}"
 }
