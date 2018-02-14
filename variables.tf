@@ -21,7 +21,7 @@ variable "optional_ops_manager_ami" {
 }
 
 variable "ops_manager_instance_type" {
-  default = "m4.large"
+  default = "r4.large"
 }
 
 variable "rds_db_username" {
