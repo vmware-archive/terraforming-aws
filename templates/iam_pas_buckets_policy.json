@@ -17,6 +17,22 @@
         "${resources_bucket_arn}",
         "${resources_bucket_arn}/*"
       ]
+    },
+    {
+      "Sid": "ElasticRuntimeKMSPermissions1",
+      "Effect": "Allow",
+      "Action": [
+        "kms:Decrypt",
+        "kms:Encrypt",
+        "kms:DescribeKey"
+      ],
+      "Resource": "${kms_key_arn}"
+    },
+    {
+      "Sid": "ElasticRuntimeKMSPermissions2",
+      "Effect": "Allow",
+      "Action": "kms:GenerateDataKey",
+      "Resource": "*"
     }
   ]
 }
