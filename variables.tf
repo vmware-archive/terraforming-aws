@@ -73,6 +73,42 @@ variable "ssl_ca_private_key" {
   default     = ""
 }
 
+variable "public_cidr" {
+  type        = "string"
+  description = "CIDR for the public subnets"
+  default     = "10.0.0.0/22"
+}
+
+variable "pas_cidr" {
+  type        = "string"
+  description = "CIDR for the pas subnets"
+  default     = "10.0.4.0/22"
+}
+
+variable "services_cidr" {
+  type        = "string"
+  description = "CIDR for the services subnets"
+  default     = "10.0.8.0/22"
+}
+
+variable "rds_cidr" {
+  type        = "string"
+  description = "CIDR for the rds subnets"
+  default     = "10.0.12.0/22"
+}
+
+variable "management_cidr" {
+  type        = "string"
+  description = "CIDR for the management subnets"
+  default     = "10.0.16.0/26"
+}
+
+variable "isoseg_cidr" {
+  type        = "string"
+  description = "CIDR for the isoseg subnets"
+  default     = "10.0.20.0/22"
+}
+
 /*****************************
  * Isolation Segment Options *
  *****************************/

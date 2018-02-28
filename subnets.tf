@@ -1,7 +1,7 @@
 resource "aws_subnet" "public_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.0.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(var.public_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -12,7 +12,7 @@ resource "aws_subnet" "public_subnets" {
 resource "aws_subnet" "management_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.16.0/26", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(var.management_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -23,7 +23,7 @@ resource "aws_subnet" "management_subnets" {
 resource "aws_subnet" "pas_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.4.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(var.pas_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -34,7 +34,7 @@ resource "aws_subnet" "pas_subnets" {
 resource "aws_subnet" "services_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.8.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(var.services_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -45,7 +45,7 @@ resource "aws_subnet" "services_subnets" {
 resource "aws_subnet" "rds_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.12.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(var.rds_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -61,5 +61,16 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
   tags {
     Name = "${var.env_name}-db-subnet-group"
+  }
+}
+
+resource "aws_subnet" "isoseg_subnets" {
+  count             = "${length(var.availability_zones)}"
+  vpc_id            = "${aws_vpc.vpc.id}"
+  cidr_block        = "${cidrsubnet(var.isoseg_cidr, 2, count.index)}"
+  availability_zone = "${element(var.availability_zones, count.index)}"
+
+  tags {
+    Name = "${var.env_name}-isoseg-subnet${count.index}"
   }
 }
