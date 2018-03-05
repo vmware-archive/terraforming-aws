@@ -31,6 +31,17 @@ resource "aws_network_acl" "bosh" {
   }
 }
 
+resource "aws_network_acl_rule" "isoseg-egress" {
+  count = "${var.create_isoseg_resources}"
+
+  network_acl_id = "${aws_network_acl.isoseg.id}"
+  rule_number    = 100
+  egress         = true
+  protocol       = "all"
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
+}
+
 resource "aws_network_acl_rule" "isoseg-pas-ingress-1801" {
   count = "${var.create_isoseg_resources}"
 
@@ -66,6 +77,17 @@ resource "aws_network_acl_rule" "isoseg-bosh-ingress" {
   protocol       = "tcp"
   rule_action    = "allow"
   cidr_block     = "${var.management_cidr}"
+}
+
+resource "aws_network_acl_rule" "pas-egress" {
+  count = "${var.create_isoseg_resources}"
+
+  network_acl_id = "${aws_network_acl.pas.id}"
+  rule_number    = 100
+  egress         = true
+  protocol       = "all"
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
 }
 
 resource "aws_network_acl_rule" "pas-isoseg-ingress-3000" {
@@ -261,6 +283,17 @@ resource "aws_network_acl_rule" "pas-isoseg-ingress-8600" {
   cidr_block     = "${var.isoseg_cidr}"
   from_port      = 8600
   to_port        = 8600
+}
+
+resource "aws_network_acl_rule" "bosh-egress" {
+  count = "${var.create_isoseg_resources}"
+
+  network_acl_id = "${aws_network_acl.bosh.id}"
+  rule_number    = 100
+  egress         = true
+  protocol       = "all"
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
 }
 
 resource "aws_network_acl_rule" "bosh-isoseg-ingress-22" {
