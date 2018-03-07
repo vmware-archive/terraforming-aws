@@ -285,6 +285,19 @@ resource "aws_network_acl_rule" "pas-isoseg-ingress-8600" {
   to_port        = 8600
 }
 
+resource "aws_network_acl_rule" "pas-bosh-ingress-6868" {
+  count = "${var.create_isoseg_resources}"
+
+  network_acl_id = "${aws_network_acl.pas.id}"
+  rule_number    = 117
+  egress         = false
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = "${var.management_cidr}"
+  from_port      = 6868
+  to_port        = 6868
+}
+
 resource "aws_network_acl_rule" "bosh-egress" {
   count = "${var.create_isoseg_resources}"
 
@@ -309,19 +322,6 @@ resource "aws_network_acl_rule" "bosh-isoseg-ingress-22" {
   to_port        = 22
 }
 
-resource "aws_network_acl_rule" "bosh-opsman-ingress-22" {
-  count = "${var.create_isoseg_resources}"
-
-  network_acl_id = "${aws_network_acl.bosh.id}"
-  rule_number    = 130
-  egress         = false
-  protocol       = "tcp"
-  rule_action    = "allow"
-  cidr_block     = "${var.public_cidr}"
-  from_port      = 22
-  to_port        = 22
-}
-
 resource "aws_network_acl_rule" "bosh-isoseg-ingress-6868" {
   count = "${var.create_isoseg_resources}"
 
@@ -331,19 +331,6 @@ resource "aws_network_acl_rule" "bosh-isoseg-ingress-6868" {
   protocol       = "tcp"
   rule_action    = "allow"
   cidr_block     = "${var.isoseg_cidr}"
-  from_port      = 6868
-  to_port        = 6868
-}
-
-resource "aws_network_acl_rule" "bosh-opsman-ingress-6868" {
-  count = "${var.create_isoseg_resources}"
-
-  network_acl_id = "${aws_network_acl.bosh.id}"
-  rule_number    = 132
-  egress         = false
-  protocol       = "tcp"
-  rule_action    = "allow"
-  cidr_block     = "${var.public_cidr}"
   from_port      = 6868
   to_port        = 6868
 }
@@ -361,7 +348,7 @@ resource "aws_network_acl_rule" "bosh-isoseg-ingress-25555" {
   to_port        = 25555
 }
 
-resource "aws_network_acl_rule" "bosh-opsman-ingress-25555" {
+resource "aws_network_acl_rule" "bosh-opsman-ingress-nat" {
   count = "${var.create_isoseg_resources}"
 
   network_acl_id = "${aws_network_acl.bosh.id}"
@@ -370,8 +357,8 @@ resource "aws_network_acl_rule" "bosh-opsman-ingress-25555" {
   protocol       = "tcp"
   rule_action    = "allow"
   cidr_block     = "${var.public_cidr}"
-  from_port      = 25555
-  to_port        = 25555
+  from_port      = 0
+  to_port        = 65535
 }
 
 resource "aws_network_acl_rule" "bosh-isoseg-ingress-4222" {
