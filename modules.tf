@@ -13,4 +13,5 @@ module "ops_manager" {
   dns_suffix    = "${var.dns_suffix}"
   zone_id       = "${aws_route53_zone.pcf_zone.id}"
   iam_user_name = "${aws_iam_user.iam_user.name}"
+  bucket_suffix = "${local.bucket_suffix}"
 }

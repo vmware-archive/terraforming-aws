@@ -1,5 +1,14 @@
+resource "random_integer" "bucket" {
+	min = 1
+	max = 100000
+}
+
+locals {
+  bucket_suffix = "${random_integer.bucket.result}"
+}
+
 resource "aws_s3_bucket" "buildpacks_bucket" {
-  bucket        = "${var.env_name}-buildpacks-bucket"
+  bucket        = "${var.env_name}-buildpacks-bucket-${local.bucket_suffix}"
   force_destroy = true
 
   versioning {
@@ -12,7 +21,7 @@ resource "aws_s3_bucket" "buildpacks_bucket" {
 }
 
 resource "aws_s3_bucket" "droplets_bucket" {
-  bucket        = "${var.env_name}-droplets-bucket"
+  bucket        = "${var.env_name}-droplets-bucket-${local.bucket_suffix}"
   force_destroy = true
 
   versioning {
@@ -25,7 +34,7 @@ resource "aws_s3_bucket" "droplets_bucket" {
 }
 
 resource "aws_s3_bucket" "packages_bucket" {
-  bucket        = "${var.env_name}-packages-bucket"
+  bucket        = "${var.env_name}-packages-bucket-${local.bucket_suffix}"
   force_destroy = true
 
   versioning {
@@ -38,7 +47,7 @@ resource "aws_s3_bucket" "packages_bucket" {
 }
 
 resource "aws_s3_bucket" "resources_bucket" {
-  bucket        = "${var.env_name}-resources-bucket"
+  bucket        = "${var.env_name}-resources-bucket-${local.bucket_suffix}"
   force_destroy = true
 
   versioning {
