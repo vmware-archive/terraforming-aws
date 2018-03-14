@@ -50,16 +50,8 @@ output "tcp_domain" {
   value = "tcp.${var.env_name}.${var.dns_suffix}"
 }
 
-output "iam_user_name" {
-  value = "${aws_iam_user.iam_user.name}"
-}
-
-output "iam_user_access_key" {
-  value = "${aws_iam_access_key.iam_user_access_key.id}"
-}
-
-output "iam_user_secret_access_key" {
-  value = "${aws_iam_access_key.iam_user_access_key.secret}"
+output "ops_manager_iam_instance_profile_name" {
+  value = "${aws_iam_instance_profile.ops_manager.name}"
 }
 
 output "pas_bucket_iam_instance_profile_name" {
