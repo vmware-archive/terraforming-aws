@@ -71,7 +71,8 @@ output "rds_username" {
 }
 
 output "rds_password" {
-  value = "${element(concat(aws_db_instance.rds.*.password, list("")), 0)}"
+  sensitive = true
+  value     = "${element(concat(aws_db_instance.rds.*.password, list("")), 0)}"
 }
 
 output "ops_manager_security_group_id" {
@@ -135,7 +136,8 @@ output "vpc_id" {
 }
 
 output "ops_manager_ssh_private_key" {
-  value = "${module.ops_manager.ssh_private_key}"
+  sensitive = true
+  value     = "${module.ops_manager.ssh_private_key}"
 }
 
 output "ops_manager_ssh_public_key_name" {
