@@ -87,6 +87,10 @@ output "public_subnet_ids" {
   value = ["${aws_subnet.public_subnets.*.id}"]
 }
 
+output "public_subnets" {
+  value = ["${aws_subnet.public_subnets.*.id}"]
+}
+
 output "public_subnet_availability_zones" {
   value = ["${aws_subnet.public_subnets.*.availability_zone}"]
 }
@@ -96,6 +100,10 @@ output "public_subnet_cidrs" {
 }
 
 output "management_subnet_ids" {
+  value = ["${aws_subnet.management_subnets.*.id}"]
+}
+
+output "management_subnets" {
   value = ["${aws_subnet.management_subnets.*.id}"]
 }
 
@@ -111,6 +119,10 @@ output "pas_subnet_ids" {
   value = ["${aws_subnet.pas_subnets.*.id}"]
 }
 
+output "pas_subnets" {
+  value = ["${aws_subnet.pas_subnets.*.id}"]
+}
+
 output "pas_subnet_availability_zones" {
   value = ["${aws_subnet.pas_subnets.*.availability_zone}"]
 }
@@ -120,6 +132,10 @@ output "pas_subnet_cidrs" {
 }
 
 output "services_subnet_ids" {
+  value = ["${aws_subnet.services_subnets.*.id}"]
+}
+
+output "services_subnets" {
   value = ["${aws_subnet.services_subnets.*.id}"]
 }
 
@@ -135,6 +151,10 @@ output "vpc_id" {
   value = "${aws_vpc.vpc.id}"
 }
 
+output "network_name" {
+  value = "${aws_vpc.vpc.id}"
+}
+
 output "ops_manager_ssh_private_key" {
   sensitive = true
   value     = "${module.ops_manager.ssh_private_key}"
@@ -144,12 +164,20 @@ output "ops_manager_ssh_public_key_name" {
   value = "${module.ops_manager.ssh_public_key_name}"
 }
 
+output "ops_manager_ssh_public_key" {
+  value = "${module.ops_manager.ssh_public_key}"
+}
+
 output "region" {
   value = "${var.region}"
 }
 
 output "azs" {
   value = "${var.availability_zones}"
+}
+
+output "web_lb_name" {
+  value = "${aws_elb.web_elb.name}"
 }
 
 output "web_elb_name" {
@@ -166,8 +194,16 @@ output "ssl_private_key" {
   value     = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0) : var.ssl_private_key}"
 }
 
+output "ssh_lb_name" {
+  value = "${aws_elb.ssh_elb.name}"
+}
+
 output "ssh_elb_name" {
   value = "${aws_elb.ssh_elb.name}"
+}
+
+output "tcp_lb_name" {
+  value = "${aws_elb.tcp_elb.name}"
 }
 
 output "tcp_elb_name" {
@@ -190,6 +226,10 @@ output "isoseg_ssl_private_key" {
 
 output "dns_zone_id" {
   value = "${aws_route53_zone.pcf_zone.id}"
+}
+
+output "ops_manager_ip" {
+  value = "${module.ops_manager.ops_manager_private_ip}"
 }
 
 output "ops_manager_private_ip" {

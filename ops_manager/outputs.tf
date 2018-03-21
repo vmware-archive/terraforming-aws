@@ -26,6 +26,10 @@ output "ssh_public_key_name" {
   value = "${element(concat(aws_key_pair.ops_manager.*.key_name, list("")), 0)}"
 }
 
+output "ssh_public_key" {
+  value = "${element(concat(aws_key_pair.ops_manager.*.public_key, list("")), 0)}"
+}
+
 output "ops_manager_private_ip" {
   value = "${element(concat(aws_instance.ops_manager.*.private_ip, list("")), 0)}"
 }
