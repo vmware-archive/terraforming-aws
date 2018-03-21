@@ -58,6 +58,7 @@ availability_zones = ["us-west-1a", "us-west-1c"]
 ops_manager_ami    = "ami-4f291f2f"
 rds_instance_count = 1
 dns_suffix         = "example.com"
+vpc_cidr           = "10.0.0.0/16"
 
 ssl_cert = <<EOF
 -----BEGIN CERTIFICATE-----
@@ -84,6 +85,7 @@ EOF
 - ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
 - ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
 - ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
+- vpc_cidr: **(optional)** Internal CIDR block for the AWS VPC. Defaults to 10.0.0.0/16.
 
 ## Ops Manager (optional)
 - ops_manager: **(default: true)** Set to false if you don't want an Ops Manager

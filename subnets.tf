@@ -1,7 +1,15 @@
+locals {
+  public_cidr     = "${cidrsubnet(var.vpc_cidr, 6, 0)}"
+  management_cidr = "${cidrsubnet(var.vpc_cidr, 10, 64)}"
+  pas_cidr        = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
+  services_cidr   = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
+  rds_cidr        = "${cidrsubnet(var.vpc_cidr, 6, 3)}"
+}
+
 resource "aws_subnet" "public_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.0.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.public_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -12,7 +20,7 @@ resource "aws_subnet" "public_subnets" {
 resource "aws_subnet" "management_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.16.0/26", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.management_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -23,7 +31,7 @@ resource "aws_subnet" "management_subnets" {
 resource "aws_subnet" "pas_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.4.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.pas_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -34,7 +42,7 @@ resource "aws_subnet" "pas_subnets" {
 resource "aws_subnet" "services_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.8.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.services_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -45,7 +53,7 @@ resource "aws_subnet" "services_subnets" {
 resource "aws_subnet" "rds_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet("10.0.12.0/22", 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.rds_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
