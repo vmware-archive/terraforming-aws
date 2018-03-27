@@ -54,6 +54,18 @@ output "ops_manager_iam_instance_profile_name" {
   value = "${aws_iam_instance_profile.ops_manager.name}"
 }
 
+output "ops_manager_iam_user_name" {
+  value = "${aws_iam_user.ops_manager.name}"
+}
+
+output "ops_manager_iam_user_access_key" {
+  value = "${aws_iam_access_key.ops_manager.id}"
+}
+
+output "ops_manager_iam_user_secret_key" {
+  value = "${aws_iam_access_key.ops_manager.secret}"
+}
+
 output "pas_bucket_iam_instance_profile_name" {
   value = "${aws_iam_instance_profile.pas_bucket_access.name}"
 }

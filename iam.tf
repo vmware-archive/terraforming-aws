@@ -1,3 +1,17 @@
+resource "aws_iam_user" "ops_manager" {
+  name = "${var.env_name}_om_user"
+}
+
+resource "aws_iam_access_key" "ops_manager" {
+  user = "${aws_iam_user.ops_manager.name}"
+}
+
+resource "aws_iam_policy_attachment" "ops_manager" {
+  name       = "${var.env_name}_om_policy_attachment"
+  users      = ["${aws_iam_user.ops_manager.name}"]
+  policy_arn = "${aws_iam_policy.ert.arn}"
+}
+
 resource "aws_iam_instance_profile" "ops_manager" {
   name = "${var.env_name}_ops_manager"
   role = "${aws_iam_role.ops_manager.name}"
