@@ -1,12 +1,25 @@
-resource "aws_iam_policy" "ops_manager" {
-  name   = "${var.env_name}_ops_manager"
+resource "aws_iam_policy" "ops_manager_role" {
+  name   = "${var.env_name}_ops_manager_role"
   policy = "${data.template_file.ops_manager.rendered}"
   count  = "${var.count}"
 }
 
 resource "aws_iam_role_policy_attachment" "ops_manager_policy" {
   role       = "${var.iam_role_name}"
-  policy_arn = "${aws_iam_policy.ops_manager.arn}"
+  policy_arn = "${aws_iam_policy.ops_manager_role.arn}"
+  count      = "${var.count}"
+}
+
+resource "aws_iam_policy" "ops_manager_user" {
+  name   = "${var.env_name}_ops_manager_user"
+  policy = "${data.template_file.ops_manager.rendered}"
+  count  = "${var.count}"
+}
+
+resource "aws_iam_policy_attachment" "ops_manager" {
+  name       = "${var.env_name}_om_policy_attachment"
+  users      = ["${var.iam_user_name}"]
+  policy_arn = "${aws_iam_policy.ops_manager_user.arn}"
   count      = "${var.count}"
 }
 

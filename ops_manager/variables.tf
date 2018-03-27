@@ -14,6 +14,8 @@ variable "subnet_id" {}
 
 variable "vpc_id" {}
 
+variable "iam_user_name" {}
+
 variable "iam_role_name" {}
 
 variable "iam_role_arn" {}
