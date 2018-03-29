@@ -1,6 +1,6 @@
 resource "random_integer" "bucket" {
-	min = 1
-	max = 100000
+  min = 1
+  max = 100000
 }
 
 locals {
@@ -62,6 +62,10 @@ resource "aws_s3_bucket" "resources_bucket" {
 resource "aws_kms_key" "blobstore_kms_key" {
   description             = "${var.env_name} KMS key"
   deletion_window_in_days = 7
+
+  tags {
+    Name = "${var.env_name} Blobstore KMS Key"
+  }
 }
 
 resource "aws_kms_alias" "blobstore_kms_key_alias" {
