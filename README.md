@@ -34,7 +34,8 @@ brew install terraform
 - AmazonRoute53FullAccess
 - AmazonS3FullAccess
 - AmazonVPCFullAccess
-- IAMFullAccess
+- AmazonIAMFullAccess
+- AmazonKMSFullAccess
 
 ## Notes
 
