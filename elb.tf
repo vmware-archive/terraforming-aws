@@ -823,4 +823,6 @@ resource "aws_elb" "isoseg" {
 
   security_groups = ["${aws_security_group.isoseg_elb_security_group.id}"]
   subnets         = ["${aws_subnet.public_subnets.*.id}"]
+
+  tags = "${merge(var.tags, local.default_tags)}"
 }

@@ -29,3 +29,11 @@ variable "dns_suffix" {}
 variable "zone_id" {}
 
 variable "bucket_suffix" {}
+
+variable "tags" {
+  type        = "map"
+}
+
+variable "default_tags" {
+  type        = "map"
+}

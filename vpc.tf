@@ -3,7 +3,7 @@ resource "aws_vpc" "vpc" {
   instance_tenancy     = "default"
   enable_dns_hostnames = true
 
-  tags {
-    Name = "${var.env_name}-vpc"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-vpc")
+  )}"
 }

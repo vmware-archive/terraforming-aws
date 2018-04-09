@@ -18,4 +18,6 @@ module "ops_manager" {
   bucket_suffix = "${local.bucket_suffix}"
   instance_profile_name = "${aws_iam_instance_profile.ops_manager.name}"
   instance_profile_arn  = "${aws_iam_instance_profile.ops_manager.arn}"
+  tags          = "${var.tags}"
+  default_tags  = "${local.default_tags}"
 }
