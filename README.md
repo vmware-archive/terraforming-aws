@@ -89,10 +89,11 @@ tags               = {
 - availability_zones: **(required)** List of AZs you want to deploy to
 - dns_suffix: **(required)** Domain to add environment subdomain to
 - hosted_zone: **(optional)** Parent domain *already* managed by Route53. If specified, the DNS records will be added to this Route53 zone instead of a new zone.
-- ssl_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
-- ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
-- ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
-- ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
+- ssl_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` or `ssl_cert_arn` is specified.
+- ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` or `ssl_cert_arn` is specified.
+- ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` or `ssl_cert_arn` is specified.
+- ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` or `ssl_cert_arn` is specified.
+- ssl_cert_arn: **(optional)** Existing SSL certificate in AWS for HTTP load balancer configuration. Required unless `ssl_cert` or `ssl_ca_cert` is specified.
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(optional)** Internal CIDR block for the AWS VPC. Defaults to 10.0.0.0/16.
 
