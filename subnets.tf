@@ -12,9 +12,9 @@ resource "aws_subnet" "public_subnets" {
   cidr_block        = "${cidrsubnet(local.public_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
-  tags {
-    Name = "${var.env_name}-public-subnet${count.index}"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-public-subnet${count.index}")
+  )}"
 }
 
 resource "aws_subnet" "management_subnets" {
@@ -23,9 +23,9 @@ resource "aws_subnet" "management_subnets" {
   cidr_block        = "${cidrsubnet(local.management_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
-  tags {
-    Name = "${var.env_name}-management-subnet${count.index}"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-management-subnet${count.index}")
+  )}"
 }
 
 resource "aws_subnet" "pas_subnets" {
@@ -45,9 +45,9 @@ resource "aws_subnet" "services_subnets" {
   cidr_block        = "${cidrsubnet(local.services_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
-  tags {
-    Name = "${var.env_name}-services-subnet${count.index}"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-services-subnet${count.index}")
+  )}"
 }
 
 resource "aws_subnet" "rds_subnets" {
@@ -56,9 +56,9 @@ resource "aws_subnet" "rds_subnets" {
   cidr_block        = "${cidrsubnet(local.rds_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
-  tags {
-    Name = "${var.env_name}-rds-subnet${count.index}"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-rds-subnet${count.index}")
+  )}"
 }
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
@@ -67,7 +67,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
   subnet_ids = ["${aws_subnet.rds_subnets.*.id}"]
 
-  tags {
-    Name = "${var.env_name}-db-subnet-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-db-subnet-group")
+  )}"
 }

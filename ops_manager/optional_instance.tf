@@ -13,7 +13,8 @@ resource "aws_instance" "optional_ops_manager" {
     volume_size = 150
   }
 
-  tags {
-    Name = "${var.env_name}-optional-ops-manager"
-  }
+  tags = "${merge(var.tags, var.default_tags,
+    map("Name", "${var.env_name}-optional-ops-manager")
+  )}"
+
 }

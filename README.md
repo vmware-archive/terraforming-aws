@@ -11,6 +11,7 @@ A booted ops-manager plus a whole BOATLOAD of other goodies, including:
 - An amazing NAT Box
 - SSH/HTTPS/TCP ELBs
 - An IAM User
+- Tagged resources
 
 ## Looking to setup a different IAAS
 
@@ -72,6 +73,11 @@ ssl_private_key = <<EOF
 some cert private key
 -----END RSA PRIVATE KEY-----
 EOF
+
+tags               = {
+    Team = "Dev"
+    Project = "WebApp3"
+}
 ```
 
 ## Variables
@@ -86,6 +92,7 @@ EOF
 - ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
 - ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
 - ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
+- tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(optional)** Internal CIDR block for the AWS VPC. Defaults to 10.0.0.0/16.
 
 ## Ops Manager (optional)

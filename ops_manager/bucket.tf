@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "ops_manager_bucket" {
 
   count = "${var.count}"
 
-  tags {
-    Name = "Ops Manager S3 Bucket"
-  }
+  tags = "${merge(var.tags, var.default_tags,
+    map("Name", "Ops Manager S3 Bucket")
+  )}"
 }

@@ -21,4 +21,6 @@ resource "aws_db_instance" "rds" {
   apply_immediately       = true
 
   count = "${var.rds_instance_count}"
+
+  tags = "${merge(var.tags, local.default_tags)}"
 }

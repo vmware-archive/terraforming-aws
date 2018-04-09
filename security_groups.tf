@@ -17,9 +17,9 @@ resource "aws_security_group" "nat_security_group" {
     to_port     = 0
   }
 
-  tags {
-    Name = "${var.env_name}-nat-security-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-nat-security-group")
+  )}"
 }
 
 resource "aws_security_group" "vms_security_group" {
@@ -41,9 +41,9 @@ resource "aws_security_group" "vms_security_group" {
     to_port     = 0
   }
 
-  tags {
-    Name = "${var.env_name}-vms-security-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-vms-security-group")
+  )}"
 }
 
 resource "aws_security_group" "mysql_security_group" {
@@ -65,9 +65,9 @@ resource "aws_security_group" "mysql_security_group" {
     to_port     = 0
   }
 
-  tags {
-    Name = "${var.env_name}-mysql-security-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-mysql-security-group")
+  )}"
 }
 
 resource "aws_security_group" "elb_security_group" {
@@ -103,9 +103,9 @@ resource "aws_security_group" "elb_security_group" {
     to_port     = 0
   }
 
-  tags {
-    Name = "${var.env_name}-elb-security-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-elb-security-group")
+  )}"
 }
 
 resource "aws_security_group" "isoseg_elb_security_group" {
@@ -143,9 +143,9 @@ resource "aws_security_group" "isoseg_elb_security_group" {
     to_port     = 0
   }
 
-  tags {
-    Name = "${var.env_name}-isoseg-elb-security-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-isoseg-elb-security-group")
+  )}"
 }
 
 resource "aws_security_group" "ssh_elb_security_group" {
@@ -167,9 +167,9 @@ resource "aws_security_group" "ssh_elb_security_group" {
     to_port     = 0
   }
 
-  tags {
-    Name = "${var.env_name}-ssh-elb-security-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-ssh-elb-security-group")
+  )}"
 }
 
 resource "aws_security_group" "tcp_elb_security_group" {
@@ -191,7 +191,7 @@ resource "aws_security_group" "tcp_elb_security_group" {
     to_port     = 0
   }
 
-  tags {
-    Name = "${var.env_name}-tcp-elb-security-group"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-tcp-elb-security-group")
+  )}"
 }

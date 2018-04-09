@@ -15,9 +15,9 @@ resource "aws_s3_bucket" "buildpacks_bucket" {
     enabled = "${var.create_versioned_pas_buckets}"
   }
 
-  tags {
-    Name = "Elastic Runtime S3 Buildpacks Bucket"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "Elastic Runtime S3 Buildpacks Bucket")
+  )}"
 }
 
 resource "aws_s3_bucket" "droplets_bucket" {
@@ -28,9 +28,9 @@ resource "aws_s3_bucket" "droplets_bucket" {
     enabled = "${var.create_versioned_pas_buckets}"
   }
 
-  tags {
-    Name = "Elastic Runtime S3 Droplets Bucket"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "Elastic Runtime S3 Droplets Bucket")
+  )}"
 }
 
 resource "aws_s3_bucket" "packages_bucket" {
@@ -41,9 +41,9 @@ resource "aws_s3_bucket" "packages_bucket" {
     enabled = "${var.create_versioned_pas_buckets}"
   }
 
-  tags {
-    Name = "Elastic Runtime S3 Packages Bucket"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "Elastic Runtime S3 Packages Bucket")
+  )}"
 }
 
 resource "aws_s3_bucket" "resources_bucket" {
@@ -54,18 +54,18 @@ resource "aws_s3_bucket" "resources_bucket" {
     enabled = "${var.create_versioned_pas_buckets}"
   }
 
-  tags {
-    Name = "Elastic Runtime S3 Resources Bucket"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "Elastic Runtime S3 Resources Bucket")
+  )}"
 }
 
 resource "aws_kms_key" "blobstore_kms_key" {
   description             = "${var.env_name} KMS key"
   deletion_window_in_days = 7
 
-  tags {
-    Name = "${var.env_name} Blobstore KMS Key"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name} Blobstore KMS Key")
+  )}"
 }
 
 resource "aws_kms_alias" "blobstore_kms_key_alias" {

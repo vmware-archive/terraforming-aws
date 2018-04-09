@@ -1,9 +1,9 @@
 resource "aws_route53_zone" "pcf_zone" {
   name = "${var.env_name}.${var.dns_suffix}"
 
-  tags {
-    Name = "${var.env_name}-hosted-zone"
-  }
+  tags = "${merge(var.tags, local.default_tags,
+    map("Name", "${var.env_name}-hosted-zone")
+  )}"
 }
 
 resource "aws_route53_record" "wildcard_sys_dns" {
