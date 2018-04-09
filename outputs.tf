@@ -216,6 +216,10 @@ output "web_elb_name" {
   value = "${aws_elb.web_elb.name}"
 }
 
+output "ssl_cert_arn" {
+  value     = "${var.ssl_cert_arn}"
+}
+
 output "ssl_cert" {
   sensitive = true
   value     = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.ssl_cert.*.cert_pem, list("")), 0) : var.ssl_cert}"
