@@ -4,7 +4,7 @@ resource "aws_security_group" "nat_security_group" {
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = ["${var.vpc_cidr}"]
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
@@ -28,7 +28,7 @@ resource "aws_security_group" "vms_security_group" {
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = ["${var.vpc_cidr}"]
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
@@ -52,14 +52,14 @@ resource "aws_security_group" "mysql_security_group" {
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = ["${var.vpc_cidr}"]
     protocol    = "tcp"
     from_port   = 3306
     to_port     = 3306
   }
 
   egress {
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = ["${var.vpc_cidr}"]
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
