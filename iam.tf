@@ -16,7 +16,7 @@ resource "aws_iam_instance_profile" "ops_manager" {
 }
 
 resource "aws_iam_role" "ops_manager" {
-  name  = "${var.env_name}_om_role"
+  name = "${var.env_name}_om_role"
 
   lifecycle {
     create_before_destroy = true
@@ -106,6 +106,12 @@ resource "aws_iam_role_policy" "pas_bucket_access" {
   }]
 }
 EOF
+}
+
+resource "aws_iam_policy_attachment" "ert" {
+  name       = "${var.env_name}_ert_policy_attachment"
+  users      = ["${aws_iam_user.ops_manager.name}"]
+  policy_arn = "${aws_iam_policy.ert.arn}"
 }
 
 resource "aws_iam_instance_profile" "pas_bucket_access" {
