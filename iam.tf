@@ -108,9 +108,8 @@ resource "aws_iam_role_policy" "pas_bucket_access" {
 EOF
 }
 
-resource "aws_iam_policy_attachment" "ert" {
-  name       = "${var.env_name}_ert_policy_attachment"
-  users      = ["${aws_iam_user.ops_manager.name}"]
+resource "aws_iam_user_policy_attachment" "ert" {
+  user       = "${aws_iam_user.ops_manager.name}"
   policy_arn = "${aws_iam_policy.ert.arn}"
 }
 
