@@ -5,6 +5,7 @@ resource "aws_instance" "optional_ops_manager" {
   vpc_security_group_ids = ["${aws_security_group.ops_manager_security_group.id}"]
   source_dest_check      = false
   subnet_id              = "${var.subnet_id}"
+  iam_instance_profile   = "${var.instance_profile_name}"
   count                  = "${var.optional_count}"
 
   root_block_device {
