@@ -118,5 +118,6 @@ variable "create_isoseg_resources" {
 
 variable "tags" {
   type        = "map"
+  default     = {}
   description = "Key/value tags to assign to all AWS resources"
 }
