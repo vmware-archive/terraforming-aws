@@ -1,3 +1,7 @@
+output "iaas" {
+  value = "aws"
+}
+
 output "ops_manager_bucket" {
   value = "${module.ops_manager.bucket}"
 }
