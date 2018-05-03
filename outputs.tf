@@ -39,7 +39,7 @@ output "optional_ops_manager_dns" {
 }
 
 output "env_dns_zone_name_servers" {
-  value = ["${split(",", data.aws_route53_zone.pcf_zone.zone_id == "" ?  local.resource_dns_nameservers : local.data_dns_nameservers)}"]
+  value = "${aws_route53_zone.pcf_zone.name_servers}"
 }
 
 output "sys_domain" {
@@ -241,7 +241,7 @@ output "isoseg_ssl_private_key" {
 }
 
 output "dns_zone_id" {
-  value = "${local.zone_id}"
+  value = "${aws_route53_zone.pcf_zone.id}"
 }
 
 output "ops_manager_ip" {
