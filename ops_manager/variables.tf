@@ -14,11 +14,13 @@ variable "subnet_id" {}
 
 variable "vpc_id" {}
 
-variable "iam_user_name" {}
+variable "iam_ops_manager_user_name" {}
 
-variable "iam_role_name" {}
+variable "iam_ops_manager_role_name" {}
 
-variable "iam_role_arn" {}
+variable "iam_ops_manager_role_arn" {}
+
+variable "iam_pas_bucket_role_arn" {}
 
 variable "instance_profile_name" {}
 
@@ -31,9 +33,9 @@ variable "zone_id" {}
 variable "bucket_suffix" {}
 
 variable "tags" {
-  type        = "map"
+  type = "map"
 }
 
 variable "default_tags" {
-  type        = "map"
+  type = "map"
 }

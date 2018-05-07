@@ -67,7 +67,8 @@
         "iam:PassRole"
       ],
       "Resource": [
-        "${iam_role_arn}"
+        "${iam_ops_manager_role_arn}",
+        "${iam_pas_bucket_role_arn}"
       ]
     },
     {
