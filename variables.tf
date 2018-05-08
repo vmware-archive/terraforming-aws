@@ -2,6 +2,10 @@ variable "env_name" {}
 
 variable "dns_suffix" {}
 
+variable "hosted_zone" {
+  default = ""
+}
+
 variable "access_key" {}
 
 variable "secret_key" {}
