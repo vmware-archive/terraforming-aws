@@ -6,8 +6,8 @@ resource "random_string" "rds_password" {
 resource "aws_db_instance" "rds" {
   allocated_storage      = 100
   instance_class         = "${var.rds_instance_class}"
-  engine                 = "mysql"
-  engine_version         = "5.6.35"
+  engine                 = "mariadb"
+  engine_version         = "10.1.31"
   identifier             = "${var.env_name}"
   username               = "${var.rds_db_username}"
   password               = "${random_string.rds_password.result}"
