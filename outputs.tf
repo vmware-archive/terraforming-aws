@@ -241,7 +241,7 @@ output "isoseg_ssl_private_key" {
 }
 
 output "dns_zone_id" {
-  value = "${aws_route53_zone.pcf_zone.id}"
+  value = "${local.zone_id}"
 }
 
 output "ops_manager_ip" {
