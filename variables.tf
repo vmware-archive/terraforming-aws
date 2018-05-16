@@ -25,6 +25,10 @@ variable "create_versioned_pas_buckets" {
   default = false
 }
 
+variable "create_backup_pas_buckets" {
+  default = false
+}
+
 variable "ops_manager_ami" {
   default = ""
 }
