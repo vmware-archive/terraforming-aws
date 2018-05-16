@@ -39,7 +39,7 @@ output "optional_ops_manager_dns" {
 }
 
 output "env_dns_zone_name_servers" {
-  value = ["${split(",", local.name_servers)}"]
+  value = ["${compact(split(",", local.name_servers))}"]
 }
 
 output "sys_domain" {
