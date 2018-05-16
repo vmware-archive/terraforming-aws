@@ -14,14 +14,6 @@ data "aws_route53_zone" "pcf_zone" {
   name = "${var.hosted_zone}"
 }
 
-output "zone_id" {
-  value = "${local.zone_id}"
-}
-
-output "name_servers" {
-  value = "${join(",", flatten(concat(data.aws_route53_zone.pcf_zone.*.name_servers, list(list("")))))}"
-}
-
 resource "aws_route53_zone" "pcf_zone" {
   count = "${var.hosted_zone == "" ? 1 : 0}"
 
