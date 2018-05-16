@@ -30,6 +30,4 @@ resource "aws_instance" "nat" {
 resource "aws_eip" "nat_eip" {
   instance = "${aws_instance.nat.id}"
   vpc      = true
-
-  tags = "${merge(var.tags, local.default_tags)}"
 }
