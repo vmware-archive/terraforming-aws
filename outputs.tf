@@ -22,6 +22,22 @@ output "pas_resources_bucket" {
   value = "${aws_s3_bucket.resources_bucket.bucket}"
 }
 
+output "pas_buildpacks_backup_bucket" {
+  value = "${element(concat(aws_s3_bucket.buildpacks_backup_bucket.*.bucket, list("")), 0)}"
+}
+
+output "pas_droplets_backup_bucket" {
+  value = "${element(concat(aws_s3_bucket.droplets_backup_bucket.*.bucket, list("")), 0)}"
+}
+
+output "pas_packages_backup_bucket" {
+  value = "${element(concat(aws_s3_bucket.packages_backup_bucket.*.bucket, list("")), 0)}"
+}
+
+output "pas_resources_backup_bucket" {
+  value = "${element(concat(aws_s3_bucket.resources_backup_bucket.*.bucket, list("")), 0)}"
+}
+
 output "blobstore_kms_key_id" {
   value = "${aws_kms_key.blobstore_kms_key.key_id}"
 }
