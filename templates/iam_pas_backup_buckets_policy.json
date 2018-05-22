@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ElasticRuntimeS3BackupPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": [
+        "${buildpacks_backup_bucket_arn}",
+        "${buildpacks_backup_bucket_arn}/*",
+        "${droplets_backup_bucket_arn}",
+        "${droplets_backup_bucket_arn}/*",
+        "${packages_backup_bucket_arn}",
+        "${packages_backup_bucket_arn}/*",
+        "${resources_backup_bucket_arn}",
+        "${resources_backup_bucket_arn}/*"
+      ]
+    }
+  ]
+}
