@@ -116,6 +116,8 @@ data "template_file" "pas_backup_bucket_policy" {
 resource "aws_iam_policy" "pas_backup_bucket_policy" {
   name   = "${var.env_name}_pas_backup_bucket_policy"
   policy = "${data.template_file.pas_backup_bucket_policy.rendered}"
+
+  count = "${var.create_backup_pas_buckets ? 1 : 0}"
 }
 
 resource "aws_iam_role_policy" "pas_backup_bucket_access" {
@@ -129,4 +131,6 @@ resource "aws_iam_role_policy" "pas_backup_bucket_access" {
 resource "aws_iam_user_policy_attachment" "pas_backup_bucket_access" {
   user       = "${aws_iam_user.ops_manager.name}"
   policy_arn = "${aws_iam_policy.pas_backup_bucket_policy.arn}"
+
+  count = "${var.create_backup_pas_buckets ? 1 : 0}"
 }
