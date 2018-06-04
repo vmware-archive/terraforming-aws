@@ -11,7 +11,7 @@ module "ops_manager" {
   subnet_id                 = "${aws_subnet.public_subnets.0.id}"
   vpc_id                    = "${aws_vpc.vpc.id}"
   dns_suffix                = "${var.dns_suffix}"
-  zone_id                   = "${aws_route53_zone.pcf_zone.id}"
+  zone_id                   = "${local.zone_id}"
   iam_ops_manager_user_name = "${aws_iam_user.ops_manager.name}"
   iam_ops_manager_role_name = "${aws_iam_role.ops_manager.name}"
   iam_ops_manager_role_arn  = "${aws_iam_role.ops_manager.arn}"
