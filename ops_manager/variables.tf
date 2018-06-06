@@ -16,6 +16,8 @@ variable "subnet_id" {}
 
 variable "vpc_id" {}
 
+variable "vpc_cidr" {}
+
 variable "iam_ops_manager_user_name" {}
 
 variable "iam_ops_manager_role_name" {}

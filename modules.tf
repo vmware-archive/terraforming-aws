@@ -11,6 +11,7 @@ module "ops_manager" {
   instance_type             = "${var.ops_manager_instance_type}"
   private                   = "${var.ops_manager_private}"
   vpc_id                    = "${aws_vpc.vpc.id}"
+  vpc_cidr                  = "${var.vpc_cidr}"
   dns_suffix                = "${var.dns_suffix}"
   zone_id                   = "${local.zone_id}"
   iam_ops_manager_user_name = "${aws_iam_user.ops_manager.name}"
