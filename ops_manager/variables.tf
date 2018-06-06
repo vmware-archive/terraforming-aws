@@ -2,6 +2,8 @@ variable "count" {}
 
 variable "optional_count" {}
 
+variable "private" {}
+
 variable "env_name" {}
 
 variable "ami" {}
