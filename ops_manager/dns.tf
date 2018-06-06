@@ -5,7 +5,7 @@ resource "aws_route53_record" "ops_manager" {
   ttl     = 300
   count   = "${var.count}"
 
-  records = ["${aws_eip.ops_manager.public_ip}"]
+  records = ["${coalesce(join("", aws_eip.ops_manager.*.public_ip), aws_instance.ops_manager.private_ip)}"]
 }
 
 resource "aws_route53_record" "optional_ops_manager" {
@@ -15,5 +15,5 @@ resource "aws_route53_record" "optional_ops_manager" {
   ttl     = 300
   count   = "${var.optional_count}"
 
-  records = ["${aws_eip.optional_ops_manager.public_ip}"]
+  records = ["${coalesce(join("", aws_eip.optional_ops_manager.*.public_ip), aws_instance.optional_ops_manager.private_ip)}"]
 }
