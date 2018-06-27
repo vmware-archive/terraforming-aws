@@ -9,8 +9,9 @@ variable "nat_ami_map" {
     eu-west-1      = "ami-6975eb1e"
     eu-central-1   = "ami-46073a5b"
     ap-southeast-1 = "ami-b49dace6"
-    ap-northeast-1 = "ami-03cf3903"
     ap-southeast-2 = "ami-e7ee9edd"
+    ap-northeast-1 = "ami-03cf3903"
+    ap-northeast-2 = "ami-8e0fa6e0"
     sa-east-1      = "ami-fbfa41e6"
   }
 }
