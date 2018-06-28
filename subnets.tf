@@ -28,6 +28,16 @@ resource "aws_subnet" "management_subnets" {
   )}"
 }
 
+data "template_file" "management_subnet_gateways" {
+  # Render the template once for each availability zone
+  count    = "${length(var.availability_zones)}"
+  template = "$${gateway}"
+
+  vars {
+    gateway = "${cidrhost(element(aws_subnet.management_subnets.*.cidr_block, count.index), 1)}"
+  }
+}
+
 resource "aws_subnet" "pas_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
@@ -36,6 +46,16 @@ resource "aws_subnet" "pas_subnets" {
 
   tags {
     Name = "${var.env_name}-ert-subnet${count.index}"
+  }
+}
+
+data "template_file" "pas_subnet_gateways" {
+  # Render the template once for each availability zone
+  count    = "${length(var.availability_zones)}"
+  template = "$${gateway}"
+
+  vars {
+    gateway = "${cidrhost(element(aws_subnet.pas_subnets.*.cidr_block, count.index), 1)}"
   }
 }
 
@@ -48,6 +68,16 @@ resource "aws_subnet" "services_subnets" {
   tags = "${merge(var.tags, local.default_tags,
     map("Name", "${var.env_name}-services-subnet${count.index}")
   )}"
+}
+
+data "template_file" "services_subnet_gateways" {
+  # Render the template once for each availability zone
+  count    = "${length(var.availability_zones)}"
+  template = "$${gateway}"
+
+  vars {
+    gateway = "${cidrhost(element(aws_subnet.services_subnets.*.cidr_block, count.index), 1)}"
+  }
 }
 
 resource "aws_subnet" "rds_subnets" {

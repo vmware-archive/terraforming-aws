@@ -147,6 +147,10 @@ output "management_subnet_cidrs" {
   value = ["${aws_subnet.management_subnets.*.cidr_block}"]
 }
 
+output "management_subnet_gateways" {
+  value = ["${data.template_file.management_subnet_gateways.*.rendered}"]
+}
+
 output "pas_subnet_ids" {
   value = ["${aws_subnet.pas_subnets.*.id}"]
 }
@@ -163,6 +167,10 @@ output "pas_subnet_cidrs" {
   value = ["${aws_subnet.pas_subnets.*.cidr_block}"]
 }
 
+output "pas_subnet_gateways" {
+  value = ["${data.template_file.pas_subnet_gateways.*.rendered}"]
+}
+
 output "services_subnet_ids" {
   value = ["${aws_subnet.services_subnets.*.id}"]
 }
@@ -177,6 +185,10 @@ output "services_subnet_availability_zones" {
 
 output "services_subnet_cidrs" {
   value = ["${aws_subnet.services_subnets.*.cidr_block}"]
+}
+
+output "services_subnet_gateways" {
+  value = ["${data.template_file.services_subnet_gateways.*.rendered}"]
 }
 
 output "vpc_id" {
@@ -217,7 +229,7 @@ output "web_elb_name" {
 }
 
 output "ssl_cert_arn" {
-  value     = "${var.ssl_cert_arn}"
+  value = "${var.ssl_cert_arn}"
 }
 
 output "ssl_cert" {
