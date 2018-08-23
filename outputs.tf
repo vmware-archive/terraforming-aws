@@ -131,24 +131,24 @@ output "public_subnet_cidrs" {
   value = ["${aws_subnet.public_subnets.*.cidr_block}"]
 }
 
-output "infrastructure_subnet_ids" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+output "management_subnet_ids" {
+  value = ["${aws_subnet.management_subnets.*.id}"]
 }
 
-output "infrastructure_subnets" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+output "management_subnets" {
+  value = ["${aws_subnet.management_subnets.*.id}"]
 }
 
-output "infrastructure_subnet_availability_zones" {
-  value = ["${aws_subnet.infrastructure_subnets.*.availability_zone}"]
+output "management_subnet_availability_zones" {
+  value = ["${aws_subnet.management_subnets.*.availability_zone}"]
 }
 
-output "infrastructure_subnet_cidrs" {
-  value = ["${aws_subnet.infrastructure_subnets.*.cidr_block}"]
+output "management_subnet_cidrs" {
+  value = ["${aws_subnet.management_subnets.*.cidr_block}"]
 }
 
-output "infrastructure_subnet_gateways" {
-  value = ["${data.template_file.infrastructure_subnet_gateways.*.rendered}"]
+output "management_subnet_gateways" {
+  value = ["${data.template_file.management_subnet_gateways.*.rendered}"]
 }
 
 output "pas_subnet_ids" {
