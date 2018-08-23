@@ -42,8 +42,8 @@ variable "ops_manager_instance_type" {
 }
 
 variable "ops_manager_private" {
-  default = false
-  description = "If true, the Ops Manager will be colocated with the BOSH director on the management subnet instead of on the public subnet"
+  default     = false
+  description = "If true, the Ops Manager will be colocated with the BOSH director on the infrastructure subnet instead of on the public subnet"
 }
 
 variable "rds_db_username" {
