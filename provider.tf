@@ -3,3 +3,7 @@ provider "aws" {
   secret_key = "${var.secret_key}"
   region     = "${var.region}"
 }
+
+terraform {
+  required_version = "< 0.12.0"
+}
