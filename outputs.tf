@@ -7,39 +7,39 @@ output "ops_manager_bucket" {
 }
 
 output "pas_buildpacks_bucket" {
-  value = "${aws_s3_bucket.buildpacks_bucket.bucket}"
+  value = "${module.pas.pas_buildpacks_bucket}"
 }
 
 output "pas_droplets_bucket" {
-  value = "${aws_s3_bucket.droplets_bucket.bucket}"
+  value = "${module.pas.pas_droplets_bucket}"
 }
 
 output "pas_packages_bucket" {
-  value = "${aws_s3_bucket.packages_bucket.bucket}"
+  value = "${module.pas.pas_packages_bucket}"
 }
 
 output "pas_resources_bucket" {
-  value = "${aws_s3_bucket.resources_bucket.bucket}"
+  value = "${module.pas.pas_resources_bucket}"
 }
 
 output "pas_buildpacks_backup_bucket" {
-  value = "${element(concat(aws_s3_bucket.buildpacks_backup_bucket.*.bucket, list("")), 0)}"
+  value = "${module.pas.pas_buildpacks_backup_bucket}"
 }
 
 output "pas_droplets_backup_bucket" {
-  value = "${element(concat(aws_s3_bucket.droplets_backup_bucket.*.bucket, list("")), 0)}"
+  value = "${module.pas.pas_droplets_backup_bucket}"
 }
 
 output "pas_packages_backup_bucket" {
-  value = "${element(concat(aws_s3_bucket.packages_backup_bucket.*.bucket, list("")), 0)}"
+  value = "${module.pas.pas_packages_backup_bucket}"
 }
 
 output "pas_resources_backup_bucket" {
-  value = "${element(concat(aws_s3_bucket.resources_backup_bucket.*.bucket, list("")), 0)}"
+  value = "${module.pas.pas_resources_backup_bucket}"
 }
 
 output "blobstore_kms_key_id" {
-  value = "${aws_kms_key.blobstore_kms_key.key_id}"
+  value = "${module.pas.blobstore_kms_key_id}"
 }
 
 output "ops_manager_public_ip" {
@@ -55,7 +55,7 @@ output "optional_ops_manager_dns" {
 }
 
 output "env_dns_zone_name_servers" {
-  value = ["${compact(split(",", local.name_servers))}"]
+  value = "${module.infra.name_servers}"
 }
 
 output "sys_domain" {
@@ -71,40 +71,40 @@ output "tcp_domain" {
 }
 
 output "ops_manager_iam_instance_profile_name" {
-  value = "${aws_iam_instance_profile.ops_manager.name}"
+  value = "${module.ops_manager.ops_manager_iam_instance_profile_name}"
 }
 
 output "ops_manager_iam_user_name" {
-  value = "${aws_iam_user.ops_manager.name}"
+  value = "${module.ops_manager.ops_manager_iam_user_name}"
 }
 
 output "ops_manager_iam_user_access_key" {
-  value = "${aws_iam_access_key.ops_manager.id}"
+  value = "${module.ops_manager.ops_manager_iam_user_access_key}"
 }
 
 output "ops_manager_iam_user_secret_key" {
-  value = "${aws_iam_access_key.ops_manager.secret}"
+  value = "${module.ops_manager.ops_manager_iam_user_secret_key}"
 }
 
 output "pas_bucket_iam_instance_profile_name" {
-  value = "${aws_iam_instance_profile.pas_bucket_access.name}"
+  value = "${module.pas.pas_bucket_iam_instance_profile_name}"
 }
 
 output "rds_address" {
-  value = "${element(concat(aws_db_instance.rds.*.address, list("")), 0)}"
+  value = "${module.rds.rds_address}"
 }
 
 output "rds_port" {
-  value = "${element(concat(aws_db_instance.rds.*.port, list("")), 0)}"
+  value = "${module.rds.rds_port}"
 }
 
 output "rds_username" {
-  value = "${element(concat(aws_db_instance.rds.*.username, list("")), 0)}"
+  value = "${module.rds.rds_username}"
 }
 
 output "rds_password" {
   sensitive = true
-  value     = "${element(concat(aws_db_instance.rds.*.password, list("")), 0)}"
+  value     = "${module.rds.rds_password}"
 }
 
 output "ops_manager_security_group_id" {
@@ -112,91 +112,91 @@ output "ops_manager_security_group_id" {
 }
 
 output "vms_security_group_id" {
-  value = "${aws_security_group.vms_security_group.id}"
+  value = "${module.infra.vms_security_group_id}"
 }
 
 output "public_subnet_ids" {
-  value = ["${aws_subnet.public_subnets.*.id}"]
+  value = "${module.infra.public_subnet_ids}"
 }
 
 output "public_subnets" {
-  value = ["${aws_subnet.public_subnets.*.id}"]
+  value = "${module.infra.public_subnet_ids}"
 }
 
 output "public_subnet_availability_zones" {
-  value = ["${aws_subnet.public_subnets.*.availability_zone}"]
+  value = "${module.infra.public_subnet_availability_zones}"
 }
 
 output "public_subnet_cidrs" {
-  value = ["${aws_subnet.public_subnets.*.cidr_block}"]
+  value = "${module.infra.public_subnet_cidrs}"
 }
 
 output "infrastructure_subnet_ids" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  value = "${module.infra.infrastructure_subnet_ids}"
 }
 
 output "infrastructure_subnets" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  value = "${module.infra.infrastructure_subnets}"
 }
 
 output "infrastructure_subnet_availability_zones" {
-  value = ["${aws_subnet.infrastructure_subnets.*.availability_zone}"]
+  value = "${module.infra.infrastructure_subnet_availability_zones}"
 }
 
 output "infrastructure_subnet_cidrs" {
-  value = ["${aws_subnet.infrastructure_subnets.*.cidr_block}"]
+  value = "${module.infra.infrastructure_subnet_cidrs}"
 }
 
 output "infrastructure_subnet_gateways" {
-  value = ["${data.template_file.infrastructure_subnet_gateways.*.rendered}"]
+  value = "${module.infra.infrastructure_subnet_gateways}"
 }
 
 output "pas_subnet_ids" {
-  value = ["${aws_subnet.pas_subnets.*.id}"]
+  value = "${module.pas.pas_subnet_ids}"
 }
 
 output "pas_subnets" {
-  value = ["${aws_subnet.pas_subnets.*.id}"]
+  value = "${module.pas.pas_subnet_ids}"
 }
 
 output "pas_subnet_availability_zones" {
-  value = ["${aws_subnet.pas_subnets.*.availability_zone}"]
+  value = "${module.pas.pas_subnet_availability_zones}"
 }
 
 output "pas_subnet_cidrs" {
-  value = ["${aws_subnet.pas_subnets.*.cidr_block}"]
+  value = "${module.pas.pas_subnet_cidrs}"
 }
 
 output "pas_subnet_gateways" {
-  value = ["${data.template_file.pas_subnet_gateways.*.rendered}"]
+  value = "${module.pas.pas_subnet_gateways}"
 }
 
 output "services_subnet_ids" {
-  value = ["${aws_subnet.services_subnets.*.id}"]
+  value = "${module.pas.services_subnet_ids}"
 }
 
 output "services_subnets" {
-  value = ["${aws_subnet.services_subnets.*.id}"]
+  value = "${module.pas.services_subnet_ids}"
 }
 
 output "services_subnet_availability_zones" {
-  value = ["${aws_subnet.services_subnets.*.availability_zone}"]
+  value = "${module.pas.services_subnet_availability_zones}"
 }
 
 output "services_subnet_cidrs" {
-  value = ["${aws_subnet.services_subnets.*.cidr_block}"]
+  value = "${module.pas.services_subnet_cidrs}"
 }
 
 output "services_subnet_gateways" {
-  value = ["${data.template_file.services_subnet_gateways.*.rendered}"]
+  value = "${module.pas.services_subnet_gateways}"
 }
 
 output "vpc_id" {
-  value = "${aws_vpc.vpc.id}"
+  value = "${module.infra.vpc_id}"
 }
 
 output "network_name" {
-  value = "${aws_vpc.vpc.id}"
+  value = "${module.infra.vpc_id}"
 }
 
 output "ops_manager_ssh_private_key" {
@@ -221,11 +221,11 @@ output "azs" {
 }
 
 output "web_lb_name" {
-  value = "${aws_elb.web_elb.name}"
+  value = "${module.pas.web_lb_name}"
 }
 
 output "web_elb_name" {
-  value = "${aws_elb.web_elb.name}"
+  value = "${module.pas.web_lb_name}"
 }
 
 output "ssl_cert_arn" {
@@ -234,46 +234,46 @@ output "ssl_cert_arn" {
 
 output "ssl_cert" {
   sensitive = true
-  value     = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.ssl_cert.*.cert_pem, list("")), 0) : var.ssl_cert}"
+  value     = "${module.pas.ssl_cert}"
 }
 
 output "ssl_private_key" {
   sensitive = true
-  value     = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0) : var.ssl_private_key}"
+  value     = "${module.pas.ssl_private_key}"
 }
 
 output "ssh_lb_name" {
-  value = "${aws_elb.ssh_elb.name}"
+  value = "${module.pas.ssh_lb_name}"
 }
 
 output "ssh_elb_name" {
-  value = "${aws_elb.ssh_elb.name}"
+  value = "${module.pas.ssh_lb_name}"
 }
 
 output "tcp_lb_name" {
-  value = "${aws_elb.tcp_elb.name}"
+  value = "${module.pas.tcp_lb_name}"
 }
 
 output "tcp_elb_name" {
-  value = "${aws_elb.tcp_elb.name}"
+  value = "${module.pas.tcp_lb_name}"
 }
 
 output "isoseg_elb_name" {
-  value = "${element(concat(aws_elb.isoseg.*.name, list("")), 0)}"
+  value = "${module.pas.isoseg_elb_name}"
 }
 
 output "isoseg_ssl_cert" {
   sensitive = true
-  value     = "${length(var.isoseg_ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.isoseg_ssl_cert.*.cert_pem, list("")), 0) : var.isoseg_ssl_cert}"
+  value     = "${module.pas.isoseg_ssl_cert}"
 }
 
 output "isoseg_ssl_private_key" {
   sensitive = true
-  value     = "${length(var.isoseg_ssl_ca_cert) > 0 ? element(concat(tls_private_key.isoseg_ssl_private_key.*.private_key_pem, list("")), 0) : var.isoseg_ssl_private_key}"
+  value     = "${module.pas.isoseg_ssl_private_key}"
 }
 
 output "dns_zone_id" {
-  value = "${local.zone_id}"
+  value = "${module.infra.zone_id}"
 }
 
 output "ops_manager_ip" {
@@ -289,21 +289,21 @@ output "ops_manager_private_ip" {
  *****************************/
 
 output "management_subnet_ids" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  value = "${module.infra.infrastructure_subnet_ids}"
 }
 
 output "management_subnets" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  value = "${module.infra.infrastructure_subnets}"
 }
 
 output "management_subnet_availability_zones" {
-  value = ["${aws_subnet.infrastructure_subnets.*.availability_zone}"]
+  value = "${module.infra.infrastructure_subnet_availability_zones}"
 }
 
 output "management_subnet_cidrs" {
-  value = ["${aws_subnet.infrastructure_subnets.*.cidr_block}"]
+  value = "${module.infra.infrastructure_subnet_cidrs}"
 }
 
 output "management_subnet_gateways" {
-  value = ["${data.template_file.infrastructure_subnet_gateways.*.rendered}"]
+  value = "${module.infra.infrastructure_subnet_gateways}"
 }

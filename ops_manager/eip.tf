@@ -3,9 +3,7 @@ resource "aws_eip" "ops_manager" {
   count    = "${var.private ? 0 : var.count}"
   vpc      = true
 
-  tags = "${merge(var.tags, var.default_tags,
-    map("Name", "${var.env_name}-om-eip")
-  )}"
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-om-eip"))}"
 }
 
 resource "aws_eip" "optional_ops_manager" {
@@ -13,7 +11,5 @@ resource "aws_eip" "optional_ops_manager" {
   count    = "${var.private ? 0 : var.optional_count}"
   vpc      = true
 
-  tags = "${merge(var.tags, var.default_tags,
-    map("Name", "${var.env_name}-optional-om-eip")
-  )}"
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-optional-om-eip"))}"
 }
