@@ -1,0 +1,7 @@
+#!/bin/bash -eu
+
+main() {
+fly -t "ovoc" set-pipeline -p terraforming-aws -c "${PROJECT_DIR}/ci/pipeline.yml"
+}
+
+main "$@"

@@ -1,0 +1,133 @@
+resource_types:
+- name: terraform
+  type: docker-image
+  source:
+    repository: ljfranklin/terraform-resource
+    tag: beta-backend
+
+shared:
+- params: &modify-terraforming-aws-dns-params
+    GCP_DNS_PROJECT_ID: ((cf_infra_gcp_project_id))
+    GCP_DNS_SERVICE_ACCOUNT_EMAIL: ((cf_infra_gcp_service_account_email))
+    GCP_DNS_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
+    GCP_DNS_ZONE_NAME: infrastructure
+    GCP_DNS_SUFFIX: aws.infrastructure.cf-app.com
+    GCP_DNS_RECORD_TTL: 60
+
+- params: &om-creds
+    OM_USERNAME: ((om_username))
+    OM_PASSWORD: ((om_password))
+
+resources:
+- name: terraforming-aws
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:pivotal-cf/terraforming-aws.git
+    private_key: ((cf_infra_bot_user_github_private_key))
+
+- name: env-state-aws
+  type: terraform
+  source:
+    backend_type: gcs
+    backend_config:
+      bucket: infra-tf-states
+      prefix: aws
+      region: us-central1
+      credentials: |
+        ((cf_infra_gcp_service_account_key))
+    vars:
+      region: us-west-1
+      access_key: ((aws_access_key_id))
+      secret_key: ((aws_secret_access_key))
+      ssl_cert: ((ssl_cert))
+      ssl_private_key: ((ssl_private_key))
+      availability_zones: ["us-west-1a", "us-west-1c"]
+      ops_manager_ami: ami-0a073a805412627b2
+      rds_instance_count: 0
+      dns_suffix: aws.infrastructure.cf-app.com
+
+- name: infrastructure-ci
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry/infrastructure-ci.git
+
+- name: pcf-releng-ci
+  type: git
+  source:
+    uri: git@github.com:pivotal-cf/pcf-releng-ci.git
+    private_key: ((cf_infra_bot_user_github_private_key))
+    ignore_paths:
+    - pipelines
+    - ci_screen
+
+jobs:
+- name: deploy-director
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: terraforming-aws
+      trigger: true
+    - get: ci
+      resource: infrastructure-ci
+    - get: pcf-releng-ci
+  - do:
+    - put: env-state-aws
+      params:
+        env_name: terraforming-aws-env
+        terraform_source: terraforming-aws
+        delete_on_failure: true
+    - task: add-dns
+      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+      params:
+        <<: *modify-terraforming-aws-dns-params
+        ACTION: add
+      input_mapping:
+        env-state: env-state-aws
+    - task: check-dns
+      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
+      input_mapping:
+        terraform-state: env-state-aws
+      timeout: 2m
+    - task: configure-director
+      file: ci/scripts/terraforming/aws/configure-bosh-director/task.yml
+      params:
+        <<: *om-creds
+        TEMPLATE_PATH: ci/assets/template/director-config.yml
+      input_mapping:
+        env-state: env-state-aws
+        director-config-template: terraforming-aws
+    - task: apply-changes
+      file: ci/scripts/terraforming/apply-changes/task.yml
+      params:
+        <<: *om-creds
+      input_mapping:
+        env-state: env-state-aws
+    ensure:
+      do:
+      - task: delete-installation
+        file: pcf-releng-ci/tasks/environment/delete-installation/task.yml
+        params:
+          OPSMAN_USERNAME: ((om_username))
+          OPSMAN_PASSWORD: ((om_password))
+          OPSMAN_URL_SUFFIX: aws.infrastructure.cf-app.com
+        input_mapping:
+          environment: env-state-aws
+      - aggregate:
+        - task: remove-dns
+          file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+          params:
+            <<: *modify-terraforming-aws-dns-params
+            ACTION: remove
+          input_mapping:
+            env-state: env-state-aws
+        - put: env-state-aws
+          params:
+            env_name: terraforming-aws-env
+            terraform_source: terraforming-aws
+            delete_on_failure: true
+            action: destroy
+          get_params:
+            action: destroy
