@@ -24,7 +24,7 @@ resources:
   source:
     branch: master
     uri: git@github.com:pivotal-cf/terraforming-aws.git
-    private_key: ((cf_infra_bot_user_github_private_key))
+    private_key: ((cf_infra_bot_github_user.private_key))
 
 - name: env-state-aws
   type: terraform
@@ -35,7 +35,7 @@ resources:
       prefix: aws
       region: us-central1
       credentials: |
-        ((cf_infra_gcp_service_account_key))
+        {{cf_infra_gcp_service_account_key_for_terraform}}
     vars:
       region: us-west-1
       access_key: ((aws_access_key_id))
@@ -57,7 +57,7 @@ resources:
   type: git
   source:
     uri: git@github.com:pivotal-cf/pcf-releng-ci.git
-    private_key: ((cf_infra_bot_user_github_private_key))
+    private_key: ((cf_infra_bot_github_user.private_key))
     ignore_paths:
     - pipelines
     - ci_screen
@@ -92,10 +92,10 @@ jobs:
         terraform-state: env-state-aws
       timeout: 2m
     - task: configure-director
-      file: ci/scripts/terraforming/aws/configure-bosh-director/task.yml
+      file: ci/scripts/terraforming/configure-director/task.yml
       params:
         <<: *om-creds
-        TEMPLATE_PATH: ci/assets/template/director-config.yml
+        TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
       input_mapping:
         env-state: env-state-aws
         director-config-template: terraforming-aws
