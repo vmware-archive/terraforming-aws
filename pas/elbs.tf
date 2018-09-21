@@ -1,3 +1,39 @@
+resource "aws_security_group" "elb_security_group" {
+  name        = "elb_security_group"
+  description = "ELB Security Group"
+  vpc_id      = "${var.vpc_id}"
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 80
+    to_port     = 80
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 4443
+    to_port     = 4443
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-elb-security-group"))}"
+}
+
 resource "aws_elb" "web_elb" {
   name                      = "${var.env_name}-web-elb"
   cross_zone_load_balancing = true
@@ -36,7 +72,29 @@ resource "aws_elb" "web_elb" {
   }
 
   security_groups = ["${aws_security_group.elb_security_group.id}"]
-  subnets         = ["${aws_subnet.public_subnets.*.id}"]
+  subnets         = ["${var.public_subnet_ids}"]
+}
+
+resource "aws_security_group" "ssh_elb_security_group" {
+  name        = "ssh_elb_security_group"
+  description = "ELB SSH Security Group"
+  vpc_id      = "${var.vpc_id}"
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 2222
+    to_port     = 2222
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-ssh-elb-security-group"))}"
 }
 
 resource "aws_elb" "ssh_elb" {
@@ -61,7 +119,29 @@ resource "aws_elb" "ssh_elb" {
   }
 
   security_groups = ["${aws_security_group.ssh_elb_security_group.id}"]
-  subnets         = ["${aws_subnet.public_subnets.*.id}"]
+  subnets         = ["${var.public_subnet_ids}"]
+}
+
+resource "aws_security_group" "tcp_elb_security_group" {
+  name        = "tcp_elb_security_group"
+  description = "ELB TCP Security Group"
+  vpc_id      = "${var.vpc_id}"
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 1024
+    to_port     = 1123
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-tcp-elb-security-group"))}"
 }
 
 resource "aws_elb" "tcp_elb" {
@@ -779,50 +859,5 @@ resource "aws_elb" "tcp_elb" {
   }
 
   security_groups = ["${aws_security_group.tcp_elb_security_group.id}"]
-  subnets         = ["${aws_subnet.public_subnets.*.id}"]
-}
-
-resource "aws_elb" "isoseg" {
-  count = "${var.create_isoseg_resources}"
-
-  name                      = "${var.env_name}-isoseg-elb"
-  cross_zone_load_balancing = true
-
-  health_check {
-    healthy_threshold   = 6
-    unhealthy_threshold = 3
-    interval            = 5
-    target              = "HTTP:8080/health"
-    timeout             = 3
-  }
-
-  idle_timeout = 3600
-
-  listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
-  }
-
-  listener {
-    instance_port      = 80
-    instance_protocol  = "http"
-    lb_port            = 443
-    lb_protocol        = "https"
-    ssl_certificate_id = "${aws_iam_server_certificate.isoseg_cert.arn}"
-  }
-
-  listener {
-    instance_port      = 80
-    instance_protocol  = "tcp"
-    lb_port            = 4443
-    lb_protocol        = "ssl"
-    ssl_certificate_id = "${aws_iam_server_certificate.isoseg_cert.arn}"
-  }
-
-  security_groups = ["${aws_security_group.isoseg_elb_security_group.id}"]
-  subnets         = ["${aws_subnet.public_subnets.*.id}"]
-
-  tags = "${merge(var.tags, local.default_tags)}"
+  subnets         = ["${var.public_subnet_ids}"]
 }

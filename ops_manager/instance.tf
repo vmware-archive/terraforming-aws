@@ -5,7 +5,7 @@ resource "aws_instance" "ops_manager" {
   vpc_security_group_ids = ["${aws_security_group.ops_manager_security_group.id}"]
   source_dest_check      = false
   subnet_id              = "${var.subnet_id}"
-  iam_instance_profile   = "${var.instance_profile_name}"
+  iam_instance_profile   = "${aws_iam_instance_profile.ops_manager.name}"
   count                  = "${var.count}"
 
   root_block_device {
@@ -13,7 +13,5 @@ resource "aws_instance" "ops_manager" {
     volume_size = 150
   }
 
-  tags = "${merge(var.tags, var.default_tags,
-    map("Name", "${var.env_name}-ops-manager")
-  )}"
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-ops-manager"))}"
 }
