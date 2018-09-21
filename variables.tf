@@ -125,12 +125,6 @@ variable "isoseg_ssl_ca_private_key" {
   default     = ""
 }
 
-variable "create_isoseg_resources" {
-  type        = "string"
-  default     = "0"
-  description = "Optionally create a LB and DNS entries for a single isolation segment. Valid values are 0 or 1."
-}
-
 /*******
 * Tags *
 ********/
@@ -139,4 +133,14 @@ variable "tags" {
   type        = "map"
   default     = {}
   description = "Key/value tags to assign to all AWS resources"
+}
+
+/*************
+* Deprecated *
+**************/
+
+variable "create_isoseg_resources" {
+  type        = "string"
+  default     = "0"
+  description = "Optionally create a LB and DNS entries for a single isolation segment. Valid values are 0 or 1."
 }

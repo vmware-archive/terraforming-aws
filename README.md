@@ -111,7 +111,7 @@ tags               = {
 - rds_db_username: **(default: admin)** Username for RDS authentication
 
 ## Isolation Segments (optional)
-- create_isoseg_resources **(optional)** Set to 1 to create HTTP load-balancer across 3 zones for isolation segments.
+- create_isoseg_resources **(deprecated)** Set to 1 to create HTTP load-balancer across 3 zones for isolation segments. Inferred by the use of the certificates variables as described below.
 - isoseg_ssl_cert: **(optional)** SSL certificate for Iso Seg HTTP load balancer configuration. Required unless `isoseg_ssl_ca_cert` is specified.
 - isoseg_ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `isoseg_ssl_ca_cert` is specified.
 - isoseg_ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `isoseg_ssl_cert` is specified.

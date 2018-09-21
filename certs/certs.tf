@@ -1,3 +1,8 @@
+locals {
+  should_create_certificate = "${length(var.ssl_cert) > 0 ? 1 : length(tls_locally_signed_cert.ssl_cert.*.cert_pem)}"
+}
+
+
 resource "tls_private_key" "ssl_private_key" {
   algorithm = "RSA"
   rsa_bits  = "2048"
@@ -9,12 +14,7 @@ resource "tls_cert_request" "ssl_csr" {
   key_algorithm   = "RSA"
   private_key_pem = "${tls_private_key.ssl_private_key.private_key_pem}"
 
-  dns_names = [
-    "*.apps.${var.env_name}.${var.dns_suffix}",
-    "*.sys.${var.env_name}.${var.dns_suffix}",
-    "*.login.sys.${var.env_name}.${var.dns_suffix}",
-    "*.uaa.sys.${var.env_name}.${var.dns_suffix}",
-  ]
+  dns_names = "${formatlist("%s.${var.env_name}.${var.dns_suffix}", var.subdomains)}"
 
   count = "${length(var.ssl_ca_cert) > 0 ? 1 : 0}"
 
@@ -43,4 +43,16 @@ resource "tls_locally_signed_cert" "ssl_cert" {
     "digital_signature",
     "server_auth",
   ]
+}
+
+resource "aws_iam_server_certificate" "cert" {
+  count = "${length(var.ssl_cert_arn) > 0 ? 0 : local.should_create_certificate}"
+
+  name_prefix      = "${var.env_name}-${var.resource_name}"
+  certificate_body = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.ssl_cert.*.cert_pem, list("")), 0) : var.ssl_cert}"
+  private_key      = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0) : var.ssl_private_key}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

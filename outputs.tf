@@ -234,12 +234,12 @@ output "ssl_cert_arn" {
 
 output "ssl_cert" {
   sensitive = true
-  value     = "${module.pas.ssl_cert}"
+  value     = "${module.pas_certs.ssl_cert}"
 }
 
 output "ssl_private_key" {
   sensitive = true
-  value     = "${module.pas.ssl_private_key}"
+  value     = "${module.pas_certs.ssl_private_key}"
 }
 
 output "ssh_lb_name" {
@@ -264,12 +264,12 @@ output "isoseg_elb_name" {
 
 output "isoseg_ssl_cert" {
   sensitive = true
-  value     = "${module.pas.isoseg_ssl_cert}"
+  value     = "${module.isoseg_certs.ssl_cert}"
 }
 
 output "isoseg_ssl_private_key" {
   sensitive = true
-  value     = "${module.pas.isoseg_ssl_private_key}"
+  value     = "${module.isoseg_certs.ssl_private_key}"
 }
 
 output "dns_zone_id" {

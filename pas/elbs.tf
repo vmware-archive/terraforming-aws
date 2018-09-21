@@ -60,7 +60,7 @@ resource "aws_elb" "web_elb" {
     instance_protocol  = "http"
     lb_port            = 443
     lb_protocol        = "https"
-    ssl_certificate_id = "${length(var.ssl_cert_arn) > 0 ? var.ssl_cert_arn : element(concat(aws_iam_server_certificate.cert.*.arn, list("")), 0)}"
+    ssl_certificate_id = "${var.ssl_cert_arn}"
   }
 
   listener {
@@ -68,7 +68,7 @@ resource "aws_elb" "web_elb" {
     instance_protocol  = "tcp"
     lb_port            = 4443
     lb_protocol        = "ssl"
-    ssl_certificate_id = "${length(var.ssl_cert_arn) > 0 ? var.ssl_cert_arn : element(concat(aws_iam_server_certificate.cert.*.arn, list("")), 0)}"
+    ssl_certificate_id = "${var.ssl_cert_arn}"
   }
 
   security_groups = ["${aws_security_group.elb_security_group.id}"]

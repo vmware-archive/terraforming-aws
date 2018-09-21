@@ -52,6 +52,35 @@ module "ops_manager" {
   tags                      = "${local.actual_tags}"
 }
 
+module "pas_certs" {
+  source = "./certs"
+
+  subdomains          = ["*.apps", "*.sys", "*.login.sys", "*.uaa.sys"]
+  env_name            = "${var.env_name}"
+  dns_suffix          = "${var.dns_suffix}"
+
+  ssl_cert_arn        = "${var.ssl_cert_arn}"
+
+  ssl_cert            = "${var.ssl_cert}"
+  ssl_private_key     = "${var.ssl_private_key}"
+  ssl_ca_cert         = "${var.ssl_ca_cert}"
+  ssl_ca_private_key  = "${var.ssl_ca_private_key}"
+}
+
+module "isoseg_certs" {
+  source = "./certs"
+
+  subdomains          = ["*.iso"]
+  env_name            = "${var.env_name}"
+  dns_suffix          = "${var.dns_suffix}"
+  resource_name       = "isoseg"
+
+  ssl_cert            = "${var.isoseg_ssl_cert}"
+  ssl_private_key     = "${var.isoseg_ssl_private_key}"
+  ssl_ca_cert         = "${var.isoseg_ssl_ca_cert}"
+  ssl_ca_private_key  = "${var.isoseg_ssl_ca_private_key}"
+}
+
 module "pas" {
   source = "./pas"
 
@@ -72,17 +101,8 @@ module "pas" {
   ops_manager_iam_user_name    = "${module.ops_manager.ops_manager_iam_user_name}"
   iam_ops_manager_role_name    = "${module.ops_manager.ops_manager_iam_role_name}"
 
-  ssl_cert_arn                 = "${var.ssl_cert_arn}"
-  ssl_cert                     = "${var.ssl_cert}"
-  ssl_private_key              = "${var.ssl_private_key}"
-  ssl_ca_cert                  = "${var.ssl_ca_cert}"
-  ssl_ca_private_key           = "${var.ssl_ca_private_key}"
-
-  isoseg_ssl_ca_private_key    = "${var.isoseg_ssl_ca_private_key}"
-  isoseg_ssl_ca_cert           = "${var.isoseg_ssl_ca_cert}"
-  isoseg_ssl_private_key       = "${var.isoseg_ssl_private_key}"
-  isoseg_ssl_cert              = "${var.isoseg_ssl_cert}"
-  create_isoseg_resources      = "${var.create_isoseg_resources}"
+  ssl_cert_arn                 = "${module.pas_certs.ssl_cert_arn}"
+  isoseg_ssl_cert_arn          = "${module.isoseg_certs.ssl_cert_arn}"
 
   tags                         = "${local.actual_tags}"
 }
