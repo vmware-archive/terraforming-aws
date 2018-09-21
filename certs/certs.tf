@@ -1,5 +1,6 @@
 locals {
-  should_create_certificate = "${length(var.ssl_cert) > 0 ? 1 : length(tls_locally_signed_cert.ssl_cert.*.cert_pem)}"
+  should_create_certificate = "${length(var.ssl_cert) > 0 ? 1 :
+    length(tls_locally_signed_cert.ssl_cert.*.cert_pem) > 0 ? 1 : 0}"
 }
 
 
