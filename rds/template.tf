@@ -1,5 +1,5 @@
 resource "aws_subnet" "rds_subnets" {
-  count             = "${length(var.availability_zones)}"
+  count             = "${var.rds_instance_count > 0 ? length(var.availability_zones) : 0}"
   vpc_id            = "${var.vpc_id}"
   cidr_block        = "${cidrsubnet(local.rds_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
@@ -14,6 +14,8 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   subnet_ids = ["${aws_subnet.rds_subnets.*.id}"]
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-db-subnet-group"))}"
+
+  count = "${var.rds_instance_count > 0 ? 1 : 0}"
 }
 
 resource "aws_security_group" "mysql_security_group" {
@@ -36,6 +38,8 @@ resource "aws_security_group" "mysql_security_group" {
   }
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-mysql-security-group"))}"
+
+  count = "${var.rds_instance_count > 0 ? 1 : 0}"
 }
 
 resource "random_string" "rds_password" {
