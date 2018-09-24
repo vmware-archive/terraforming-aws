@@ -4,9 +4,9 @@ data "template_file" "ops_manager" {
 
   vars {
     iam_instance_profile_arn = "${aws_iam_instance_profile.ops_manager.arn}"
-    iam_ops_manager_role_arn = "${aws_iam_role.ops_manager.arn}"
-    iam_pas_bucket_role_arn  = "${var.iam_pas_bucket_role_arn}"
     ops_manager_bucket_arn   = "${aws_s3_bucket.ops_manager_bucket.arn}"
+    iam_ops_manager_role_arn = "${aws_iam_role.ops_manager.arn}"
+    additional_iam_role_arn  = "${var.additional_iam_role_arn}"
   }
 }
 

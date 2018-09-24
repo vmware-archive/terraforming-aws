@@ -77,7 +77,7 @@ jobs:
     - put: env-state-aws
       params:
         env_name: terraforming-aws-env
-        terraform_source: terraforming-aws
+        terraform_source: terraforming-aws/terraforming-pas
         delete_on_failure: true
     - task: add-dns
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
@@ -126,7 +126,7 @@ jobs:
         - put: env-state-aws
           params:
             env_name: terraforming-aws-env
-            terraform_source: terraforming-aws
+            terraform_source: terraforming-aws/terraforming-pas
             delete_on_failure: true
             action: destroy
           get_params:

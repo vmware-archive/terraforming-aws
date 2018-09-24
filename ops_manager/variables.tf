@@ -18,7 +18,9 @@ variable "vpc_id" {}
 
 variable "vpc_cidr" {}
 
-variable "iam_pas_bucket_role_arn" {}
+variable "additional_iam_role_arn" {
+  type = "string"
+}
 
 variable "dns_suffix" {}
 

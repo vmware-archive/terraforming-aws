@@ -1,3 +1,13 @@
+provider "aws" {
+  access_key = "${var.access_key}"
+  secret_key = "${var.secret_key}"
+  region     = "${var.region}"
+}
+
+terraform {
+  required_version = "< 0.12.0"
+}
+
 locals {
   ops_man_subnet_id = "${var.ops_manager_private ? element(module.infra.infrastructure_subnet_ids, 0) : element(module.infra.public_subnet_ids, 0)}"
 
@@ -17,10 +27,10 @@ resource "random_integer" "bucket" {
 }
 
 module "infra" {
-  source             = "./infra"
+  source             = "../infra"
 
-  env_name           = "${var.env_name}"
   region             = "${var.region}"
+  env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
 
@@ -31,7 +41,7 @@ module "infra" {
 }
 
 module "ops_manager" {
-  source = "./ops_manager"
+  source = "../ops_manager"
 
   count                     = "${var.ops_manager ? 1 : 0}"
   optional_count            = "${var.optional_ops_manager ? 1 : 0}"
@@ -46,14 +56,14 @@ module "ops_manager" {
   vpc_cidr                  = "${var.vpc_cidr}"
   dns_suffix                = "${var.dns_suffix}"
   zone_id                   = "${module.infra.zone_id}"
-  iam_pas_bucket_role_arn   = "${module.pas.iam_pas_bucket_role_arn}"
+  additional_iam_role_arn   = "${module.pas.iam_pas_bucket_role_arn}"
   bucket_suffix             = "${local.bucket_suffix}"
 
   tags                      = "${local.actual_tags}"
 }
 
 module "pas_certs" {
-  source = "./certs"
+  source = "../certs"
 
   subdomains          = ["*.apps", "*.sys", "*.login.sys", "*.uaa.sys"]
   env_name            = "${var.env_name}"
@@ -68,7 +78,7 @@ module "pas_certs" {
 }
 
 module "isoseg_certs" {
-  source = "./certs"
+  source = "../certs"
 
   subdomains          = ["*.iso"]
   env_name            = "${var.env_name}"
@@ -82,7 +92,7 @@ module "isoseg_certs" {
 }
 
 module "pas" {
-  source = "./pas"
+  source = "../pas"
 
   env_name                     = "${var.env_name}"
   availability_zones           = "${var.availability_zones}"
@@ -108,7 +118,7 @@ module "pas" {
 }
 
 module "rds" {
-  source = "./rds"
+  source = "../rds"
 
   rds_db_username    = "${var.rds_db_username}"
   rds_instance_class = "${var.rds_instance_class}"

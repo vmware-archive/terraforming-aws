@@ -68,7 +68,7 @@
       ],
       "Resource": [
         "${iam_ops_manager_role_arn}",
-        "${iam_pas_bucket_role_arn}"
+        "${additional_iam_role_arn}"
       ]
     },
     {
