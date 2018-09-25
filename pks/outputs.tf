@@ -43,7 +43,7 @@ output "pks_worker_iam_instance_profile_name" {
 }
 
 output "domain" {
-  value = "pks.${var.env_name}.${var.dns_suffix}"
+  value = "api.pks.${var.env_name}.${var.dns_suffix}"
 }
 
 output "pks_master_security_group_id" {

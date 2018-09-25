@@ -62,6 +62,14 @@ resources:
     - pipelines
     - ci_screen
 
+- name: pks
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: pivotal-container-service
+    product_version: ^\d+\.\d+\.\d+
+    sort_by: semver
+
 jobs:
 - name: deploy-director
   serial: true
@@ -73,6 +81,7 @@ jobs:
     - get: ci
       resource: infrastructure-ci
     - get: pcf-releng-ci
+    - get: pks
   - do:
     - put: env-state-aws
       params:
@@ -99,6 +108,23 @@ jobs:
       input_mapping:
         env-state: env-state-aws
         director-config-template: terraforming-aws
+    - task: download-stemcell
+      file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
+      input_mapping:
+        ert-product: pks
+      params:
+        IAAS_TYPE: aws
+        PIVNET_TOKEN: ((pivnet_token))
+    - task: upload-configure-stage-pks
+      file: ci/scripts/terraforming/upload-configure-stage/task.yml
+      params:
+        <<: *om-creds
+        PRODUCT_NAME: pivotal-container-service
+        PRODUCT_CONFIG_TEMPLATE: ci/assets/template/pks-config.yml
+      input_mapping:
+        env-state: env-state-aws
+        product: pks
+        product-config-repo: terraforming-aws
     - task: apply-changes
       file: ci/scripts/terraforming/apply-changes/task.yml
       params:

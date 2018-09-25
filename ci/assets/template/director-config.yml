@@ -22,31 +22,52 @@ networks-configuration:
   networks:
   - name: ops-manager
     subnets:
+    {{range $i, $a := .infrastructure_subnet_cidrs}}
     - availability_zone_names:
-      - {{index .azs 0}}
-      cidr: {{index .infrastructure_subnet_cidrs 0}}
-      dns: {{cidrhost (index .infrastructure_subnet_cidrs 0) 2}}
-      gateway: {{index .infrastructure_subnet_gateways 0}}
-      iaas_identifier: {{index .infrastructure_subnet_ids 0}}
-      reserved_ip_ranges: {{cidrhost (index .infrastructure_subnet_cidrs 0) 0}}-{{cidrhost (index .infrastructure_subnet_cidrs 0) 4}}
+      - {{index $.azs $i}}
+      cidr: {{index $.infrastructure_subnet_cidrs $i}}
+      dns: {{cidrhost (index $.infrastructure_subnet_cidrs $i) 2}}
+      gateway: {{index $.infrastructure_subnet_gateways $i}}
+      iaas_identifier: {{index $.infrastructure_subnet_ids $i}}
+      reserved_ip_ranges: {{cidrhost (index $.infrastructure_subnet_cidrs $i) 0}}-{{cidrhost (index $.infrastructure_subnet_cidrs $i) 4}}
+    {{end}}
+{{if  index . "pas_subnet_cidrs"}}
   - name: pas
     subnets:
+    {{range $i, $a := .pas_subnet_cidrs}}
     - availability_zone_names:
-      - {{index .azs 0}}
-      cidr: {{index .pas_subnet_cidrs 0}}
-      dns: {{cidrhost (index .pas_subnet_cidrs 0) 2}}
-      gateway: {{index .pas_subnet_gateways 0}}
-      iaas_identifier: {{index .pas_subnet_ids 0}}
-      reserved_ip_ranges: {{cidrhost (index .pas_subnet_cidrs 0) 0}}-{{cidrhost (index .pas_subnet_cidrs 0) 4}}
+      - {{index $.azs $i}}
+      cidr: {{index $.pas_subnet_cidrs $i}}
+      dns: {{cidrhost (index $.pas_subnet_cidrs $i) 2}}
+      gateway: {{index $.pas_subnet_gateways $i}}
+      iaas_identifier: {{index $.pas_subnet_ids $i}}
+      reserved_ip_ranges: {{cidrhost (index $.pas_subnet_cidrs $i) 0}}-{{cidrhost (index $.pas_subnet_cidrs $i) 4}}
+    {{end}}
+{{end}}
+{{if index . "pks_subnet_cidrs"}}
+  - name: pks
+    subnets:
+    {{range $i, $a := .pks_subnet_cidrs}}
+    - availability_zone_names:
+      - {{index $.azs $i}}
+      cidr: {{index $.pks_subnet_cidrs $i}}
+      dns: {{cidrhost (index $.pks_subnet_cidrs $i) 2}}
+      gateway: {{index $.pks_subnet_gateways $i}}
+      iaas_identifier: {{index $.pks_subnet_ids $i}}
+      reserved_ip_ranges: {{cidrhost (index $.pks_subnet_cidrs $i) 0}}-{{cidrhost (index $.pks_subnet_cidrs $i) 4}}
+    {{end}}
+{{end}}
   - name: services
     subnets:
+    {{range $i, $a := .services_subnet_cidrs}}
     - availability_zone_names:
-      - {{index .azs 0}}
-      cidr: {{index .services_subnet_cidrs 0}}
-      dns: {{cidrhost (index .services_subnet_cidrs 0) 2}}
-      gateway: {{index .pas_services_subnet_gateways 0}}
-      iaas_identifier: {{index .pas_services_subnet_ids 0}}
-      reserved_ip_ranges: {{cidrhost (index .services_subnet_cidrs 0) 0}}-{{cidrhost (index .services_subnet_cidrs 0) 4}}
+      - {{index $.azs $i}}
+      cidr: {{index $.services_subnet_cidrs $i}}
+      dns: {{cidrhost (index $.services_subnet_cidrs $i) 2}}
+      gateway: {{index $.services_subnet_gateways $i}}
+      iaas_identifier: {{index $.services_subnet_ids $i}}
+      reserved_ip_ranges: {{cidrhost (index $.services_subnet_cidrs $i) 0}}-{{cidrhost (index $.services_subnet_cidrs $i) 4}}
+    {{end}}
 resource-configuration:
   compilation:
     instance_type:

@@ -1,0 +1,50 @@
+network-properties:
+  network:
+    name: pks
+  service_network:
+    name: services
+  other_availability_zones:
+    {{range .azs}}
+    - name: {{.}}
+    {{end}}
+  singleton_availability_zone:
+    name: {{index .azs 0}}
+product-properties:
+  .pivotal-container-service.pks_tls:
+    value:
+        cert_pem: |
+{{indent 10 .ssl_cert}}
+        private_key_pem: |
+{{indent 10 .ssl_private_key}}
+  .properties.pks_api_hostname:
+    value: {{.pks_api_endpoint}}
+  .properties.plan1_selector.active.master_vm_type:
+    value: t2.micro
+  .properties.plan1_selector.active.worker_vm_type:
+    value: t2.micro
+  .properties.plan1_selector.active.errand_vm_type:
+    value: t2.micro
+  .properties.plan1_selector.active.master_az_placement:
+    value:
+    - {{index .azs 0}}
+  .properties.plan1_selector.active.worker_az_placement:
+    value:
+    {{range .azs}}
+    - {{.}}
+    {{end}}
+  .properties.plan2_selector:
+    value: "Plan Inactive"
+  .properties.plan3_selector:
+    value: "Plan Inactive"
+  .properties.cloud_provider:
+    value: AWS
+  .properties.cloud_provider.aws.iam_instance_profile_master:
+    value: {{.pks_master_iam_instance_profile_name}}
+  .properties.cloud_provider.aws.iam_instance_profile_worker:
+    value: {{.pks_worker_iam_instance_profile_name}}
+  .properties.telemetry_selector:
+    value: disabled
+resource-config:
+  pivotal-container-service:
+    elb_names:
+    - {{.pks_load_balancer_name}}
