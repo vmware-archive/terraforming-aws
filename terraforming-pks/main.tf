@@ -56,20 +56,17 @@ module "ops_manager" {
   vpc_cidr                  = "${var.vpc_cidr}"
   dns_suffix                = "${var.dns_suffix}"
   zone_id                   = "${module.infra.zone_id}"
-  additional_iam_roles_arn  = ["${module.pas.iam_pas_bucket_role_arn}"]
   bucket_suffix             = "${local.bucket_suffix}"
 
   tags                      = "${local.actual_tags}"
 }
 
-module "pas_certs" {
+module "certs" {
   source = "../certs"
 
-  subdomains          = ["*.apps", "*.sys", "*.login.sys", "*.uaa.sys"]
+  subdomains          = ["*.pks"]
   env_name            = "${var.env_name}"
   dns_suffix          = "${var.dns_suffix}"
-
-  ssl_cert_arn        = "${var.ssl_cert_arn}"
 
   ssl_cert            = "${var.ssl_cert}"
   ssl_private_key     = "${var.ssl_private_key}"
@@ -77,22 +74,8 @@ module "pas_certs" {
   ssl_ca_private_key  = "${var.ssl_ca_private_key}"
 }
 
-module "isoseg_certs" {
-  source = "../certs"
-
-  subdomains          = ["*.iso"]
-  env_name            = "${var.env_name}"
-  dns_suffix          = "${var.dns_suffix}"
-  resource_name       = "isoseg"
-
-  ssl_cert            = "${var.isoseg_ssl_cert}"
-  ssl_private_key     = "${var.isoseg_ssl_private_key}"
-  ssl_ca_cert         = "${var.isoseg_ssl_ca_cert}"
-  ssl_ca_private_key  = "${var.isoseg_ssl_ca_private_key}"
-}
-
-module "pas" {
-  source = "../pas"
+module "pks" {
+  source = "../pks"
 
   env_name                     = "${var.env_name}"
   availability_zones           = "${var.availability_zones}"
@@ -101,18 +84,8 @@ module "pas" {
   private_route_table_ids      = "${module.infra.private_route_table_ids}"
   public_subnet_ids            = "${module.infra.public_subnet_ids}"
 
-  bucket_suffix                = "${local.bucket_suffix}"
   zone_id                      = "${module.infra.zone_id}"
   dns_suffix                   = "${var.dns_suffix}"
-
-  create_backup_pas_buckets    = "${var.create_backup_pas_buckets}"
-  create_versioned_pas_buckets = "${var.create_versioned_pas_buckets}"
-
-  ops_manager_iam_user_name    = "${module.ops_manager.ops_manager_iam_user_name}"
-  iam_ops_manager_role_name    = "${module.ops_manager.ops_manager_iam_role_name}"
-
-  ssl_cert_arn                 = "${module.pas_certs.ssl_cert_arn}"
-  isoseg_ssl_cert_arn          = "${module.isoseg_certs.ssl_cert_arn}"
 
   tags                         = "${local.actual_tags}"
 }

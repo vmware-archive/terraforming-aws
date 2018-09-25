@@ -38,6 +38,15 @@ networks-configuration:
       gateway: {{index .pas_subnet_gateways 0}}
       iaas_identifier: {{index .pas_subnet_ids 0}}
       reserved_ip_ranges: {{cidrhost (index .pas_subnet_cidrs 0) 0}}-{{cidrhost (index .pas_subnet_cidrs 0) 4}}
+  - name: services
+    subnets:
+    - availability_zone_names:
+      - {{index .azs 0}}
+      cidr: {{index .services_subnet_cidrs 0}}
+      dns: {{cidrhost (index .services_subnet_cidrs 0) 2}}
+      gateway: {{index .pas_services_subnet_gateways 0}}
+      iaas_identifier: {{index .pas_services_subnet_ids 0}}
+      reserved_ip_ranges: {{cidrhost (index .services_subnet_cidrs 0) 0}}-{{cidrhost (index .services_subnet_cidrs 0) 4}}
 resource-configuration:
   compilation:
     instance_type:

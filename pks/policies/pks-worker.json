@@ -1,0 +1,20 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "ec2:Describe*",
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Action": "ec2:AttachVolume",
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Action": "ec2:DetachVolume",
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}

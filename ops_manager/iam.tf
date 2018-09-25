@@ -6,13 +6,25 @@ data "template_file" "ops_manager" {
     iam_instance_profile_arn = "${aws_iam_instance_profile.ops_manager.arn}"
     ops_manager_bucket_arn   = "${aws_s3_bucket.ops_manager_bucket.arn}"
     iam_ops_manager_role_arn = "${aws_iam_role.ops_manager.arn}"
-    additional_iam_role_arn  = "${var.additional_iam_role_arn}"
+  }
+}
+
+data "aws_iam_policy_document" "ops_manager" {
+  source_json = "${data.template_file.ops_manager.rendered}"
+
+  statement {
+    sid = "AllowToCreateInstanceWithCurrentInstanceProfile"
+    effect = "Allow"
+    actions = ["iam:PassRole"]
+    resources = [
+      "${compact(concat(list(aws_iam_role.ops_manager.arn), var.additional_iam_roles_arn))}"
+    ]
   }
 }
 
 resource "aws_iam_policy" "ops_manager_role" {
   name   = "${var.env_name}_ops_manager_role"
-  policy = "${data.template_file.ops_manager.rendered}"
+  policy = "${data.aws_iam_policy_document.ops_manager.json}"
   count  = "${var.count}"
 }
 
@@ -24,7 +36,7 @@ resource "aws_iam_role_policy_attachment" "ops_manager_policy" {
 
 resource "aws_iam_policy" "ops_manager_user" {
   name   = "${var.env_name}_ops_manager_user"
-  policy = "${data.template_file.ops_manager.rendered}"
+  policy = "${data.aws_iam_policy_document.ops_manager.json}"
   count  = "${var.count}"
 }
 

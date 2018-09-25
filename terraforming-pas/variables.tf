@@ -21,6 +21,10 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
+/******
+* PAS *
+*******/
+
 variable "create_versioned_pas_buckets" {
   default = false
 }
@@ -28,6 +32,10 @@ variable "create_versioned_pas_buckets" {
 variable "create_backup_pas_buckets" {
   default = false
 }
+
+/****************
+* Ops Manager *
+*****************/
 
 variable "ops_manager_ami" {
   default = ""
@@ -46,6 +54,18 @@ variable "ops_manager_private" {
   description = "If true, the Ops Manager will be colocated with the BOSH director on the infrastructure subnet instead of on the public subnet"
 }
 
+variable "ops_manager" {
+  default = true
+}
+
+variable "optional_ops_manager" {
+  default = false
+}
+
+/******
+* RDS *
+*******/
+
 variable "rds_db_username" {
   default = "admin"
 }
@@ -59,13 +79,9 @@ variable "rds_instance_count" {
   default = 0
 }
 
-variable "ops_manager" {
-  default = true
-}
-
-variable "optional_ops_manager" {
-  default = false
-}
+/*******************
+* SSL Certificates *
+********************/
 
 variable "ssl_cert_arn" {
   type        = "string"

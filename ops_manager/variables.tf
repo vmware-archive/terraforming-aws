@@ -18,8 +18,9 @@ variable "vpc_id" {}
 
 variable "vpc_cidr" {}
 
-variable "additional_iam_role_arn" {
-  type = "string"
+variable "additional_iam_roles_arn" {
+  type = "list"
+  default = []
 }
 
 variable "dns_suffix" {}
