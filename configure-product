@@ -1,0 +1,22 @@
+#!/bin/bash -exu
+
+authenticate_om() {
+  export OM_TARGET="https://$(terraform output ops_manager_dns)"
+  export OM_USERNAME="admin"
+  export OM_PASSWORD="$1"
+}
+
+main() {
+  local path="$1"
+  local product="$2"
+  local password="$3"
+
+  pushd "${path}" > /dev/null
+    authenticate_om "${password}"
+
+    om -k configure-product -n "${product}"\
+      -c <(texplate execute $PROJECT_DIR/ci/assets/template/srt-config.yml -f <(jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate) -o yaml)
+  popd > /dev/null
+}
+
+main "$@"

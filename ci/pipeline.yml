@@ -46,8 +46,8 @@ resources:
       region: us-west-1
       access_key: ((aws_access_key_id))
       secret_key: ((aws_secret_access_key))
-      ssl_cert: ((ssl_cert))
-      ssl_private_key: ((ssl_private_key))
+      ssl_cert: ((ssl_cert.certificate))
+      ssl_private_key: ((ssl_cert.ssl_private_key))
       availability_zones: ["us-west-1a", "us-west-1c"]
       ops_manager_ami: ami-0a073a805412627b2
       rds_instance_count: 0
@@ -76,6 +76,14 @@ resources:
     product_version: ^\d+\.\d+\.\d+
     sort_by: semver
 
+- name: srt
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: elastic-runtime
+    product_version: ^\d+\.\d+\.\d+
+    sort_by: semver
+
 jobs:
 - name: deploy-pks
   serial: true
@@ -91,7 +99,7 @@ jobs:
   - do:
     - put: env-state-aws
       params:
-        env_name: terraforming-aws-env
+        env_name: terraforming-aws-pks
         terraform_source: terraforming-aws/terraforming-pks
         delete_on_failure: true
     - task: add-dns
@@ -157,8 +165,95 @@ jobs:
             env-state: env-state-aws
         - put: env-state-aws
           params:
-            env_name: terraforming-aws-env
+            env_name: terraforming-aws-pks
             terraform_source: terraforming-aws/terraforming-pks
+            delete_on_failure: true
+            action: destroy
+          get_params:
+            action: destroy
+
+- name: deploy-pas
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: terraforming-aws
+      trigger: true
+    - get: ci
+      resource: infrastructure-ci
+    - get: pcf-releng-ci
+    - get: srt
+  - do:
+    - put: env-state-aws
+      params:
+        env_name: terraforming-aws-pas
+        terraform_source: terraforming-aws/terraforming-pas
+        delete_on_failure: true
+    - task: add-dns
+      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+      params:
+        <<: *modify-terraforming-aws-dns-params
+        ACTION: add
+      input_mapping:
+        env-state: env-state-aws
+    - task: check-dns
+      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
+      input_mapping:
+        terraform-state: env-state-aws
+      timeout: 2m
+    - task: configure-director
+      file: ci/scripts/terraforming/configure-director/task.yml
+      params:
+        <<: *om-creds
+        TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+      input_mapping:
+        env-state: env-state-aws
+        director-config-template: terraforming-aws
+    - task: download-stemcell
+      file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
+      input_mapping:
+        ert-product: srt
+      params:
+        IAAS_TYPE: aws
+        PIVNET_TOKEN: ((pivnet_token))
+    - task: upload-configure-stage-pks
+      file: ci/scripts/terraforming/upload-configure-stage/task.yml
+      params:
+        <<: *om-creds
+        PRODUCT_NAME: cf
+        PRODUCT_CONFIG_TEMPLATE: ci/assets/template/srt-config.yml
+      input_mapping:
+        env-state: env-state-aws
+        product: srt
+        product-config-repo: terraforming-aws
+    - task: apply-changes
+      file: ci/scripts/terraforming/apply-changes/task.yml
+      params:
+        <<: *om-creds
+      input_mapping:
+        env-state: env-state-aws
+    ensure:
+      do:
+      - task: delete-installation
+        file: pcf-releng-ci/tasks/environment/delete-installation/task.yml
+        params:
+          OPSMAN_USERNAME: ((om_username))
+          OPSMAN_PASSWORD: ((om_password))
+          OPSMAN_URL_SUFFIX: aws.infrastructure.cf-app.com
+        input_mapping:
+          environment: env-state-aws
+      - aggregate:
+        - task: remove-dns
+          file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
+          params:
+            <<: *modify-terraforming-aws-dns-params
+            ACTION: remove
+          input_mapping:
+            env-state: env-state-aws
+        - put: env-state-aws
+          params:
+            env_name: terraforming-aws-pas
+            terraform_source: terraforming-aws/terraforming-pas
             delete_on_failure: true
             action: destroy
           get_params:
