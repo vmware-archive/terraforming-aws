@@ -54,12 +54,12 @@ resource-config:
     instances: 1
   control:
     elb_names:
-    - tcp:{{.ssh_lb_name}}
+    - {{.ssh_lb_name}}
   router:
     elb_names:
     - http:{{.web_lb_name}}
-    - tcp:{{.tcp_lb_name}}
+    - {{.tcp_lb_name}}
     instances: 1
   tcp_router:
     elb_names:
-    - tcp:{{.tcp_lb_name}}
+    - {{.tcp_lb_name}}

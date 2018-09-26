@@ -21,8 +21,8 @@ shared:
     GCP_DNS_RECORD_TTL: 60
 
 - params: &om-creds
-    OM_USERNAME: ((om_username))
-    OM_PASSWORD: ((om_password))
+    OM_USERNAME: ((om.username))
+    OM_PASSWORD: ((om.password))
 
 resources:
 - name: terraforming-aws
@@ -47,7 +47,7 @@ resources:
       access_key: ((aws_access_key_id))
       secret_key: ((aws_secret_access_key))
       ssl_cert: ((ssl_cert.certificate))
-      ssl_private_key: ((ssl_cert.ssl_private_key))
+      ssl_private_key: ((ssl_cert.private_key))
       availability_zones: ["us-west-1a", "us-west-1c"]
       ops_manager_ami: ami-0a073a805412627b2
       rds_instance_count: 0
@@ -150,8 +150,8 @@ jobs:
       - task: delete-installation
         file: pcf-releng-ci/tasks/environment/delete-installation/task.yml
         params:
-          OPSMAN_USERNAME: ((om_username))
-          OPSMAN_PASSWORD: ((om_password))
+          OPSMAN_USERNAME: ((om.username))
+          OPSMAN_PASSWORD: ((om.password))
           OPSMAN_URL_SUFFIX: aws.infrastructure.cf-app.com
         input_mapping:
           environment: env-state-aws
@@ -216,7 +216,7 @@ jobs:
       params:
         IAAS_TYPE: aws
         PIVNET_TOKEN: ((pivnet_token))
-    - task: upload-configure-stage-pks
+    - task: upload-configure-stage-pas
       file: ci/scripts/terraforming/upload-configure-stage/task.yml
       params:
         <<: *om-creds
@@ -237,8 +237,8 @@ jobs:
       - task: delete-installation
         file: pcf-releng-ci/tasks/environment/delete-installation/task.yml
         params:
-          OPSMAN_USERNAME: ((om_username))
-          OPSMAN_PASSWORD: ((om_password))
+          OPSMAN_USERNAME: ((om.username))
+          OPSMAN_PASSWORD: ((om.password))
           OPSMAN_URL_SUFFIX: aws.infrastructure.cf-app.com
         input_mapping:
           environment: env-state-aws
