@@ -1,8 +1,10 @@
 #!/bin/bash -exu
 
 main() {
-  pushd terraforming-pks > /dev/null
-    local password="$1"
+  local path="$1"
+  local password="$2"
+
+  pushd "${path}" > /dev/null
     export OM_TARGET="https://$(terraform output ops_manager_dns)"
     export OM_USERNAME="admin"
     export OM_PASSWORD="${password}"
