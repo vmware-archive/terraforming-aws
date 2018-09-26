@@ -183,6 +183,9 @@ jobs:
       resource: infrastructure-ci
     - get: pcf-releng-ci
     - get: srt
+      params:
+        globs:
+        - srt-*.pivotal
   - do:
     - put: env-state-aws
       params:
