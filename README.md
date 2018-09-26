@@ -1,26 +1,17 @@
-# How Does One Use This?
+# What is this?
 
-## What Does This Do?
+Set of terraform modules for deploying Ops Manager, PAS and PKS infrastructure requirements like:
 
-A booted ops-manager plus a whole BOATLOAD of other goodies, including:
-
-- Friendly DNS entries brought to you by Route53
-- An RDS
-- A VPC, with security groups
-- A whole mess of s3 buckets (5 in total - for all your storage needs)
-- An amazing NAT Box
-- SSH/HTTPS/TCP ELBs
-- An IAM User
+- Friendly DNS entries in Route53
+- A RDS instance (optional)
+- A Virtual Private Network (VPC), subnets, Security Groups
+- Necessary s3 buckets
+- A NAT Box
+- Elastic Load Balancers (ELB)
+- An IAM User with proper permissions
 - Tagged resources
 
-## Looking to setup a different IAAS
-
-We have have other terraform templates to help you!
-
-- [azure](https://github.com/pivotal-cf/terraforming-azure)
-- [gcp](https://github.com/pivotal-cf/terraforming-gcp)
-
-This list will be updated when more infrastructures come along.
+Note: This is not an exhaustive list of resources created, this will vary depending of your arguments and what you're deploying.
 
 ## Prerequisites
 
@@ -29,7 +20,7 @@ brew update
 brew install terraform
 ```
 
-### AWS Permissions
+## AWS Permissions
 - AmazonEC2FullAccess
 - AmazonRDSFullAccess
 - AmazonRoute53FullAccess
@@ -38,17 +29,25 @@ brew install terraform
 - IAMFullAccess
 - AWSKeyManagementServicePowerUser
 
-## Notes
+## Deploying Ops Manager
 
-You can choose whether you would like an RDS or not. By default we have
-`rds_instance_count` set to `0` but setting it to 1 will deploy an RDS.
+Depending if you're deploying PAS or PKS you need to perform the following steps:
 
-RDS instances take FOREVER to deploy, keep that in mind.
+0. `cd` into the proper directory:
+  - [pas](terraforming-pas/)
+  - [pks](terraforming-pks/)
+0. Create [`terraform.tfvars`](/README.md#var-file) file
+0. Run terraform apply:
+  ```bash
+  terraform init
+  terraform plan -out=plan
+  terraform apply plan
+  ```
 
 ### Var File
 
 Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project.
-These vars will be used when you run `terraform  apply`.
+These vars will be used when you run `terraform apply`.
 You should fill in the stub values with the correct content.
 
 ```hcl
@@ -74,13 +73,13 @@ some cert private key
 -----END RSA PRIVATE KEY-----
 EOF
 
-tags               = {
+tags = {
     Team = "Dev"
     Project = "WebApp3"
 }
 ```
 
-## Variables
+### Variables
 
 - env_name: **(required)** An arbitrary unique name for namespacing resources
 - access_key **(required)** Your Amazon access_key, used for deployment
@@ -95,9 +94,9 @@ tags               = {
 - ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` or `ssl_cert_arn` is specified.
 - ssl_cert_arn: **(optional)** Existing SSL certificate in AWS for HTTP load balancer configuration. Required unless `ssl_cert` or `ssl_ca_cert` is specified.
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
-- vpc_cidr: **(optional)** Internal CIDR block for the AWS VPC. Defaults to 10.0.0.0/16.
+- vpc_cidr: **(default: 10.0.0.0/16)** Internal CIDR block for the AWS VPC.
 
-## Ops Manager (optional)
+### Ops Manager (optional)
 - ops_manager: **(default: true)** Set to false if you don't want an Ops Manager
 - ops_manager_ami: **(optional)**  Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager)
 - optional_ops_manager: **(default: false)** Set to true if you want an additional Ops Manager (useful for testing upgrades)
@@ -105,32 +104,40 @@ tags               = {
 - ops_manager_instance_type: **(default: m4.large)** Ops Manager instance type
 - ops_manager_private: **(default: false)** Set to true if you want Ops Manager deployed in a private subnet instead of a public subnet
 
-## RDS (optional)
+### S3 Buckets (optional) (PAS only)
+- create_backup_pas_buckets: **(default: false)**  
+- create_versioned_pas_buckets: **(default: false)**
+
+### RDS (optional)
 - rds_instance_count: **(default: 0)** Whether or not you would like an RDS for your deployment
 - rds_instance_class: **(default: db.m4.large)** Size of the RDS to deploy
 - rds_db_username: **(default: admin)** Username for RDS authentication
 
-## Isolation Segments (optional)
+### Isolation Segments (optional)  (PAS only)
 - create_isoseg_resources **(deprecated)** Set to 1 to create HTTP load-balancer across 3 zones for isolation segments. Inferred by the use of the certificates variables as described below.
 - isoseg_ssl_cert: **(optional)** SSL certificate for Iso Seg HTTP load balancer configuration. Required unless `isoseg_ssl_ca_cert` is specified.
 - isoseg_ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `isoseg_ssl_ca_cert` is specified.
 - isoseg_ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `isoseg_ssl_cert` is specified.
 - isoseg_ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `isoseg_ssl_cert` is specified.
 
-## Running
+## Notes
 
-Note: please make sure you have created the `terraform.tfvars` file above as mentioned.
+You can choose whether you would like an RDS or not. By default we have
+`rds_instance_count` set to `0` but setting it to `1` will deploy an RDS instance.
 
-### Standing up environment
+Note: RDS instances take a long time to deploy, keep that in mind. They're not required.
 
-```bash
-terraform init
-terraform plan -out=plan
-terraform apply plan
-```
-
-### Tearing down environment
+## Tearing down environment
 
 ```bash
 terraform destroy
 ```
+
+## Looking to setup a different IaaS
+
+We have have other terraform templates:
+
+- [Azure](https://github.com/pivotal-cf/terraforming-azure)
+- [Google Cloud Platform](https://github.com/pivotal-cf/terraforming-gcp)
+- [vSphere](https://github.com/pivotal-cf/terraforming-vsphere)
+- [OpenStack](https://github.com/pivotal-cf/terraforming-openstack)
