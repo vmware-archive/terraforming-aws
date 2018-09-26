@@ -5,6 +5,12 @@ resource_types:
     repository: ljfranklin/terraform-resource
     tag: beta-backend
 
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
 shared:
 - params: &modify-terraforming-aws-dns-params
     GCP_DNS_PROJECT_ID: ((cf_infra_gcp_project_id))
@@ -71,7 +77,7 @@ resources:
     sort_by: semver
 
 jobs:
-- name: deploy-director
+- name: deploy-pks
   serial: true
   public: false
   plan:
@@ -86,7 +92,7 @@ jobs:
     - put: env-state-aws
       params:
         env_name: terraforming-aws-env
-        terraform_source: terraforming-aws/terraforming-pas
+        terraform_source: terraforming-aws/terraforming-pks
         delete_on_failure: true
     - task: add-dns
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
@@ -152,7 +158,7 @@ jobs:
         - put: env-state-aws
           params:
             env_name: terraforming-aws-env
-            terraform_source: terraforming-aws/terraforming-pas
+            terraform_source: terraforming-aws/terraforming-pks
             delete_on_failure: true
             action: destroy
           get_params:
