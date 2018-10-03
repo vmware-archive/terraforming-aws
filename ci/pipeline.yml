@@ -49,7 +49,6 @@ resources:
       ssl_cert: ((ssl_cert.certificate))
       ssl_private_key: ((ssl_cert.private_key))
       availability_zones: ["us-west-1a", "us-west-1c"]
-      ops_manager_ami: ami-0a073a805412627b2
       rds_instance_count: 0
       dns_suffix: aws.infrastructure.cf-app.com
 
@@ -84,6 +83,14 @@ resources:
     product_version: ^\d+\.\d+\.\d+
     sort_by: semver
 
+- name: opsman-image
+  type: pivnet
+  source:
+    product_slug: ops-manager
+    api_token: ((pivnet_token))
+    product_version: ^\d+\.\d+\.\d+
+    sort_by: semver
+
 jobs:
 - name: deploy-pks
   serial: true
@@ -96,12 +103,23 @@ jobs:
       resource: infrastructure-ci
     - get: pcf-releng-ci
     - get: pks
+      trigger: true
+    - get: opsman-image
+      params:
+        globs:
+        - '*AWS.yml'
   - do:
+    - task: opsman-url
+      file: ci/scripts/terraforming/latest-opsman/task.yml
+      params:
+        IAAS: AWS
+        KEY: us-west-1
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pks
         terraform_source: terraforming-aws/terraforming-pks
         delete_on_failure: true
+        var_files: [tfvars/terraform.yml]
     - task: add-dns
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
@@ -169,6 +187,7 @@ jobs:
             terraform_source: terraforming-aws/terraforming-pks
             delete_on_failure: true
             action: destroy
+            var_files: [tfvars/terraform.yml]
           get_params:
             action: destroy
 
@@ -183,15 +202,26 @@ jobs:
       resource: infrastructure-ci
     - get: pcf-releng-ci
     - get: srt
+      trigger: true
       params:
         globs:
         - srt-*.pivotal
+    - get: opsman-image
+      params:
+        globs:
+        - '*AWS.yml'
   - do:
+    - task: opsman-url
+      file: ci/scripts/terraforming/latest-opsman/task.yml
+      params:
+        IAAS: AWS
+        KEY: us-west-1
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pas
         terraform_source: terraforming-aws/terraforming-pas
         delete_on_failure: true
+        var_files: [tfvars/terraform.yml]
     - task: add-dns
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
@@ -260,5 +290,6 @@ jobs:
             terraform_source: terraforming-aws/terraforming-pas
             delete_on_failure: true
             action: destroy
+            var_files: [tfvars/terraform.yml]
           get_params:
             action: destroy
