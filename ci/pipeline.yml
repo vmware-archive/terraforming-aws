@@ -105,6 +105,7 @@ jobs:
     - get: pks
       trigger: true
     - get: opsman-image
+      trigger: true
       params:
         globs:
         - '*AWS.yml'
@@ -207,6 +208,7 @@ jobs:
         globs:
         - srt-*.pivotal
     - get: opsman-image
+      trigger: true
       params:
         globs:
         - '*AWS.yml'
