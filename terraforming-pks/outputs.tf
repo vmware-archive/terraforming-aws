@@ -36,6 +36,7 @@ output "ops_manager_iam_user_access_key" {
 
 output "ops_manager_iam_user_secret_key" {
   value = "${module.ops_manager.ops_manager_iam_user_secret_key}"
+  sensitive = true
 }
 
 output "ops_manager_security_group_id" {

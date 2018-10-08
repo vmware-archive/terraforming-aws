@@ -48,6 +48,7 @@ output "ops_manager_iam_user_access_key" {
 
 output "ops_manager_iam_user_secret_key" {
   value = "${aws_iam_access_key.ops_manager.secret}"
+  sensitive = true
 }
 
 output "ops_manager_iam_role_name" {
