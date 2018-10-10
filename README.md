@@ -1,4 +1,6 @@
-# What is this?
+# Terraforming AWS [![build-status](https://infra.ci.cf-app.com/api/v1/teams/main/pipelines/terraforming-aws/jobs/deploy-pas/badge)](https://infra.ci.cf-app.com/teams/main/pipelines/terraforming-aws)
+
+## What is this?
 
 Set of terraform modules for deploying Ops Manager, PAS and PKS infrastructure requirements like:
 
