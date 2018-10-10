@@ -35,11 +35,11 @@ brew install terraform
 
 Depending if you're deploying PAS or PKS you need to perform the following steps:
 
-0. `cd` into the proper directory:
-  - [terraforming-pas/](terraforming-pas/)
-  - [terraforming-pks/](terraforming-pks/)
-0. Create [`terraform.tfvars`](/README.md#var-file) file
-0. Run terraform apply:
+1. `cd` into the proper directory:
+    - [terraforming-pas/](terraforming-pas/)
+    - [terraforming-pks/](terraforming-pks/)
+1. Create [`terraform.tfvars`](/README.md#var-file) file
+1. Run terraform apply:
   ```bash
   terraform init
   terraform plan -out=plan
