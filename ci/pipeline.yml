@@ -46,8 +46,7 @@ resources:
       bucket: infra-tf-states
       prefix: aws
       region: us-central1
-      credentials: |
-        {{cf_infra_gcp_service_account_key_for_terraform}}
+      credentials: ((cf_infra_gcp_service_account_key))
     vars:
       region: us-west-1
       access_key: ((aws_access_key_id))
