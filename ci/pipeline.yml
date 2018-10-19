@@ -55,12 +55,12 @@ resources:
       region: us-central1
       credentials: ((cf_infra_gcp_service_account_key))
     vars:
-      region: us-west-1
+      region: us-east-1
       access_key: ((aws_access_key_id))
       secret_key: ((aws_secret_access_key))
       ssl_cert: ((ssl_cert.certificate))
       ssl_private_key: ((ssl_cert.private_key))
-      availability_zones: ["us-west-1a", "us-west-1c"]
+      availability_zones: ["us-east-1a", "us-east-1c"]
       rds_instance_count: 0
       dns_suffix: aws.infrastructure.cf-app.com
 
@@ -128,7 +128,7 @@ jobs:
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
         IAAS: AWS
-        KEY: us-west-1
+        KEY: us-east-1
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pks
@@ -174,6 +174,7 @@ jobs:
         product: pks
         product-config-repo: terraforming-aws
     - task: apply-changes
+      attempts: 3
       file: ci/scripts/terraforming/apply-changes/task.yml
       params:
         <<: *om-creds
@@ -234,7 +235,7 @@ jobs:
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
         IAAS: AWS
-        KEY: us-west-1
+        KEY: us-east-1
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pas
