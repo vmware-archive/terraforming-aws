@@ -25,6 +25,13 @@ shared:
     OM_PASSWORD: ((om.password))
 
 resources:
+- name: cf-infra-tracker
+  type: tracker
+  source:
+    token: ((cf_infra_tracker_token))
+    project_id: ((cf_infrastructure_private_id))
+    tracker_url: https://www.pivotaltracker.com
+
 - name: after-midnight
   type: time
   source:
@@ -46,15 +53,14 @@ resources:
       bucket: infra-tf-states
       prefix: aws
       region: us-central1
-      credentials: |
-        {{cf_infra_gcp_service_account_key_for_terraform}}
+      credentials: ((cf_infra_gcp_service_account_key))
     vars:
-      region: us-west-1
+      region: us-east-2
       access_key: ((aws_access_key_id))
       secret_key: ((aws_secret_access_key))
       ssl_cert: ((ssl_cert.certificate))
       ssl_private_key: ((ssl_cert.private_key))
-      availability_zones: ["us-west-1a", "us-west-1c"]
+      availability_zones: ["us-east-2a", "us-east-2c"]
       rds_instance_count: 0
       dns_suffix: aws.infrastructure.cf-app.com
 
@@ -122,7 +128,7 @@ jobs:
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
         IAAS: AWS
-        KEY: us-west-1
+        KEY: us-east-2
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pks
@@ -130,6 +136,7 @@ jobs:
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
+      attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
         <<: *modify-terraforming-aws-dns-params
@@ -167,6 +174,7 @@ jobs:
         product: pks
         product-config-repo: terraforming-aws
     - task: apply-changes
+      attempts: 3
       file: ci/scripts/terraforming/apply-changes/task.yml
       params:
         <<: *om-creds
@@ -227,7 +235,7 @@ jobs:
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
         IAAS: AWS
-        KEY: us-west-1
+        KEY: us-east-2
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pas
@@ -235,6 +243,7 @@ jobs:
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
+      attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
         <<: *modify-terraforming-aws-dns-params
@@ -272,6 +281,7 @@ jobs:
         product: srt
         product-config-repo: terraforming-aws
     - task: apply-changes
+      attempts: 3
       file: ci/scripts/terraforming/apply-changes/task.yml
       params:
         <<: *om-creds
@@ -305,3 +315,15 @@ jobs:
             var_files: [tfvars/terraform.yml]
           get_params:
             action: destroy
+
+- name: deliver-stories
+  plan:
+  - get: terraforming-aws
+    trigger: true
+    passed:
+    - deploy-pks
+    - deploy-pas
+  - put: cf-infra-tracker
+    params:
+      repos:
+      - terraforming-aws

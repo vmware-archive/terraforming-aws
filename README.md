@@ -1,4 +1,6 @@
-# What is this?
+# Terraforming AWS [![build-status](https://infra.ci.cf-app.com/api/v1/teams/main/pipelines/terraforming-aws/jobs/deploy-pas/badge)](https://infra.ci.cf-app.com/teams/main/pipelines/terraforming-aws)
+
+## What is this?
 
 Set of terraform modules for deploying Ops Manager, PAS and PKS infrastructure requirements like:
 
@@ -33,11 +35,11 @@ brew install terraform
 
 Depending if you're deploying PAS or PKS you need to perform the following steps:
 
-0. `cd` into the proper directory:
-  - [pas](terraforming-pas/)
-  - [pks](terraforming-pks/)
-0. Create [`terraform.tfvars`](/README.md#var-file) file
-0. Run terraform apply:
+1. `cd` into the proper directory:
+    - [terraforming-pas/](terraforming-pas/)
+    - [terraforming-pks/](terraforming-pks/)
+1. Create [`terraform.tfvars`](/README.md#var-file) file
+1. Run terraform apply:
   ```bash
   terraform init
   terraform plan -out=pcf.tfplan
