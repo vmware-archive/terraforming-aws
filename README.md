@@ -40,7 +40,7 @@ Depending if you're deploying PAS or PKS you need to perform the following steps
 0. Run terraform apply:
   ```bash
   terraform init
-  terraform plan -out=plan
+  terraform plan -out=pcf.tfplan
   terraform apply plan
   ```
 
