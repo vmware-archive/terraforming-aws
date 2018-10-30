@@ -3,7 +3,7 @@ resource "aws_route53_record" "ops_manager" {
   zone_id = "${var.zone_id}"
   type    = "A"
   ttl     = 300
-  count   = "${var.count}"
+  count   = "${var.use_route53 ? var.count : 0}"
 
   records = ["${coalesce(join("", aws_eip.ops_manager.*.public_ip), aws_instance.ops_manager.private_ip)}"]
 }
@@ -13,7 +13,7 @@ resource "aws_route53_record" "optional_ops_manager" {
   zone_id = "${var.zone_id}"
   type    = "A"
   ttl     = 300
-  count   = "${var.optional_count}"
+  count   = "${var.use_route53 ? var.optional_count : 0}"
 
   records = ["${coalesce(join("", aws_eip.optional_ops_manager.*.public_ip), aws_instance.optional_ops_manager.private_ip)}"]
 }

@@ -19,8 +19,12 @@ variable "vpc_id" {}
 variable "vpc_cidr" {}
 
 variable "additional_iam_roles_arn" {
-  type = "list"
+  type    = "list"
   default = []
+}
+
+variable "use_route53" {
+  default = true
 }
 
 variable "dns_suffix" {}

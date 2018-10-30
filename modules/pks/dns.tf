@@ -5,4 +5,6 @@ resource "aws_route53_record" "wildcard_sys_dns" {
   ttl     = 300
 
   records = ["${aws_elb.pks_api_elb.dns_name}"]
+
+  count = "${var.use_route53 ? 1 : 0}"
 }
