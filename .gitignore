@@ -3,3 +3,6 @@
 *.tfstate
 *.tfvars
 /plan
+
+*.idea
+*.iml
