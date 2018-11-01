@@ -27,7 +27,7 @@ resource "random_integer" "bucket" {
 }
 
 module "infra" {
-  source             = "../infra"
+  source             = "../modules/infra"
 
   region             = "${var.region}"
   env_name           = "${var.env_name}"
@@ -41,7 +41,7 @@ module "infra" {
 }
 
 module "ops_manager" {
-  source = "../ops_manager"
+  source = "../modules/ops_manager"
 
   count                     = "${var.ops_manager ? 1 : 0}"
   optional_count            = "${var.optional_ops_manager ? 1 : 0}"
@@ -62,7 +62,7 @@ module "ops_manager" {
 }
 
 module "certs" {
-  source = "../certs"
+  source = "../modules/certs"
 
   subdomains          = ["*.pks"]
   env_name            = "${var.env_name}"
@@ -75,7 +75,7 @@ module "certs" {
 }
 
 module "pks" {
-  source = "../pks"
+  source = "../modules/pks"
 
   env_name                     = "${var.env_name}"
   availability_zones           = "${var.availability_zones}"
@@ -91,7 +91,7 @@ module "pks" {
 }
 
 module "rds" {
-  source = "../rds"
+  source = "../modules/rds"
 
   rds_db_username    = "${var.rds_db_username}"
   rds_instance_class = "${var.rds_instance_class}"
