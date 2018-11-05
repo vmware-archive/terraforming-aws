@@ -78,6 +78,7 @@ variable "ssl_ca_private_key" {
   default     = ""
 }
 variable "use_route53" {
+  description = "true will create Route53 resources, will skip their creation otherwise."
   default = true
 }
 
