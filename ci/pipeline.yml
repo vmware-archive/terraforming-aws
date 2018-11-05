@@ -12,7 +12,7 @@ resource_types:
     tag: latest-final
 
 shared:
-- params: &modify-terraforming-aws-dns-params
+- params: &modify-terraforming-dns-params
     GCP_DNS_PROJECT_ID: ((cf_infra_gcp_project_id))
     GCP_DNS_SERVICE_ACCOUNT_EMAIL: ((cf_infra_gcp_service_account_email))
     GCP_DNS_SERVICE_ACCOUNT_KEY: ((cf_infra_gcp_service_account_key))
@@ -38,12 +38,29 @@ resources:
     start: 12:00 AM -0700
     stop: 2:00 AM -0700
 
-- name: terraforming-aws
+- name: terraforming
   type: git
   source:
     branch: master
     uri: git@github.com:pivotal-cf/terraforming-aws.git
     private_key: ((cf_infra_bot_github_user.private_key))
+
+- name: terraforming-release
+  type: github-release
+  source:
+    owner: pivotal-cf
+    repository: terraforming-aws
+    access_token: ((cf_infra_bot_user_github_access_token))
+    drafts: true
+
+- name: version
+  type: semver
+  source:
+    driver: s3
+    bucket: terraforming
+    key: terraforming-aws/version
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
 
 - name: env-state-aws
   type: terraform
@@ -111,7 +128,7 @@ jobs:
   - aggregate:
     - get: after-midnight
       trigger: true
-    - get: terraforming-aws
+    - get: terraforming
       trigger: true
     - get: ci
       resource: infrastructure-ci
@@ -132,14 +149,14 @@ jobs:
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pks
-        terraform_source: terraforming-aws/terraforming-pks
+        terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
       attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
-        <<: *modify-terraforming-aws-dns-params
+        <<: *modify-terraforming-dns-params
         ACTION: add
       input_mapping:
         env-state: env-state-aws
@@ -155,7 +172,7 @@ jobs:
         TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
       input_mapping:
         env-state: env-state-aws
-        director-config-template: terraforming-aws
+        director-config-template: terraforming
     - task: download-stemcell
       file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
       input_mapping:
@@ -172,7 +189,7 @@ jobs:
       input_mapping:
         env-state: env-state-aws
         product: pks
-        product-config-repo: terraforming-aws
+        product-config-repo: terraforming
     - task: apply-changes
       attempts: 3
       file: ci/scripts/terraforming/apply-changes/task.yml
@@ -194,14 +211,14 @@ jobs:
         - task: remove-dns
           file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
           params:
-            <<: *modify-terraforming-aws-dns-params
+            <<: *modify-terraforming-dns-params
             ACTION: remove
           input_mapping:
             env-state: env-state-aws
         - put: env-state-aws
           params:
             env_name: terraforming-aws-pks
-            terraform_source: terraforming-aws/terraforming-pks
+            terraform_source: terraforming/terraforming-pks
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
@@ -215,7 +232,7 @@ jobs:
   - aggregate:
     - get: after-midnight
       trigger: true
-    - get: terraforming-aws
+    - get: terraforming
       trigger: true
     - get: ci
       resource: infrastructure-ci
@@ -239,14 +256,14 @@ jobs:
     - put: env-state-aws
       params:
         env_name: terraforming-aws-pas
-        terraform_source: terraforming-aws/terraforming-pas
+        terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
       attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
-        <<: *modify-terraforming-aws-dns-params
+        <<: *modify-terraforming-dns-params
         ACTION: add
       input_mapping:
         env-state: env-state-aws
@@ -262,7 +279,7 @@ jobs:
         TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
       input_mapping:
         env-state: env-state-aws
-        director-config-template: terraforming-aws
+        director-config-template: terraforming
     - task: download-stemcell
       file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
       input_mapping:
@@ -279,7 +296,7 @@ jobs:
       input_mapping:
         env-state: env-state-aws
         product: srt
-        product-config-repo: terraforming-aws
+        product-config-repo: terraforming
     - task: apply-changes
       attempts: 3
       file: ci/scripts/terraforming/apply-changes/task.yml
@@ -302,23 +319,48 @@ jobs:
         - task: remove-dns
           file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
           params:
-            <<: *modify-terraforming-aws-dns-params
+            <<: *modify-terraforming-dns-params
             ACTION: remove
           input_mapping:
             env-state: env-state-aws
         - put: env-state-aws
           params:
             env_name: terraforming-aws-pas
-            terraform_source: terraforming-aws/terraforming-pas
+            terraform_source: terraforming/terraforming-pas
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
           get_params:
             action: destroy
 
+- name: publish
+  serial: true
+  plan:
+  - aggregate:
+    - get: terraforming
+      passed: [deploy-pas, deploy-pks]
+      trigger: true
+    - get: version
+      params:
+        bump: minor
+    - get: ci
+      resource: infrastructure-ci
+  - task: release
+    file: ci/scripts/terraforming/release/task.yml
+  - put: terraforming-release
+    params:
+      name: version/version
+      tag_prefix: "v"
+      tag: version/version
+      commitish: release/commitish
+  - put: version
+    params:
+      bump: minor
+      file: version/version
+
 - name: deliver-stories
   plan:
-  - get: terraforming-aws
+  - get: terraforming
     trigger: true
     passed:
     - deploy-pks
@@ -326,4 +368,4 @@ jobs:
   - put: cf-infra-tracker
     params:
       repos:
-      - terraforming-aws
+      - terraforming
