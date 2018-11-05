@@ -2,4 +2,4 @@
 *.tfstate.*
 *.tfstate
 *.tfvars
-/plan
+*.tfplan

@@ -60,6 +60,7 @@ module "ops_manager" {
   dns_suffix                = "${var.dns_suffix}"
   zone_id                   = "${module.infra.zone_id}"
   bucket_suffix             = "${local.bucket_suffix}"
+  additional_iam_roles_arn  = ["${module.pks.pks_worker_iam_role_arn}","${module.pks.pks_master_iam_role_arn}"]
   use_route53               = "${local.use_route53}"
 
   tags                      = "${local.actual_tags}"
