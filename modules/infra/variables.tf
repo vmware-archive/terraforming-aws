@@ -25,7 +25,7 @@ variable "vpc_cidr" {
 }
 
 variable "use_route53" {
-  default = true
+  default = "true"
 }
 
 variable "tags" {
