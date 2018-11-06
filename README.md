@@ -31,6 +31,25 @@ brew install terraform
 - IAMFullAccess
 - AWSKeyManagementServicePowerUser
 
+Note: You will also need to create a custom policy as the following and add to
+      the same user:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "KMSKeyDeletionAndUpdate",
+            "Effect": "Allow",
+            "Action": [
+                "kms:UpdateKeyDescription",
+                "kms:ScheduleKeyDeletion"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
 ## Deploying Ops Manager
 
 Depending if you're deploying PAS or PKS you need to perform the following steps:
