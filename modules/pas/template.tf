@@ -186,7 +186,7 @@ resource "aws_iam_role_policy" "pas_backup_bucket_access" {
 
 resource "aws_iam_user_policy_attachment" "pas_backup_bucket_access" {
   user       = "${var.ops_manager_iam_user_name}"
-  policy_arn = "${aws_iam_policy.pas_backup_bucket_policy.*.arn}"
+  policy_arn = "${element(aws_iam_policy.pas_backup_bucket_policy.*.arn, 0)}"
 
   count = "${var.create_backup_pas_buckets ? 1 : 0}"
 }
