@@ -38,8 +38,16 @@ output "pks_master_iam_instance_profile_name" {
   value = "${aws_iam_instance_profile.pks_master.name}"
 }
 
+output "pks_master_iam_role_arn" {
+  value = "${aws_iam_role.pks_master.arn}"
+}
+
 output "pks_worker_iam_instance_profile_name" {
   value = "${aws_iam_instance_profile.pks_worker.name}"
+}
+
+output "pks_worker_iam_role_arn" {
+  value = "${aws_iam_role.pks_worker.arn}"
 }
 
 output "domain" {

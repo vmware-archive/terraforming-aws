@@ -19,6 +19,8 @@ locals {
   }
 
   actual_tags = "${merge(var.tags, local.default_tags)}"
+
+  use_route53 = "${var.region != "us-gov-west-1" ? var.use_route53 : false}"
 }
 
 resource "random_integer" "bucket" {
@@ -27,7 +29,7 @@ resource "random_integer" "bucket" {
 }
 
 module "infra" {
-  source             = "../infra"
+  source             = "../modules/infra"
 
   region             = "${var.region}"
   env_name           = "${var.env_name}"
@@ -36,12 +38,13 @@ module "infra" {
 
   hosted_zone        = "${var.hosted_zone}"
   dns_suffix         = "${var.dns_suffix}"
+  use_route53        = "${local.use_route53}"
 
   tags               = "${local.actual_tags}"
 }
 
 module "ops_manager" {
-  source = "../ops_manager"
+  source = "../modules/ops_manager"
 
   count                     = "${var.ops_manager ? 1 : 0}"
   optional_count            = "${var.optional_ops_manager ? 1 : 0}"
@@ -57,12 +60,14 @@ module "ops_manager" {
   dns_suffix                = "${var.dns_suffix}"
   zone_id                   = "${module.infra.zone_id}"
   bucket_suffix             = "${local.bucket_suffix}"
+  additional_iam_roles_arn  = ["${module.pks.pks_worker_iam_role_arn}","${module.pks.pks_master_iam_role_arn}"]
+  use_route53               = "${var.use_route53}"
 
   tags                      = "${local.actual_tags}"
 }
 
 module "certs" {
-  source = "../certs"
+  source = "../modules/certs"
 
   subdomains          = ["*.pks"]
   env_name            = "${var.env_name}"
@@ -75,7 +80,7 @@ module "certs" {
 }
 
 module "pks" {
-  source = "../pks"
+  source = "../modules/pks"
 
   env_name                     = "${var.env_name}"
   availability_zones           = "${var.availability_zones}"
@@ -86,12 +91,13 @@ module "pks" {
 
   zone_id                      = "${module.infra.zone_id}"
   dns_suffix                   = "${var.dns_suffix}"
+  use_route53                  = "${local.use_route53}"
 
   tags                         = "${local.actual_tags}"
 }
 
 module "rds" {
-  source = "../rds"
+  source = "../modules/rds"
 
   rds_db_username    = "${var.rds_db_username}"
   rds_instance_class = "${var.rds_instance_class}"

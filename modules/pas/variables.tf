@@ -58,7 +58,7 @@ variable "ssl_cert_arn" {
 variable "isoseg_ssl_cert_arn" {
   type        = "string"
   description = "The ARN for the certificate to be used by the Isolation Segment LB"
-  default = ""
+  default     = ""
 }
 
 variable "tags" {
@@ -66,6 +66,10 @@ variable "tags" {
 }
 
 locals {
-  pas_cidr        = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
-  services_cidr   = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
+  pas_cidr      = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
+  services_cidr = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
+}
+
+variable "use_route53" {
+  default = true
 }
