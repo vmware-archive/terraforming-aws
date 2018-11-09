@@ -14,6 +14,10 @@ product-properties:
     value: {{.apps_domain}}
   .cloud_controller.system_domain:
     value: {{.sys_domain}}
+  .properties.cf_networking_search_domains:
+    value: apps.internal
+  .properties.logger_endpoint_port:
+    value: '4443'
   .ha_proxy.skip_cert_verify:
     value: true
   .mysql_monitor.recipient_email:

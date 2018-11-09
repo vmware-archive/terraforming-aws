@@ -26,7 +26,7 @@ networks-configuration:
     - availability_zone_names:
       - {{index $.azs $i}}
       cidr: {{index $.infrastructure_subnet_cidrs $i}}
-      dns: {{cidrhost (index $.infrastructure_subnet_cidrs $i) 2}}
+      dns: 169.254.169.253
       gateway: {{index $.infrastructure_subnet_gateways $i}}
       iaas_identifier: {{index $.infrastructure_subnet_ids $i}}
       reserved_ip_ranges: {{cidrhost (index $.infrastructure_subnet_cidrs $i) 0}}-{{cidrhost (index $.infrastructure_subnet_cidrs $i) 4}}
@@ -38,7 +38,7 @@ networks-configuration:
     - availability_zone_names:
       - {{index $.azs $i}}
       cidr: {{index $.pas_subnet_cidrs $i}}
-      dns: {{cidrhost (index $.pas_subnet_cidrs $i) 2}}
+      dns: 169.254.169.253
       gateway: {{index $.pas_subnet_gateways $i}}
       iaas_identifier: {{index $.pas_subnet_ids $i}}
       reserved_ip_ranges: {{cidrhost (index $.pas_subnet_cidrs $i) 0}}-{{cidrhost (index $.pas_subnet_cidrs $i) 4}}
@@ -51,7 +51,7 @@ networks-configuration:
     - availability_zone_names:
       - {{index $.azs $i}}
       cidr: {{index $.pks_subnet_cidrs $i}}
-      dns: {{cidrhost (index $.pks_subnet_cidrs $i) 2}}
+      dns: 169.254.169.253
       gateway: {{index $.pks_subnet_gateways $i}}
       iaas_identifier: {{index $.pks_subnet_ids $i}}
       reserved_ip_ranges: {{cidrhost (index $.pks_subnet_cidrs $i) 0}}-{{cidrhost (index $.pks_subnet_cidrs $i) 4}}
@@ -63,7 +63,7 @@ networks-configuration:
     - availability_zone_names:
       - {{index $.azs $i}}
       cidr: {{index $.services_subnet_cidrs $i}}
-      dns: {{cidrhost (index $.services_subnet_cidrs $i) 2}}
+      dns: 169.254.169.253
       gateway: {{index $.services_subnet_gateways $i}}
       iaas_identifier: {{index $.services_subnet_ids $i}}
       reserved_ip_ranges: {{cidrhost (index $.services_subnet_cidrs $i) 0}}-{{cidrhost (index $.services_subnet_cidrs $i) 4}}
@@ -72,3 +72,6 @@ resource-configuration:
   compilation:
     instance_type:
       id: c4.xlarge
+security-configuration:
+  trusted_certificates: |
+{{indent 4 .ssl_cert}}
