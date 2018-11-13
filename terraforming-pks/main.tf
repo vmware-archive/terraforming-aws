@@ -19,8 +19,6 @@ locals {
   }
 
   actual_tags = "${merge(var.tags, local.default_tags)}"
-
-  use_route53 = "${var.region == "us-gov-west-1" ? false : true}"
 }
 
 resource "random_integer" "bucket" {
@@ -38,7 +36,6 @@ module "infra" {
 
   hosted_zone        = "${var.hosted_zone}"
   dns_suffix         = "${var.dns_suffix}"
-  use_route53        = "${local.use_route53}"
 
   tags               = "${local.actual_tags}"
 }
@@ -61,7 +58,6 @@ module "ops_manager" {
   zone_id                   = "${module.infra.zone_id}"
   bucket_suffix             = "${local.bucket_suffix}"
   additional_iam_roles_arn  = ["${module.pks.pks_worker_iam_role_arn}","${module.pks.pks_master_iam_role_arn}"]
-  use_route53               = "${var.use_route53}"
 
   tags                      = "${local.actual_tags}"
 }
@@ -91,7 +87,6 @@ module "pks" {
 
   zone_id                      = "${module.infra.zone_id}"
   dns_suffix                   = "${var.dns_suffix}"
-  use_route53                  = "${local.use_route53}"
 
   tags                         = "${local.actual_tags}"
 }

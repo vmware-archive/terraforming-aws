@@ -69,7 +69,3 @@ locals {
   pas_cidr      = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
   services_cidr = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
 }
-
-variable "use_route53" {
-  default = true
-}

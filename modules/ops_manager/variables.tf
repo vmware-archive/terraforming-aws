@@ -23,10 +23,6 @@ variable "additional_iam_roles_arn" {
   default = []
 }
 
-variable "use_route53" {
-  default = true
-}
-
 variable "dns_suffix" {}
 
 variable "zone_id" {}

@@ -30,10 +30,6 @@ variable "dns_suffix" {
   type = "string"
 }
 
-variable "use_route53" {
-  default = true
-}
-
 variable "tags" {
   type = "map"
 }

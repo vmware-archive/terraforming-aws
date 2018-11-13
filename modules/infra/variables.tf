@@ -22,11 +22,7 @@ variable "availability_zones" {
 variable "vpc_cidr" {
   type    = "string"
   default = "10.0.0.0/16"
-}
-
-variable "use_route53" {
-  default = "true"
-}
+}reg
 
 variable "tags" {
   type        = "map"

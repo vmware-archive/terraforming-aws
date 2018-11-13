@@ -1,3 +1,7 @@
+locals {
+  use_route53 = "${var.region == "us-gov-west-1" ? 0 : 1}"
+}
+
 resource "aws_route53_record" "wildcard_sys_dns" {
   zone_id = "${var.zone_id}"
   name    = "*.pks.${var.env_name}.${var.dns_suffix}"
@@ -6,5 +10,5 @@ resource "aws_route53_record" "wildcard_sys_dns" {
 
   records = ["${aws_elb.pks_api_elb.dns_name}"]
 
-  count = "${var.use_route53 ? 1 : 0}"
+  count = "${local.use_route53 ? 1 : 0}"
 }
