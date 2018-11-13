@@ -19,6 +19,8 @@ locals {
   }
 
   actual_tags = "${merge(var.tags, local.default_tags)}"
+
+  use_route53 = "${var.region == "us-gov-west-1" ? false : true}"
 }
 
 resource "random_integer" "bucket" {
@@ -60,6 +62,7 @@ module "ops_manager" {
   bucket_suffix             = "${local.bucket_suffix}"
 
   tags                      = "${local.actual_tags}"
+  use_route53              = "${local.use_route53}"
 }
 
 module "pas_certs" {
@@ -104,6 +107,7 @@ module "pas" {
   bucket_suffix                = "${local.bucket_suffix}"
   zone_id                      = "${module.infra.zone_id}"
   dns_suffix                   = "${var.dns_suffix}"
+  use_route53   = "${local.use_route53}"
 
   create_backup_pas_buckets    = "${var.create_backup_pas_buckets}"
   create_versioned_pas_buckets = "${var.create_versioned_pas_buckets}"
