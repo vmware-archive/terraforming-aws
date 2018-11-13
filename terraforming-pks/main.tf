@@ -48,6 +48,7 @@ module "ops_manager" {
   subnet_id                 = "${local.ops_man_subnet_id}"
 
   env_name                  = "${var.env_name}"
+  region                    = "${var.region}"
   ami                       = "${var.ops_manager_ami}"
   optional_ami              = "${var.optional_ops_manager_ami}"
   instance_type             = "${var.ops_manager_instance_type}"
@@ -79,6 +80,7 @@ module "pks" {
   source = "../modules/pks"
 
   env_name                     = "${var.env_name}"
+  region                       = "${var.region}"
   availability_zones           = "${var.availability_zones}"
   vpc_cidr                     = "${var.vpc_cidr}"
   vpc_id                       = "${module.infra.vpc_id}"
