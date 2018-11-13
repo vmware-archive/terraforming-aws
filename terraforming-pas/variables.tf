@@ -141,9 +141,9 @@ variable "isoseg_ssl_ca_private_key" {
   default     = ""
 }
 
-/*******
+/********
 * Tags *
-********/
+*********/
 
 variable "tags" {
   type        = "map"
@@ -151,9 +151,9 @@ variable "tags" {
   description = "Key/value tags to assign to all AWS resources"
 }
 
-/*************
+/**************
 * Deprecated *
-**************/
+***************/
 
 variable "create_isoseg_resources" {
   type        = "string"

@@ -16,8 +16,6 @@ product-properties:
     value: {{.sys_domain}}
   .properties.cf_networking_search_domains:
     value: apps.internal
-  .properties.logger_endpoint_port:
-    value: '4443'
   .ha_proxy.skip_cert_verify:
     value: true
   .mysql_monitor.recipient_email:
@@ -46,7 +44,7 @@ product-properties:
   .properties.tcp_routing:
     value: enable
   .properties.tcp_routing.enable.reservable_ports:
-    value: 1024-1123
+    value: 1024-1033
   .uaa.service_provider_key_credentials:
     value:
         cert_pem: |
@@ -58,11 +56,23 @@ resource-config:
     instances: 1
   control:
     elb_names:
-    - {{.ssh_lb_name}}
+    {{range .ssh_target_groups}}
+    - alb:{{.}}
+    {{end}}
+    additional_vm_extensions:
+    - ssh-lb-security-group
   router:
     elb_names:
-    - {{.web_lb_name}}
+    {{range .web_target_groups}}
+    - alb:{{.}}
+    {{end}}
+    additional_vm_extensions:
+    - web-lb-security-group
     instances: 1
   tcp_router:
     elb_names:
-    - {{.tcp_lb_name}}
+    {{range .tcp_target_groups}}
+    - alb:{{.}}
+    {{end}}
+    additional_vm_extensions:
+    - tcp-lb-security-group

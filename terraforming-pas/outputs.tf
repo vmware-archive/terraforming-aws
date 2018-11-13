@@ -221,12 +221,16 @@ output "azs" {
   value = "${var.availability_zones}"
 }
 
-output "web_lb_name" {
-  value = "${module.pas.web_lb_name}"
+output "web_target_groups" {
+  value = "${module.pas.web_target_groups}"
 }
 
-output "web_elb_name" {
-  value = "${module.pas.web_lb_name}"
+output "tcp_target_groups" {
+  value = "${module.pas.tcp_target_groups}"
+}
+
+output "ssh_target_groups" {
+  value = "${module.pas.ssh_target_groups}"
 }
 
 output "ssl_cert_arn" {
@@ -243,24 +247,8 @@ output "ssl_private_key" {
   value     = "${module.pas_certs.ssl_private_key}"
 }
 
-output "ssh_lb_name" {
-  value = "${module.pas.ssh_lb_name}"
-}
-
-output "ssh_elb_name" {
-  value = "${module.pas.ssh_lb_name}"
-}
-
-output "tcp_lb_name" {
-  value = "${module.pas.tcp_lb_name}"
-}
-
-output "tcp_elb_name" {
-  value = "${module.pas.tcp_lb_name}"
-}
-
-output "isoseg_elb_name" {
-  value = "${module.pas.isoseg_elb_name}"
+output "isoseg_target_groups" {
+  value = ["${module.pas.isoseg_target_groups}"]
 }
 
 output "isoseg_ssl_cert" {
