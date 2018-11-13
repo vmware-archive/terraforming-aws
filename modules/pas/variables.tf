@@ -2,6 +2,10 @@ variable "env_name" {
   type = "string"
 }
 
+variable "region" {
+  type = "string"
+}
+
 variable "availability_zones" {
   type = "list"
 }

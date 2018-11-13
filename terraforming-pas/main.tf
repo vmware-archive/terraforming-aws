@@ -95,12 +95,13 @@ module "isoseg_certs" {
 module "pas" {
   source = "../modules/pas"
 
-  env_name                     = "${var.env_name}"
-  availability_zones           = "${var.availability_zones}"
-  vpc_cidr                     = "${var.vpc_cidr}"
-  vpc_id                       = "${module.infra.vpc_id}"
-  private_route_table_ids      = "${module.infra.private_route_table_ids}"
-  public_subnet_ids            = "${module.infra.public_subnet_ids}"
+  env_name                = "${var.env_name}"
+  region                  = "${var.region}"
+  availability_zones      = "${var.availability_zones}"
+  vpc_cidr                = "${var.vpc_cidr}"
+  vpc_id                  = "${module.infra.vpc_id}"
+  private_route_table_ids = "${module.infra.private_route_table_ids}"
+  public_subnet_ids       = "${module.infra.public_subnet_ids}"
 
   bucket_suffix                = "${local.bucket_suffix}"
   zone_id                      = "${module.infra.zone_id}"
