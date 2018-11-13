@@ -1,4 +1,4 @@
-local {
+locals {
   use_route53 = "${var.region == "us-gov-west-1" ? 0 : 1}"
 }
 
