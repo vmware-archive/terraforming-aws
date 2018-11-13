@@ -20,7 +20,7 @@ locals {
 
   actual_tags = "${merge(var.tags, local.default_tags)}"
 
-  use_route53 = "${var.region != "us-gov-west-1" ? var.use_route53 : false}"
+  use_route53 = "${var.region == "us-gov-west-1" ? false : true}"
 }
 
 resource "random_integer" "bucket" {
