@@ -9,7 +9,7 @@ resource "aws_route53_record" "wildcard_sys_dns" {
   type    = "CNAME"
   ttl     = 300
 
-  records = ["${aws_elb.web_elb.dns_name}"]
+  records = ["${aws_lb.web.dns_name}"]
 }
 
 resource "aws_route53_record" "wildcard_apps_dns" {
@@ -19,7 +19,7 @@ resource "aws_route53_record" "wildcard_apps_dns" {
   type    = "CNAME"
   ttl     = 300
 
-  records = ["${aws_elb.web_elb.dns_name}"]
+  records = ["${aws_lb.web.dns_name}"]
 }
 
 resource "aws_route53_record" "ssh" {
@@ -29,7 +29,7 @@ resource "aws_route53_record" "ssh" {
   type    = "CNAME"
   ttl     = 300
 
-  records = ["${aws_elb.ssh_elb.dns_name}"]
+  records = ["${aws_lb.ssh.dns_name}"]
 }
 
 resource "aws_route53_record" "tcp" {
@@ -39,5 +39,5 @@ resource "aws_route53_record" "tcp" {
   type    = "CNAME"
   ttl     = 300
 
-  records = ["${aws_elb.tcp_elb.dns_name}"]
+  records = ["${aws_lb.tcp.dns_name}"]
 }

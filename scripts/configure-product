@@ -22,6 +22,9 @@ main() {
     control-plane)
       product_template=$PROJECT_DIR/ci/assets/template/control-plane-config.yml
       ;;
+    p-isolation-segment)
+      product_template=$PROJECT_DIR/ci/assets/template/ist-config.yml
+      ;;
   esac
 
   pushd $PROJECT_DIR/$path > /dev/null

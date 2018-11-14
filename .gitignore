@@ -3,3 +3,5 @@
 *.tfstate
 *.tfvars
 *.tfplan
+.idea
+.idea/*

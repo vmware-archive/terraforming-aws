@@ -59,6 +59,10 @@ variable "ssl_cert_arn" {
   description = "The ARN for the certificate to be used by the LB"
 }
 
+variable "create_isoseg_resources" {
+  default = 0
+}
+
 variable "isoseg_ssl_cert_arn" {
   type        = "string"
   description = "The ARN for the certificate to be used by the Isolation Segment LB"
