@@ -47,4 +47,9 @@ product-properties:
 resource-config:
   pivotal-container-service:
     elb_names:
-    - {{.pks_load_balancer_name}}
+    {{range .pks_api_target_groups}}
+    - alb:{{.}}
+    {{end}}
+    additional_vm_extensions:
+    - pks-api-lb-security-group
+    - vms

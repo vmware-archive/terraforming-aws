@@ -1,5 +1,8 @@
-output "load_balancer_name" {
-  value = "${aws_elb.pks_api_elb.name}"
+output "pks_api_target_groups" {
+  value = [
+    "${aws_lb_target_group.pks_api_9021.name}",
+    "${aws_lb_target_group.pks_api_8443.name}",
+  ]
 }
 
 output "pks_subnet_ids" {
