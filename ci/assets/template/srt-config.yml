@@ -60,14 +60,14 @@ resource-config:
     - alb:{{.}}
     {{end}}
     additional_vm_extensions:
-    - ssh-lb-security-group
+    - ssh-lb-security-groups
   router:
     elb_names:
     {{range .web_target_groups}}
     - alb:{{.}}
     {{end}}
     additional_vm_extensions:
-    - web-lb-security-group
+    - web-lb-security-groups
     instances: 1
   tcp_router:
     elb_names:
@@ -75,4 +75,4 @@ resource-config:
     - alb:{{.}}
     {{end}}
     additional_vm_extensions:
-    - tcp-lb-security-group
+    - tcp-lb-security-groups
