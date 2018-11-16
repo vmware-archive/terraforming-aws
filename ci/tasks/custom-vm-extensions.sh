@@ -1,7 +1,7 @@
 #!/bin/bash -exu
 
 main() {
-  export OM_TARGET="https://$(jq -r .ops_manager_dns < "${cwd}/env-state/metadata")"
+  export OM_TARGET="https://$(jq -r .ops_manager_dns < env-state/metadata)"
 
   echo "Creating Custom VM Extensions"
 
