@@ -161,21 +161,28 @@ jobs:
         ACTION: add
       input_mapping:
         env-state: env-state-aws
-    - task: configure-director
-      file: ci/scripts/terraforming/configure-director/task.yml
-      params:
-        <<: *om-creds
-        TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
-      input_mapping:
-        env-state: env-state-aws
-        director-config-template: terraforming
-    - task: download-stemcell
-      file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
-      input_mapping:
-        ert-product: pks
-      params:
-        IAAS_TYPE: aws
-        PIVNET_TOKEN: ((pivnet_token))
+    - aggregate:
+      - task: configure-director
+        file: ci/scripts/terraforming/configure-director/task.yml
+        params:
+          <<: *om-creds
+          TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+        input_mapping:
+          env-state: env-state-aws
+          director-config-template: terraforming
+      - task: download-stemcell
+        file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
+        input_mapping:
+          ert-product: pks
+        params:
+          IAAS_TYPE: aws
+          PIVNET_TOKEN: ((pivnet_token))
+      - task: custom-vm-extensions
+        file: terraforming/ci/tasks/custom-vm-extensions.yml
+        input_mapping:
+          env-state: env-state-aws
+        params:
+          <<: *om-creds
     - task: upload-configure-stage-pks
       file: ci/scripts/terraforming/upload-configure-stage/task.yml
       params:
@@ -283,6 +290,7 @@ jobs:
       - task: custom-vm-extensions
         file: terraforming/ci/tasks/custom-vm-extensions.yml
         params:
+          PAS: true
           <<: *om-creds
         input_mapping:
           env-state: env-state-aws

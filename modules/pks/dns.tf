@@ -8,7 +8,7 @@ resource "aws_route53_record" "wildcard_sys_dns" {
   type    = "CNAME"
   ttl     = 300
 
-  records = ["${aws_elb.pks_api_elb.dns_name}"]
+  records = ["${aws_lb.pks_api.dns_name}"]
 
   count = "${local.use_route53 ? 1 : 0}"
 }

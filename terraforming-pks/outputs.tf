@@ -35,7 +35,7 @@ output "ops_manager_iam_user_access_key" {
 }
 
 output "ops_manager_iam_user_secret_key" {
-  value = "${module.ops_manager.ops_manager_iam_user_secret_key}"
+  value     = "${module.ops_manager.ops_manager_iam_user_secret_key}"
   sensitive = true
 }
 
@@ -185,12 +185,12 @@ output "pks_worker_iam_instance_profile_name" {
   value = "${module.pks.pks_worker_iam_instance_profile_name}"
 }
 
-output "pks_load_balancer_name" {
-  value = "${module.pks.load_balancer_name}"
-}
-
 output "pks_master_security_group_id" {
   value = "${module.pks.pks_master_security_group_id}"
+}
+
+output "pks_api_target_groups" {
+  value = "${module.pks.pks_api_target_groups}"
 }
 
 # PKS Services =================================================================
