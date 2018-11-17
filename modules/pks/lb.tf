@@ -48,7 +48,7 @@ resource "aws_lb_listener" "pks_api_9021" {
 }
 
 resource "aws_lb_target_group" "pks_api_9021" {
-  name     = "${var.env_name}-pks-api-tg-9021"
+  name     = "${var.env_name}-pks-tg-9021"
   port     = 9021
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
@@ -73,7 +73,7 @@ resource "aws_lb_listener" "pks_api_8443" {
 }
 
 resource "aws_lb_target_group" "pks_api_8443" {
-  name     = "${var.env_name}-pks-api-tg-8443"
+  name     = "${var.env_name}-pks-tg-8443"
   port     = 8443
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"

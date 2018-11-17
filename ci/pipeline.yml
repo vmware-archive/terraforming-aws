@@ -148,7 +148,7 @@ jobs:
         KEY: us-east-2
     - put: env-state-aws
       params:
-        env_name: terraforming-aws-pks
+        env_name: tf-aws-pks
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
@@ -220,7 +220,7 @@ jobs:
             env-state: env-state-aws
         - put: env-state-aws
           params:
-            env_name: terraforming-aws-pks
+            env_name: tf-aws-pks
             terraform_source: terraforming/terraforming-pks
             delete_on_failure: true
             action: destroy
