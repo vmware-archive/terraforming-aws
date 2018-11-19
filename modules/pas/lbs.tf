@@ -19,13 +19,6 @@ resource "aws_security_group" "web_lb" {
     to_port     = 443
   }
 
-  ingress {
-    cidr_blocks = ["0.0.0.0/0"]
-    protocol    = "tcp"
-    from_port   = 4443
-    to_port     = 4443
-  }
-
   egress {
     cidr_blocks = ["0.0.0.0/0"]
     protocol    = "-1"
@@ -66,17 +59,6 @@ resource "aws_lb_listener" "web_443" {
   }
 }
 
-resource "aws_lb_listener" "web_4443" {
-  load_balancer_arn = "${aws_lb.web.arn}"
-  port              = 4443
-  protocol          = "TCP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = "${aws_lb_target_group.web_4443.arn}"
-  }
-}
-
 resource "aws_lb_target_group" "web_80" {
   name     = "${var.env_name}-web-tg-80"
   port     = 80
@@ -91,17 +73,6 @@ resource "aws_lb_target_group" "web_80" {
 resource "aws_lb_target_group" "web_443" {
   name     = "${var.env_name}-web-tg-443"
   port     = 443
-  protocol = "TCP"
-  vpc_id   = "${var.vpc_id}"
-
-  health_check {
-    protocol = "TCP"
-  }
-}
-
-resource "aws_lb_target_group" "web_4443" {
-  name     = "${var.env_name}-web-tg-4443"
-  port     = 4443
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
 

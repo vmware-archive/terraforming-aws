@@ -80,7 +80,6 @@ output "web_target_groups" {
   value = [
     "${aws_lb_target_group.web_80.name}",
     "${aws_lb_target_group.web_443.name}",
-    "${aws_lb_target_group.web_4443.name}",
   ]
 }
 
