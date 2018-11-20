@@ -216,7 +216,6 @@ jobs:
           params:
             <<: *modify-terraforming-dns-params
             ACTION: remove
-            CHECK_DNS: false
           input_mapping:
             env-state: env-state-aws
         - put: env-state-aws
@@ -329,7 +328,6 @@ jobs:
           params:
             <<: *modify-terraforming-dns-params
             ACTION: remove
-            CHECK_DNS: false
           input_mapping:
             env-state: env-state-aws
         - put: env-state-aws
