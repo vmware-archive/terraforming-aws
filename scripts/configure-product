@@ -27,12 +27,24 @@ main() {
       ;;
   esac
 
+
   pushd $PROJECT_DIR/$path > /dev/null
     authenticate_om "${password}"
 
+    mkdir -p /tmp/env-state
+    jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate > /tmp/env-state/metadata
+
     om -k configure-product -n "${product}"\
-      -c <(texplate execute $product_template -f <(jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate) -o yaml)
+      -c <(texplate execute "${product_template}" -f /tmp/env-state/metadata -o yaml)
   popd > /dev/null
+
+  if [[ ${product} = "cf" ]]; then
+    export PAS=true
+  fi
+
+  piper -c "${PWD}/ci/tasks/custom-vm-extensions.yml" \
+    -i "terraforming=${PWD}" \
+    -i env-state=/tmp/env-state
 }
 
 main "$@"
