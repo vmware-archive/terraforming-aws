@@ -359,6 +359,8 @@ jobs:
       name: release/version
       tag: release/version
       commitish: release/commitish
+      globs:
+      - release/terraforming-aws-*.tar.gz
   - put: version
     params:
       bump: minor
