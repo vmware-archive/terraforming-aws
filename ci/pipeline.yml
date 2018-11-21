@@ -354,6 +354,8 @@ jobs:
       resource: infrastructure-ci
   - task: release
     file: ci/scripts/terraforming/release/task.yml
+    params:
+      IAAS: aws
   - put: terraforming-release
     params:
       name: release/version
