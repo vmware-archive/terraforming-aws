@@ -42,7 +42,7 @@ variable "ops_manager_private" {
   description = "If true, the Ops Manager will be colocated with the BOSH director on the infrastructure subnet instead of on the public subnet"
 }
 
-variable "ops_manager" {
+variable "ops_manager_vm" {
   default = true
 }
 

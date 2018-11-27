@@ -43,7 +43,7 @@ module "infra" {
 module "ops_manager" {
   source = "../modules/ops_manager"
 
-  count          = "${var.ops_manager ? 1 : 0}"
+  vm_count       = "${var.ops_manager_vm ? 1 : 0}"
   optional_count = "${var.optional_ops_manager ? 1 : 0}"
   subnet_id      = "${local.ops_man_subnet_id}"
 
