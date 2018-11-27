@@ -1,5 +1,3 @@
-variable "count" {}
-
 variable "region" {
   type = "string"
 }

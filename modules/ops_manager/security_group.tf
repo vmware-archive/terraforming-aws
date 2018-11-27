@@ -2,7 +2,6 @@ resource "aws_security_group" "ops_manager_security_group" {
   name        = "ops_manager_security_group"
   description = "Ops Manager Security Group"
   vpc_id      = "${var.vpc_id}"
-  count       = "${var.count}"
 
   ingress {
     cidr_blocks = ["${var.private ? var.vpc_cidr : "0.0.0.0/0"}"]

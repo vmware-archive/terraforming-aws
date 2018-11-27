@@ -7,7 +7,7 @@ resource "aws_eip" "ops_manager_attached" {
 }
 
 resource "aws_eip" "ops_manager_unattached" {
-  count = "${var.private || (var.vm_count > 0) ? 0 : var.count}"
+  count = "${var.private || (var.vm_count > 0) ? 0 : 1}"
   vpc   = true
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-om-eip"))}"
