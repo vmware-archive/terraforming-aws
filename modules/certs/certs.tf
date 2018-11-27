@@ -3,7 +3,6 @@ locals {
     length(var.ssl_ca_cert) > 0 ? 1 : 0}"
 }
 
-
 resource "tls_private_key" "ssl_private_key" {
   algorithm = "RSA"
   rsa_bits  = "2048"
