@@ -6,6 +6,8 @@ variable "region" {
 
 variable "optional_count" {}
 
+variable "vm_count" {}
+
 variable "private" {}
 
 variable "env_name" {}

@@ -119,6 +119,7 @@ tags = {
 
 ### Ops Manager (optional)
 - ops_manager: **(default: true)** Set to false if you don't want an Ops Manager
+- ops_manager_vm: **(default: true)** Set to false if you don't want an ops manager vm, but still want all the other resource included in the module.
 - ops_manager_ami: **(optional)**  Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager)
 - optional_ops_manager: **(default: false)** Set to true if you want an additional Ops Manager (useful for testing upgrades)
 - optional_ops_manager_ami: **(optional)**  Additional Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager)
