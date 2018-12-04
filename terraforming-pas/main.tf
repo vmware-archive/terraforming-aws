@@ -70,8 +70,6 @@ module "pas_certs" {
   env_name   = "${var.env_name}"
   dns_suffix = "${var.dns_suffix}"
 
-  ssl_cert_arn = "${var.ssl_cert_arn}"
-
   ssl_cert           = "${var.ssl_cert}"
   ssl_private_key    = "${var.ssl_private_key}"
   ssl_ca_cert        = "${var.ssl_ca_cert}"
@@ -113,9 +111,7 @@ module "pas" {
   ops_manager_iam_user_name = "${module.ops_manager.ops_manager_iam_user_name}"
   iam_ops_manager_role_name = "${module.ops_manager.ops_manager_iam_role_name}"
 
-  ssl_cert_arn            = "${module.pas_certs.ssl_cert_arn}"
   create_isoseg_resources = "${var.create_isoseg_resources}"
-  isoseg_ssl_cert_arn     = "${module.isoseg_certs.ssl_cert_arn}"
 
   tags = "${local.actual_tags}"
 }

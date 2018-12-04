@@ -233,10 +233,6 @@ output "ssh_target_groups" {
   value = "${module.pas.ssh_target_groups}"
 }
 
-output "ssl_cert_arn" {
-  value = "${var.ssl_cert_arn}"
-}
-
 output "ssl_cert" {
   sensitive = true
   value     = "${module.pas_certs.ssl_cert}"

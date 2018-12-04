@@ -44,15 +44,3 @@ resource "tls_locally_signed_cert" "ssl_cert" {
     "server_auth",
   ]
 }
-
-resource "aws_iam_server_certificate" "cert" {
-  count = "${length(var.ssl_cert_arn) > 0 ? 0 : local.should_create_certificate}"
-
-  name_prefix      = "${var.env_name}-${var.resource_name}"
-  certificate_body = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_locally_signed_cert.ssl_cert.*.cert_pem, list("")), 0) : var.ssl_cert}"
-  private_key      = "${length(var.ssl_ca_cert) > 0 ? element(concat(tls_private_key.ssl_private_key.*.private_key_pem, list("")), 0) : var.ssl_private_key}"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
