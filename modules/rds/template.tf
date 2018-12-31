@@ -7,6 +7,13 @@ resource "aws_subnet" "rds_subnets" {
   tags = "${merge(var.tags, map("Name", "${var.env_name}-rds-subnet${count.index}"))}"
 }
 
+resource "aws_route_table_association" "rds_route_association" {
+  count     = "${length(var.availability_zones)}"
+  subnet_id = "${element(aws_subnet.rds_subnets.*.id, count.index)}"
+
+  route_table_id = "${var.default_route_table_id}"
+}
+
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name        = "${var.env_name}_db_subnet_group"
   description = "RDS Subnet Group"
@@ -18,16 +25,16 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   count = "${var.rds_instance_count > 0 ? 1 : 0}"
 }
 
-resource "aws_security_group" "mysql_security_group" {
-  name        = "mysql_security_group"
-  description = "MySQL Security Group"
+resource "aws_security_group" "rds_security_group" {
+  name        = "rds_security_group"
+  description = "RDS Instance Security Group"
   vpc_id      = "${var.vpc_id}"
 
   ingress {
     cidr_blocks = ["${var.vpc_cidr}"]
     protocol    = "tcp"
-    from_port   = 3306
-    to_port     = 3306
+    from_port   = "${var.db_port}"
+    to_port     = "${var.db_port}"
   }
 
   egress {
@@ -37,8 +44,7 @@ resource "aws_security_group" "mysql_security_group" {
     to_port     = 0
   }
 
-  tags = "${merge(var.tags, map("Name", "${var.env_name}-mysql-security-group"))}"
-
+  tags  = "${merge(var.tags, map("Name", "${var.env_name}-rds-security-group"))}"
   count = "${var.rds_instance_count > 0 ? 1 : 0}"
 }
 
@@ -50,14 +56,14 @@ resource "random_string" "rds_password" {
 resource "aws_db_instance" "rds" {
   allocated_storage       = 100
   instance_class          = "${var.rds_instance_class}"
-  engine                  = "mariadb"
-  engine_version          = "10.1.31"
+  engine                  = "${var.engine}"
+  engine_version          = "${var.engine_version}"
   identifier              = "${var.env_name}"
   username                = "${var.rds_db_username}"
   password                = "${random_string.rds_password.result}"
   db_subnet_group_name    = "${aws_db_subnet_group.rds_subnet_group.name}"
   publicly_accessible     = false
-  vpc_security_group_ids  = ["${aws_security_group.mysql_security_group.id}"]
+  vpc_security_group_ids  = ["${aws_security_group.rds_security_group.id}"]
   iops                    = 1000
   multi_az                = true
   skip_final_snapshot     = true

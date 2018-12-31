@@ -31,7 +31,7 @@ networks-configuration:
       iaas_identifier: {{index $.infrastructure_subnet_ids $i}}
       reserved_ip_ranges: {{cidrhost (index $.infrastructure_subnet_cidrs $i) 0}}-{{cidrhost (index $.infrastructure_subnet_cidrs $i) 4}}
     {{end}}
-{{if  index . "pas_subnet_cidrs"}}
+{{if index . "pas_subnet_cidrs"}}
   - name: pas
     subnets:
     {{range $i, $a := .pas_subnet_cidrs}}
@@ -57,21 +57,37 @@ networks-configuration:
       reserved_ip_ranges: {{cidrhost (index $.pks_subnet_cidrs $i) 0}}-{{cidrhost (index $.pks_subnet_cidrs $i) 4}}
     {{end}}
 {{end}}
+{{if index . "control_plane_subnet_cidrs" }}
+  - name: control-plane
+    subnets:
+    {{range $i, $a := .control_plane_subnet_cidrs}}
+    - availability_zone_names:
+        - {{index $.azs $i}}
+      cidr: {{index $.control_plane_subnet_cidrs $i}}
+      dns: 169.254.169.253
+      gateway: {{index $.control_plane_subnet_gateways $i}}
+      iaas_identifier: {{index $.control_plane_subnet_ids $i}}
+      reserved_ip_ranges: {{cidrhost (index $.control_plane_subnet_cidrs $i) 0}}-{{cidrhost (index $.control_plane_subnet_cidrs $i) 4}}
+    {{end}}
+{{else}}
   - name: services
     subnets:
     {{range $i, $a := .services_subnet_cidrs}}
     - availability_zone_names:
-      - {{index $.azs $i}}
+        - {{index $.azs $i}}
       cidr: {{index $.services_subnet_cidrs $i}}
       dns: 169.254.169.253
       gateway: {{index $.services_subnet_gateways $i}}
       iaas_identifier: {{index $.services_subnet_ids $i}}
       reserved_ip_ranges: {{cidrhost (index $.services_subnet_cidrs $i) 0}}-{{cidrhost (index $.services_subnet_cidrs $i) 4}}
     {{end}}
+{{end}}
 resource-configuration:
   compilation:
     instance_type:
       id: c4.xlarge
+{{if index . "ssl_cert"}}
 security-configuration:
   trusted_certificates: |
 {{indent 4 .ssl_cert}}
+{{end}}

@@ -100,6 +100,10 @@ module "rds" {
   rds_instance_class = "${var.rds_instance_class}"
   rds_instance_count = "${var.rds_instance_count}"
 
+  engine         = "mariadb"
+  engine_version = "10.1.31"
+  db_port        = 3306
+
   env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"

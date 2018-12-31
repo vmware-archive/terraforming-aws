@@ -16,4 +16,4 @@ run:
 params:
   OM_USERNAME:
   OM_PASSWORD:
-  PAS:
+  PRODUCT:

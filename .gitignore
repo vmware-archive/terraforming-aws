@@ -5,3 +5,5 @@
 *.tfplan
 .idea
 .idea/*
+*.pivotal
+om.key

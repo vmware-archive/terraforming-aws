@@ -1,3 +1,4 @@
+product-name: pivotal-container-service
 network-properties:
   network:
     name: pks

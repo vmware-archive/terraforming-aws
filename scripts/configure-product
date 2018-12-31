@@ -1,7 +1,9 @@
 #!/bin/bash -exu
 
 authenticate_om() {
-  export OM_TARGET="https://$(terraform output ops_manager_dns)"
+	export OM_TARGET
+
+  OM_TARGET="https://$(terraform output ops_manager_dns)"
   export OM_USERNAME="admin"
   export OM_PASSWORD="$1"
 }
@@ -33,18 +35,21 @@ main() {
 
     mkdir -p /tmp/env-state
     jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate > /tmp/env-state/metadata
+		
+	  local rds_ca_cert
+    rds_ca_cert="$(curl -X GET 'https://s3.amazonaws.com/rds-downloads/rds-ca-2015-root.pem')"
 
-    om -k configure-product -n "${product}"\
+    cat /tmp/env-state/metadata | jq --arg rds_ca_cert "$rds_ca_cert" '. + {"rds_ca_cert": $rds_ca_cert}' > /tmp/env-state/metadata_tmp
+		mv /tmp/env-state/metadata{_tmp,}
+
+    export PRODUCT=${product}
+    piper -c "${PROJECT_DIR}/ci/tasks/custom-vm-extensions.yml" \
+      -i "terraforming=${PROJECT_DIR}" \
+      -i env-state=/tmp/env-state
+
+    om -k configure-product \
       -c <(texplate execute "${product_template}" -f /tmp/env-state/metadata -o yaml)
   popd > /dev/null
-
-  if [[ ${product} = "cf" ]]; then
-    export PAS=true
-  fi
-
-  piper -c "${PWD}/ci/tasks/custom-vm-extensions.yml" \
-    -i "terraforming=${PWD}" \
-    -i env-state=/tmp/env-state
 }
 
 main "$@"
