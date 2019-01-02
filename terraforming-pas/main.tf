@@ -127,12 +127,9 @@ module "rds" {
   engine_version = "10.1.31"
   db_port        = 3306
 
-  env_name               = "${var.env_name}"
-  availability_zones     = "${var.availability_zones}"
-  vpc_cidr               = "${var.vpc_cidr}"
-  vpc_id                 = "${module.infra.vpc_id}"
-  gateway_id             = "${module.infra.internet_gateway_id}"
-  nat_id                 = "${module.infra.nat_id}"
-  default_route_table_id = "${module.infra.default_route_table_id}"
-  tags                   = "${local.actual_tags}"
+  env_name           = "${var.env_name}"
+  availability_zones = "${var.availability_zones}"
+  vpc_cidr           = "${var.vpc_cidr}"
+  vpc_id             = "${module.infra.vpc_id}"
+  tags               = "${local.actual_tags}"
 }

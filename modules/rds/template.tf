@@ -7,13 +7,6 @@ resource "aws_subnet" "rds_subnets" {
   tags = "${merge(var.tags, map("Name", "${var.env_name}-rds-subnet${count.index}"))}"
 }
 
-resource "aws_route_table_association" "rds_route_association" {
-  count     = "${var.rds_instance_count > 0 ? length(var.availability_zones) : 0}"
-  subnet_id = "${element(aws_subnet.rds_subnets.*.id, count.index)}"
-
-  route_table_id = "${var.default_route_table_id}"
-}
-
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name        = "${var.env_name}_db_subnet_group"
   description = "RDS Subnet Group"
