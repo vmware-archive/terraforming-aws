@@ -17,12 +17,14 @@ Note: This is not an exhaustive list of resources created, this will vary depend
 
 ## Prerequisites
 
+### Terraform CLI
+
 ```bash
 brew update
 brew install terraform
 ```
 
-## AWS Permissions
+### AWS Permissions
 - AmazonEC2FullAccess
 - AmazonRDSFullAccess
 - AmazonRoute53FullAccess
