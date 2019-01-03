@@ -64,7 +64,7 @@ First, you'll need to clone this repo. Then, depending on if you're deploying PA
   ```bash
   terraform init
   terraform plan -out=pcf.tfplan
-  terraform apply plan
+  terraform apply pcf.tfplan
   ```
 
 ### Var File
