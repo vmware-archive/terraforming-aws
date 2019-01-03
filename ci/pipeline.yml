@@ -182,6 +182,7 @@ jobs:
       input_mapping:
         env-state: env-state-aws
       params:
+        PRODUCT: pivotal-container-service
         <<: *om-creds
     - task: upload-configure-stage-pks
       file: ci/scripts/terraforming/upload-configure-stage/task.yml
@@ -290,7 +291,7 @@ jobs:
     - task: custom-vm-extensions
       file: terraforming/ci/tasks/custom-vm-extensions.yml
       params:
-        PAS: true
+        PRODUCT: cf
         <<: *om-creds
       input_mapping:
         env-state: env-state-aws
