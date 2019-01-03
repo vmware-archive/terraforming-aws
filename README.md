@@ -54,7 +54,7 @@ Note: You will also need to create a custom policy as the following and add to
 
 ## Deploying Ops Manager
 
-Depending if you're deploying PAS or PKS you need to perform the following steps:
+First, you'll need to clone this repo. Then, depending on if you're deploying PAS or PKS you need to perform the following steps:
 
 1. `cd` into the proper directory:
     - [terraforming-pas/](terraforming-pas/)
