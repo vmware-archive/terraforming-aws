@@ -26,7 +26,7 @@ resource "aws_route53_zone" "pcf_zone" {
 }
 
 resource "aws_route53_record" "name_servers" {
-  count = "${local.use_route53 ? local.hosted_zone_count : 0}"
+  count = "${local.use_route53 ? (1 - local.hosted_zone_count) : 0}"
 
   zone_id = "${local.zone_id}"
   name    = "${var.env_name}.${var.dns_suffix}"
