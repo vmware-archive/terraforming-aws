@@ -85,6 +85,8 @@ module "rds" {
 }
 
 resource "null_resource" "create_databases" {
+  count = "${var.rds_instance_count == 1 ? 1 : 0}"
+
   provisioner "local-exec" {
     command     = "./db/create_databases.sh"
     interpreter = ["bash", "-c"]
