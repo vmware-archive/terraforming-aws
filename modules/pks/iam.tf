@@ -83,7 +83,7 @@ resource "aws_iam_role_policy_attachment" "pks_worker" {
 
 resource "aws_iam_instance_profile" "pks_worker" {
   name = "${var.env_name}_pks-worker"
-  role = "${aws_iam_role.pks_master.name}"
+  role = "${aws_iam_role.pks_worker.name}"
 
   lifecycle {
     ignore_changes = ["name"]
