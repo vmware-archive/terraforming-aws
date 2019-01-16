@@ -59,6 +59,7 @@ First, you'll need to clone this repo. Then, depending on if you're deploying PA
 1. `cd` into the proper directory:
     - [terraforming-pas/](terraforming-pas/)
     - [terraforming-pks/](terraforming-pks/)
+    - [terraforming-control-plane/](terraforming-control-plane/)
 1. Create [`terraform.tfvars`](/README.md#var-file) file
 1. Run terraform apply:
   ```bash
