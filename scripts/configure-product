@@ -35,8 +35,8 @@ main() {
 
     mkdir -p /tmp/env-state
     jq -e --raw-output '.modules[0].outputs | map_values(.value)' terraform.tfstate > /tmp/env-state/metadata
-		
-	  local rds_ca_cert
+
+    local rds_ca_cert
     rds_ca_cert="$(curl -X GET 'https://s3.amazonaws.com/rds-downloads/rds-ca-2015-root.pem')"
 
     cat /tmp/env-state/metadata | jq --arg rds_ca_cert "$rds_ca_cert" '. + {"rds_ca_cert": $rds_ca_cert}' > /tmp/env-state/metadata_tmp

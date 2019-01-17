@@ -7,7 +7,11 @@ output "public_subnet_ids" {
 }
 
 output "private_route_table_ids" {
-  value = ["${aws_route_table.private_route_table.*.id}"]
+  value = ["${aws_route_table.nat_route_table.*.id}"]
+}
+
+output "product_route_table_ids" {
+  value = ["${aws_route_table.product.*.id}"]
 }
 
 output "zone_id" {

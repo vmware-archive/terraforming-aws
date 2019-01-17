@@ -30,6 +30,8 @@ variable "tags" {
   description = "Key/value tags to assign to all AWS resources"
 }
 
+variable "internetless" {}
+
 variable "nat_ami_map" {
   type = "map"
 

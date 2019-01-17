@@ -18,9 +18,11 @@ variable "vpc_id" {
   type = "string"
 }
 
-variable "private_route_table_ids" {
+variable "route_table_ids" {
   type = "list"
 }
+
+variable "internetless" {}
 
 variable "public_subnet_ids" {
   type = "list"

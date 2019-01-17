@@ -33,7 +33,7 @@ resource "aws_lb" "web" {
   name                             = "${var.env_name}-web-lb"
   load_balancer_type               = "network"
   enable_cross_zone_load_balancing = true
-  internal                         = false
+  internal                         = "${var.internetless}"
   subnets                          = ["${var.public_subnet_ids}"]
 }
 
@@ -109,7 +109,7 @@ resource "aws_lb" "ssh" {
   name                             = "${var.env_name}-ssh-lb"
   load_balancer_type               = "network"
   enable_cross_zone_load_balancing = true
-  internal                         = false
+  internal                         = "${var.internetless}"
   subnets                          = ["${var.public_subnet_ids}"]
 }
 
@@ -167,7 +167,7 @@ resource "aws_lb" "tcp" {
   name                             = "${var.env_name}-tcp-lb"
   load_balancer_type               = "network"
   enable_cross_zone_load_balancing = true
-  internal                         = false
+  internal                         = "${var.internetless}"
   subnets                          = ["${var.public_subnet_ids}"]
 }
 
