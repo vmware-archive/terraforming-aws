@@ -33,6 +33,7 @@ module "infra" {
   env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
+  internetless       = false
 
   hosted_zone = "${var.hosted_zone}"
   dns_suffix  = "${var.dns_suffix}"
