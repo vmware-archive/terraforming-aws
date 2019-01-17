@@ -2,16 +2,22 @@ az-configuration:
 {{range .azs}}
 - name: {{.}}
 {{end}}
-director-configuration:
-  ntp_servers_string: 169.254.169.123
-iaas-configuration:
-  access_key_id: {{.ops_manager_iam_user_access_key}}
-  secret_access_key: {{.ops_manager_iam_user_secret_key}}
-  vpc_id: {{.vpc_id}}
-  security_group: {{.vms_security_group_id}}
-  key_pair_name: {{.ops_manager_ssh_public_key_name}}
-  ssh_private_key: {{ toJson .ops_manager_ssh_private_key }}
-  region: {{.region}}
+properties-configuration:
+  director_configuration:
+    ntp_servers_string: 169.254.169.123
+  {{if index . "ssl_cert"}}
+  security_configuration:
+    trusted_certificates: |
+  {{indent 6 .ssl_cert}}
+  {{end}}
+  iaas_configuration:
+    access_key_id: {{.ops_manager_iam_user_access_key}}
+    secret_access_key: {{.ops_manager_iam_user_secret_key}}
+    vpc_id: {{.vpc_id}}
+    security_group: {{.vms_security_group_id}}
+    key_pair_name: {{.ops_manager_ssh_public_key_name}}
+    ssh_private_key: {{ toJson .ops_manager_ssh_private_key }}
+    region: {{.region}}
 network-assignment:
   network:
     name: ops-manager
@@ -86,8 +92,3 @@ resource-configuration:
   compilation:
     instance_type:
       id: c4.xlarge
-{{if index . "ssl_cert"}}
-security-configuration:
-  trusted_certificates: |
-{{indent 4 .ssl_cert}}
-{{end}}
