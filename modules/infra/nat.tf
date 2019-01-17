@@ -52,6 +52,6 @@ resource "aws_route" "toggle_internet" {
   count = "${var.internetless ? 0 : length(var.availability_zones)}"
 
   route_table_id         = "${element(aws_route_table.product.*.id, count.index)}"
-  instance_id            = "${aws_nat_gateway.nat.id}"
+  nat_gateway_id         = "${aws_nat_gateway.nat.id}"
   destination_cidr_block = "0.0.0.0/0"
 }
