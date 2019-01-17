@@ -50,19 +50,15 @@ resource "aws_security_group" "nat_security_group" {
   tags = "${merge(var.tags, map("Name", "${var.env_name}-nat-security-group"))}"
 }
 
-resource "aws_instance" "nat" {
-  ami                    = "${lookup(var.nat_ami_map, var.region)}"
-  instance_type          = "t2.medium"
-  vpc_security_group_ids = ["${aws_security_group.nat_security_group.id}"]
-  source_dest_check      = false
-  subnet_id              = "${element(aws_subnet.public_subnets.*.id, 0)}"
+resource "aws_nat_gateway" "nat" {
+  allocation_id = "${aws_eip.nat_eip.id}"
+  subnet_id     = "${element(aws_subnet.public_subnets.*.id, 0)}"
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-nat"))}"
 }
 
 resource "aws_eip" "nat_eip" {
-  instance = "${aws_instance.nat.id}"
-  vpc      = true
+  vpc = true
 
   tags = "${var.tags}"
 }
