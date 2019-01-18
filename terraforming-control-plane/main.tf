@@ -24,7 +24,8 @@ module "infra" {
   hosted_zone = "${var.hosted_zone}"
   dns_suffix  = "${var.dns_suffix}"
 
-  tags = "${local.actual_tags}"
+  internetless = false
+  tags         = "${local.actual_tags}"
 }
 
 module "ops_manager" {
