@@ -100,7 +100,7 @@ module "pas" {
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
   vpc_id             = "${module.infra.vpc_id}"
-  route_table_ids    = "${module.infra.product_route_table_ids}"
+  route_table_ids    = "${module.infra.deployment_route_table_ids}"
   public_subnet_ids  = "${module.infra.public_subnet_ids}"
   internetless       = "${var.internetless}"
 

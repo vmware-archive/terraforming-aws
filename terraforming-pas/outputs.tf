@@ -148,6 +148,14 @@ output "infrastructure_subnet_cidrs" {
   value = "${module.infra.infrastructure_subnet_cidrs}"
 }
 
+output "aws_lb_interface_endpoint_ips" {
+  value = "${module.infra.aws_lb_interface_endpoint_ips}"
+}
+
+output "aws_ec2_interface_endpoint_ips" {
+  value = "${module.infra.aws_ec2_interface_endpoint_ips}"
+}
+
 output "infrastructure_subnet_gateways" {
   value = "${module.infra.infrastructure_subnet_gateways}"
 }

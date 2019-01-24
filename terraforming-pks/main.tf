@@ -85,7 +85,7 @@ module "pks" {
   availability_zones      = "${var.availability_zones}"
   vpc_cidr                = "${var.vpc_cidr}"
   vpc_id                  = "${module.infra.vpc_id}"
-  private_route_table_ids = "${module.infra.private_route_table_ids}"
+  private_route_table_ids = "${module.infra.deployment_route_table_ids}"
   public_subnet_ids       = "${module.infra.public_subnet_ids}"
 
   zone_id    = "${module.infra.zone_id}"

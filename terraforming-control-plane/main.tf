@@ -59,7 +59,7 @@ module "control_plane" {
   availability_zones      = "${var.availability_zones}"
   vpc_cidr                = "${var.vpc_cidr}"
   public_subnet_ids       = "${module.infra.public_subnet_ids}"
-  private_route_table_ids = "${module.infra.private_route_table_ids}"
+  private_route_table_ids = "${module.infra.deployment_route_table_ids}"
   tags                    = "${local.actual_tags}"
   region                  = "${var.region}"
   dns_suffix              = "${var.dns_suffix}"

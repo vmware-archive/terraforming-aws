@@ -1,19 +1,11 @@
-resource "aws_route_table" "nat_route_table" {
-  count  = "${length(var.availability_zones)}"
-  vpc_id = "${aws_vpc.vpc.id}"
-
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = "${aws_nat_gateway.nat.id}"
-  }
-}
-
-resource "aws_route_table" "product" {
+resource "aws_route_table" "deployment" {
   count  = "${length(var.availability_zones)}"
   vpc_id = "${aws_vpc.vpc.id}"
 }
 
 resource "aws_security_group" "nat_security_group" {
+  count = "${var.internetless ? 0 : 1}"
+
   name        = "nat_security_group"
   description = "NAT Security Group"
   vpc_id      = "${aws_vpc.vpc.id}"
@@ -36,6 +28,7 @@ resource "aws_security_group" "nat_security_group" {
 }
 
 resource "aws_nat_gateway" "nat" {
+  count = "${var.internetless ? 0 : 1}"
   allocation_id = "${aws_eip.nat_eip.id}"
   subnet_id     = "${element(aws_subnet.public_subnets.*.id, 0)}"
 
@@ -43,6 +36,8 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_eip" "nat_eip" {
+  count = "${var.internetless ? 0 : 1}"
+
   vpc = true
 
   tags = "${var.tags}"
@@ -51,7 +46,7 @@ resource "aws_eip" "nat_eip" {
 resource "aws_route" "toggle_internet" {
   count = "${var.internetless ? 0 : length(var.availability_zones)}"
 
-  route_table_id         = "${element(aws_route_table.product.*.id, count.index)}"
+  route_table_id         = "${element(aws_route_table.deployment.*.id, count.index)}"
   nat_gateway_id         = "${aws_nat_gateway.nat.id}"
   destination_cidr_block = "0.0.0.0/0"
 }

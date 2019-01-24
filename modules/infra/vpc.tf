@@ -27,3 +27,42 @@ resource "aws_security_group" "vms_security_group" {
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-vms-security-group"))}"
 }
+
+locals {
+  ec2_address = "com.amazonaws.${var.region}.ec2"
+  lb_api_address = "com.amazonaws.${var.region}.elasticloadbalancing"
+}
+
+resource "aws_vpc_endpoint" "ec2" {
+  count = "${var.internetless ? 1 : 0}"
+
+  vpc_id              = "${aws_vpc.vpc.id}"
+  service_name        = "${local.ec2_address}"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  private_dns_enabled = true
+  security_group_ids  = ["${aws_security_group.vms_security_group.id}"]
+}
+
+resource "aws_vpc_endpoint" "lb" {
+  count = "${var.internetless ? 1 : 0}"
+
+  vpc_id              = "${aws_vpc.vpc.id}"
+  service_name        = "${local.lb_api_address}"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  private_dns_enabled = true
+  security_group_ids  = ["${aws_security_group.vms_security_group.id}"]
+}
+
+data "aws_network_interface" "ec2_endpoints" {
+  count = "${var.internetless ? length(element(concat(flatten(aws_vpc_endpoint.ec2.*.subnet_ids), list("")), 0)) : 0 }"
+
+  id = "${element(flatten(aws_vpc_endpoint.ec2.*.network_interface_ids), count.index)}"
+}
+
+data "aws_network_interface" "lb_endpoints" {
+  count = "${var.internetless ? length(element(concat(flatten(aws_vpc_endpoint.lb.*.subnet_ids), list("")), 0)) : 0 }"
+
+  id = "${element(flatten(aws_vpc_endpoint.lb.*.network_interface_ids), count.index)}"
+}
