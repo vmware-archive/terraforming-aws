@@ -56,13 +56,13 @@ resource "aws_vpc_endpoint" "lb" {
 }
 
 data "aws_network_interface" "ec2_endpoints" {
-  count = "${var.internetless ? length(element(concat(flatten(aws_vpc_endpoint.ec2.*.subnet_ids), list("")), 0)) : 0 }"
+  count = "${var.internetless ? length(var.availability_zones) : 0}"
 
-  id = "${element(flatten(aws_vpc_endpoint.ec2.*.network_interface_ids), count.index)}"
+  id = "${element(aws_vpc_endpoint.ec2.0.network_interface_ids, count.index)}"
 }
 
 data "aws_network_interface" "lb_endpoints" {
-  count = "${var.internetless ? length(element(concat(flatten(aws_vpc_endpoint.lb.*.subnet_ids), list("")), 0)) : 0 }"
+  count = "${var.internetless ? length(var.availability_zones) : 0}"
 
-  id = "${element(flatten(aws_vpc_endpoint.lb.*.network_interface_ids), count.index)}"
+  id = "${element(aws_vpc_endpoint.lb.0.network_interface_ids, count.index)}"
 }

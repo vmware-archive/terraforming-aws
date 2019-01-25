@@ -35,7 +35,7 @@ networks-configuration:
       dns: 169.254.169.253
       gateway: {{index $.infrastructure_subnet_gateways $i}}
       iaas_identifier: {{index $.infrastructure_subnet_ids $i}}
-      reserved_ip_ranges: {{cidrhost (index $.infrastructure_subnet_cidrs $i) 0}}-{{cidrhost (index $.infrastructure_subnet_cidrs $i) 4}}{{if $.aws_lb_interface_endpoint_ips }},{{index $.aws_lb_interface_endpoint_ips $i| join ","}}{{end}}{{if $.aws_ec2_interface_endpoint_ips }},{{index $.aws_ec2_interface_endpoint_ips $i | join ","}}{{end}}
+      reserved_ip_ranges: {{cidrhost (index $.infrastructure_subnet_cidrs $i) 0}}-{{cidrhost (index $.infrastructure_subnet_cidrs $i) 4}}
     {{end}}
 {{if index . "pas_subnet_cidrs"}}
   - name: pas
