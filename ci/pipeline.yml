@@ -153,8 +153,6 @@ jobs:
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
-      attempts: 3
-      timeout: 5m
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
         <<: *modify-terraforming-dns-params
@@ -264,8 +262,6 @@ jobs:
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
-      timeout: 5m
-      attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
         <<: *modify-terraforming-dns-params
