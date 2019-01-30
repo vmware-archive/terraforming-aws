@@ -153,6 +153,8 @@ Note: RDS instances take a long time to deploy, keep that in mind. They're not r
 
 ## Tearing down environment
 
+**Note:** This will only destroy resources deployed by Terraform. You will need to clean up anything deployed on top of that infrastructure yourself (e.g. by running `om delete-installation`)
+
 ```bash
 terraform destroy
 ```
