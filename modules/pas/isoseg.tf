@@ -1,12 +1,8 @@
-locals {
-  create_isoseg_resources = "${length(var.isoseg_ssl_cert_arn) > 0 ? 1 : 0}"
-}
+resource "aws_security_group" "isoseg_lb_security_group" {
+  count = "${var.create_isoseg_resources}"
 
-resource "aws_security_group" "isoseg_elb_security_group" {
-  count = "${local.create_isoseg_resources}"
-
-  name        = "isoseg_elb_security_group"
-  description = "Isoseg ELB Security Group"
+  name        = "isoseg_lb_security_group"
+  description = "Isoseg Load Balancer Security Group"
   vpc_id      = "${var.vpc_id}"
 
   ingress {
@@ -37,52 +33,97 @@ resource "aws_security_group" "isoseg_elb_security_group" {
     to_port     = 0
   }
 
-  tags = "${merge(var.tags, map("Name", "${var.env_name}-isoseg-elb-security-group"))}"
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-isoseg-lb-security-group"))}"
 }
 
-resource "aws_elb" "isoseg" {
-  count = "${local.create_isoseg_resources}"
+resource "aws_lb" "isoseg" {
+  count = "${var.create_isoseg_resources}"
 
-  name                      = "${var.env_name}-isoseg-elb"
-  cross_zone_load_balancing = true
-
-  health_check {
-    healthy_threshold   = 6
-    unhealthy_threshold = 3
-    interval            = 5
-    target              = "HTTP:8080/health"
-    timeout             = 3
-  }
-
-  idle_timeout = 3600
-
-  listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
-  }
-
-  listener {
-    instance_port      = 80
-    instance_protocol  = "http"
-    lb_port            = 443
-    lb_protocol        = "https"
-    ssl_certificate_id = "${var.isoseg_ssl_cert_arn}"
-  }
-
-  listener {
-    instance_port      = 80
-    instance_protocol  = "tcp"
-    lb_port            = 4443
-    lb_protocol        = "ssl"
-    ssl_certificate_id = "${var.isoseg_ssl_cert_arn}"
-  }
-
-  security_groups = ["${aws_security_group.isoseg_elb_security_group.id}"]
-  subnets         = ["${var.public_subnet_ids}"]
+  name                             = "${var.env_name}-isoseg-lb"
+  load_balancer_type               = "network"
+  enable_cross_zone_load_balancing = true
+  internal                         = false
+  subnets                          = ["${var.public_subnet_ids}"]
 
   tags = "${var.tags}"
+}
+
+resource "aws_lb_listener" "isoseg_80" {
+  load_balancer_arn = "${aws_lb.isoseg.arn}"
+  port              = 80
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.isoseg_80.arn}"
+  }
+
+  count = "${var.create_isoseg_resources}"
+}
+
+resource "aws_lb_listener" "isoseg_443" {
+  load_balancer_arn = "${aws_lb.isoseg.arn}"
+  port              = 443
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.isoseg_443.arn}"
+  }
+
+  count = "${var.create_isoseg_resources}"
+}
+
+resource "aws_lb_listener" "isoseg_4443" {
+  load_balancer_arn = "${aws_lb.isoseg.arn}"
+  port              = 4443
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.isoseg_4443.arn}"
+  }
+
+  count = "${var.create_isoseg_resources}"
+}
+
+resource "aws_lb_target_group" "isoseg_80" {
+  name     = "${var.env_name}-iso-tg-80"
+  port     = 80
+  protocol = "TCP"
+  vpc_id   = "${var.vpc_id}"
+
+  health_check {
+    protocol = "TCP"
+  }
+
+  count = "${var.create_isoseg_resources}"
+}
+
+resource "aws_lb_target_group" "isoseg_443" {
+  name     = "${var.env_name}-iso-tg-443"
+  port     = 443
+  protocol = "TCP"
+  vpc_id   = "${var.vpc_id}"
+
+  health_check {
+    protocol = "TCP"
+  }
+
+  count = "${var.create_isoseg_resources}"
+}
+
+resource "aws_lb_target_group" "isoseg_4443" {
+  name     = "${var.env_name}-iso-tg-4443"
+  port     = 4443
+  protocol = "TCP"
+  vpc_id   = "${var.vpc_id}"
+
+  health_check {
+    protocol = "TCP"
+  }
+
+  count = "${var.create_isoseg_resources}"
 }
 
 resource "aws_route53_record" "wildcard_iso_dns" {
@@ -90,7 +131,7 @@ resource "aws_route53_record" "wildcard_iso_dns" {
   name    = "*.iso.${var.env_name}.${var.dns_suffix}"
   type    = "CNAME"
   ttl     = 300
-  count   = "${local.create_isoseg_resources}"
+  count   = "${var.create_isoseg_resources}"
 
-  records = ["${aws_elb.isoseg.dns_name}"]
+  records = ["${aws_lb.isoseg.dns_name}"]
 }

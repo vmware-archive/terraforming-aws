@@ -74,22 +74,29 @@ output "pas_resources_backup_bucket" {
   value = "${element(concat(aws_s3_bucket.resources_backup_bucket.*.bucket, list("")), 0)}"
 }
 
-output "isoseg_elb_name" {
-  value = "${element(concat(aws_elb.isoseg.*.name, list("")), 0)}"
-}
-
 # ============ Load Balancers ==================================================
 
-output "web_lb_name" {
-  value = "${aws_elb.web_elb.name}"
+output "web_target_groups" {
+  value = [
+    "${aws_lb_target_group.web_80.name}",
+    "${aws_lb_target_group.web_443.name}",
+  ]
 }
 
-output "tcp_lb_name" {
-  value = "${aws_elb.tcp_elb.name}"
+output "tcp_target_groups" {
+  value = "${aws_lb_target_group.tcp.*.name}"
 }
 
-output "ssh_lb_name" {
-  value = "${aws_elb.ssh_elb.name}"
+output "ssh_target_groups" {
+  value = ["${aws_lb_target_group.ssh.name}"]
+}
+
+output "isoseg_target_groups" {
+  value = [
+    "${element(concat(aws_lb_target_group.isoseg_80.*.name, list("")), 0)}",
+    "${element(concat(aws_lb_target_group.isoseg_443.*.name, list("")), 0)}",
+    "${element(concat(aws_lb_target_group.isoseg_4443.*.name, list("")), 0)}",
+  ]
 }
 
 # ============== KMS ===========================================================

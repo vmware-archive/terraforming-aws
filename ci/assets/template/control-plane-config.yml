@@ -1,0 +1,58 @@
+product-name: control-plane
+network-properties:
+  network:
+    name: control-plane
+  other_availability_zones:
+    {{range .azs}}
+    - name: {{.}}
+    {{end}}
+  singleton_availability_zone:
+    name: {{index .azs 0}}
+product-properties:
+  .properties.domain:
+    value: {{.control_plane_domain}}
+  .properties.control_plane_database:
+    value: external
+  .properties.control_plane_database.external.host:
+    value: {{.rds_address}}
+  .properties.control_plane_database.external.port:
+    value: {{.rds_port}}
+  .properties.control_plane_database.external.atc_db_name:
+    value: atc
+  .properties.control_plane_database.external.atc_db_username:
+    value: {{.rds_username}}
+  .properties.control_plane_database.external.atc_db_password:
+    value:
+      secret: {{.rds_password}}
+  .properties.control_plane_database.external.credhub_db_name:
+    value: credhub
+  .properties.control_plane_database.external.credhub_db_username:
+    value: {{.rds_username}}
+  .properties.control_plane_database.external.credhub_db_password:
+    value:
+      secret: {{.rds_password}}
+  .properties.control_plane_database.external.uaa_db_name:
+    value: uaa
+  .properties.control_plane_database.external.uaa_db_username:
+    value: {{.rds_username}}
+  .properties.control_plane_database.external.uaa_db_password:
+    value:
+      secret: {{.rds_password}}
+  .properties.control_plane_database.external.ca_cert:
+    value: {{toJson .rds_ca_cert}}
+resource-config:
+  web:
+    instances: automatic
+    elb_names:
+    {{range .control_plane_lb_target_groups}}
+    - alb:{{.}}
+    {{end}}
+    additional_vm_extensions:
+    - control-plane-lb-security-groups
+    internet_connected: false
+  db:
+    instances: automatic
+    internet_connected: false
+  worker:
+    instances: automatic
+    internet_connected: true

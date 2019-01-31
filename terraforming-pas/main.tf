@@ -27,94 +27,96 @@ resource "random_integer" "bucket" {
 }
 
 module "infra" {
-  source             = "../modules/infra"
+  source = "../modules/infra"
 
   region             = "${var.region}"
   env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
 
-  hosted_zone        = "${var.hosted_zone}"
-  dns_suffix         = "${var.dns_suffix}"
+  internetless = "${var.internetless}"
 
-  tags               = "${local.actual_tags}"
+  hosted_zone = "${var.hosted_zone}"
+  dns_suffix  = "${var.dns_suffix}"
+
+  tags = "${local.actual_tags}"
 }
 
 module "ops_manager" {
   source = "../modules/ops_manager"
 
-  count                     = "${var.ops_manager ? 1 : 0}"
-  optional_count            = "${var.optional_ops_manager ? 1 : 0}"
-  subnet_id                 = "${local.ops_man_subnet_id}"
+  vm_count       = "${var.ops_manager_vm ? 1 : 0}"
+  optional_count = "${var.optional_ops_manager ? 1 : 0}"
+  subnet_id      = "${local.ops_man_subnet_id}"
 
-  env_name                  = "${var.env_name}"
-  ami                       = "${var.ops_manager_ami}"
-  optional_ami              = "${var.optional_ops_manager_ami}"
-  instance_type             = "${var.ops_manager_instance_type}"
-  private                   = "${var.ops_manager_private}"
-  vpc_id                    = "${module.infra.vpc_id}"
-  vpc_cidr                  = "${var.vpc_cidr}"
-  dns_suffix                = "${var.dns_suffix}"
-  zone_id                   = "${module.infra.zone_id}"
-  additional_iam_roles_arn  = ["${module.pas.iam_pas_bucket_role_arn}"]
-  bucket_suffix             = "${local.bucket_suffix}"
+  env_name                 = "${var.env_name}"
+  region                   = "${var.region}"
+  ami                      = "${var.ops_manager_ami}"
+  optional_ami             = "${var.optional_ops_manager_ami}"
+  instance_type            = "${var.ops_manager_instance_type}"
+  private                  = "${var.ops_manager_private}"
+  vpc_id                   = "${module.infra.vpc_id}"
+  vpc_cidr                 = "${var.vpc_cidr}"
+  dns_suffix               = "${var.dns_suffix}"
+  zone_id                  = "${module.infra.zone_id}"
+  additional_iam_roles_arn = ["${module.pas.iam_pas_bucket_role_arn}"]
+  bucket_suffix            = "${local.bucket_suffix}"
 
-  tags                      = "${local.actual_tags}"
+  tags = "${local.actual_tags}"
 }
 
 module "pas_certs" {
   source = "../modules/certs"
 
-  subdomains          = ["*.apps", "*.sys", "*.login.sys", "*.uaa.sys"]
-  env_name            = "${var.env_name}"
-  dns_suffix          = "${var.dns_suffix}"
+  subdomains = ["*.apps", "*.sys", "*.login.sys", "*.uaa.sys"]
+  env_name   = "${var.env_name}"
+  dns_suffix = "${var.dns_suffix}"
 
-  ssl_cert_arn        = "${var.ssl_cert_arn}"
-
-  ssl_cert            = "${var.ssl_cert}"
-  ssl_private_key     = "${var.ssl_private_key}"
-  ssl_ca_cert         = "${var.ssl_ca_cert}"
-  ssl_ca_private_key  = "${var.ssl_ca_private_key}"
+  ssl_cert           = "${var.ssl_cert}"
+  ssl_private_key    = "${var.ssl_private_key}"
+  ssl_ca_cert        = "${var.ssl_ca_cert}"
+  ssl_ca_private_key = "${var.ssl_ca_private_key}"
 }
 
 module "isoseg_certs" {
   source = "../modules/certs"
 
-  subdomains          = ["*.iso"]
-  env_name            = "${var.env_name}"
-  dns_suffix          = "${var.dns_suffix}"
-  resource_name       = "isoseg"
+  subdomains    = ["*.iso"]
+  env_name      = "${var.env_name}"
+  dns_suffix    = "${var.dns_suffix}"
+  resource_name = "isoseg"
 
-  ssl_cert            = "${var.isoseg_ssl_cert}"
-  ssl_private_key     = "${var.isoseg_ssl_private_key}"
-  ssl_ca_cert         = "${var.isoseg_ssl_ca_cert}"
-  ssl_ca_private_key  = "${var.isoseg_ssl_ca_private_key}"
+  ssl_cert           = "${var.isoseg_ssl_cert}"
+  ssl_private_key    = "${var.isoseg_ssl_private_key}"
+  ssl_ca_cert        = "${var.isoseg_ssl_ca_cert}"
+  ssl_ca_private_key = "${var.isoseg_ssl_ca_private_key}"
 }
 
 module "pas" {
   source = "../modules/pas"
 
-  env_name                     = "${var.env_name}"
-  availability_zones           = "${var.availability_zones}"
-  vpc_cidr                     = "${var.vpc_cidr}"
-  vpc_id                       = "${module.infra.vpc_id}"
-  private_route_table_ids      = "${module.infra.private_route_table_ids}"
-  public_subnet_ids            = "${module.infra.public_subnet_ids}"
+  env_name           = "${var.env_name}"
+  region             = "${var.region}"
+  availability_zones = "${var.availability_zones}"
+  vpc_cidr           = "${var.vpc_cidr}"
+  vpc_id             = "${module.infra.vpc_id}"
+  route_table_ids    = "${module.infra.deployment_route_table_ids}"
+  public_subnet_ids  = "${module.infra.public_subnet_ids}"
+  internetless       = "${var.internetless}"
 
-  bucket_suffix                = "${local.bucket_suffix}"
-  zone_id                      = "${module.infra.zone_id}"
-  dns_suffix                   = "${var.dns_suffix}"
+  bucket_suffix = "${local.bucket_suffix}"
+  zone_id       = "${module.infra.zone_id}"
+  dns_suffix    = "${var.dns_suffix}"
 
   create_backup_pas_buckets    = "${var.create_backup_pas_buckets}"
   create_versioned_pas_buckets = "${var.create_versioned_pas_buckets}"
 
-  ops_manager_iam_user_name    = "${module.ops_manager.ops_manager_iam_user_name}"
-  iam_ops_manager_role_name    = "${module.ops_manager.ops_manager_iam_role_name}"
+  ops_manager_iam_user_name = "${module.ops_manager.ops_manager_iam_user_name}"
+  iam_ops_manager_role_name = "${module.ops_manager.ops_manager_iam_role_name}"
 
-  ssl_cert_arn                 = "${module.pas_certs.ssl_cert_arn}"
-  isoseg_ssl_cert_arn          = "${module.isoseg_certs.ssl_cert_arn}"
+  create_isoseg_resources = "${var.create_isoseg_resources}"
 
-  tags                         = "${local.actual_tags}"
+  tags = "${local.actual_tags}"
 }
 
 module "rds" {
@@ -124,10 +126,13 @@ module "rds" {
   rds_instance_class = "${var.rds_instance_class}"
   rds_instance_count = "${var.rds_instance_count}"
 
+  engine         = "mariadb"
+  engine_version = "10.1.31"
+  db_port        = 3306
+
   env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
   vpc_id             = "${module.infra.vpc_id}"
-
   tags               = "${local.actual_tags}"
 }

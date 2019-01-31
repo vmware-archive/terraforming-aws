@@ -6,7 +6,7 @@ resource "aws_instance" "ops_manager" {
   source_dest_check      = false
   subnet_id              = "${var.subnet_id}"
   iam_instance_profile   = "${aws_iam_instance_profile.ops_manager.name}"
-  count                  = "${var.count}"
+  count                  = "${var.vm_count}"
 
   root_block_device {
     volume_type = "gp2"

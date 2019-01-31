@@ -25,6 +25,10 @@ variable "vpc_cidr" {
 * PAS *
 *******/
 
+variable "internetless" {
+  default = false
+}
+
 variable "create_versioned_pas_buckets" {
   default = false
 }
@@ -50,11 +54,11 @@ variable "ops_manager_instance_type" {
 }
 
 variable "ops_manager_private" {
-  default = false
+  default     = false
   description = "If true, the Ops Manager will be colocated with the BOSH director on the infrastructure subnet instead of on the public subnet"
 }
 
-variable "ops_manager" {
+variable "ops_manager_vm" {
   default = true
 }
 
@@ -83,33 +87,27 @@ variable "rds_instance_count" {
 * SSL Certificates *
 ********************/
 
-variable "ssl_cert_arn" {
-  type        = "string"
-  description = "The ARN for the certificate to be used by the LB, optional if `ssl_cert` or `ssl_ca_cert` is provided"
-  default     = ""
-}
-
 variable "ssl_cert" {
   type        = "string"
-  description = "the contents of an SSL certificate to be used by the LB, optional if `ssl_cert_arn` or `ssl_ca_cert` is provided"
+  description = "the contents of an SSL certificate to be used by the LB, optional if `ssl_ca_cert` is provided"
   default     = ""
 }
 
 variable "ssl_private_key" {
   type        = "string"
-  description = "the contents of an SSL private key to be used by the LB, optional if `ssl_cert_arn` or `ssl_ca_cert` is provided"
+  description = "the contents of an SSL private key to be used by the LB, optional if `ssl_ca_cert` is provided"
   default     = ""
 }
 
 variable "ssl_ca_cert" {
   type        = "string"
-  description = "the contents of a CA public key to be used to sign the generated LB certificate, optional if `ssl_cert_arn` or `ssl_cert` is provided"
+  description = "the contents of a CA public key to be used to sign the generated LB certificate, optional if or `ssl_cert` is provided"
   default     = ""
 }
 
 variable "ssl_ca_private_key" {
   type        = "string"
-  description = "the contents of a CA private key to be used to sign the generated LB certificate, optional if `ssl_cert_arn` or `ssl_cert` is provided"
+  description = "the contents of a CA private key to be used to sign the generated LB certificate, optional if or `ssl_cert` is provided"
   default     = ""
 }
 
@@ -141,9 +139,9 @@ variable "isoseg_ssl_ca_private_key" {
   default     = ""
 }
 
-/*******
+/********
 * Tags *
-********/
+*********/
 
 variable "tags" {
   type        = "map"
@@ -151,9 +149,9 @@ variable "tags" {
   description = "Key/value tags to assign to all AWS resources"
 }
 
-/*************
+/**************
 * Deprecated *
-**************/
+***************/
 
 variable "create_isoseg_resources" {
   type        = "string"

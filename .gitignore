@@ -2,6 +2,8 @@
 *.tfstate.*
 *.tfstate
 *.tfvars
-*.idea
 *.iml
-*.tfplan
+.idea
+.idea/*
+*.pivotal
+om.key

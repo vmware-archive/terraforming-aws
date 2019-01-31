@@ -19,8 +19,6 @@ locals {
   }
 
   actual_tags = "${merge(var.tags, local.default_tags)}"
-
-  use_route53 = "${var.region != "us-gov-west-1" ? var.use_route53 : false}"
 }
 
 resource "random_integer" "bucket" {
@@ -29,71 +27,71 @@ resource "random_integer" "bucket" {
 }
 
 module "infra" {
-  source             = "../modules/infra"
+  source = "../modules/infra"
 
   region             = "${var.region}"
   env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
+  internetless       = false
 
-  hosted_zone        = "${var.hosted_zone}"
-  dns_suffix         = "${var.dns_suffix}"
-  use_route53        = "${local.use_route53}"
+  hosted_zone = "${var.hosted_zone}"
+  dns_suffix  = "${var.dns_suffix}"
 
-  tags               = "${local.actual_tags}"
+  tags = "${local.actual_tags}"
 }
 
 module "ops_manager" {
   source = "../modules/ops_manager"
 
-  count                     = "${var.ops_manager ? 1 : 0}"
-  optional_count            = "${var.optional_ops_manager ? 1 : 0}"
-  subnet_id                 = "${local.ops_man_subnet_id}"
+  vm_count       = "${var.ops_manager_vm ? 1 : 0}"
+  optional_count = "${var.optional_ops_manager ? 1 : 0}"
+  subnet_id      = "${local.ops_man_subnet_id}"
 
-  env_name                  = "${var.env_name}"
-  ami                       = "${var.ops_manager_ami}"
-  optional_ami              = "${var.optional_ops_manager_ami}"
-  instance_type             = "${var.ops_manager_instance_type}"
-  private                   = "${var.ops_manager_private}"
-  vpc_id                    = "${module.infra.vpc_id}"
-  vpc_cidr                  = "${var.vpc_cidr}"
-  dns_suffix                = "${var.dns_suffix}"
-  zone_id                   = "${module.infra.zone_id}"
-  bucket_suffix             = "${local.bucket_suffix}"
-  additional_iam_roles_arn  = ["${module.pks.pks_worker_iam_role_arn}","${module.pks.pks_master_iam_role_arn}"]
-  use_route53               = "${var.use_route53}"
+  env_name                 = "${var.env_name}"
+  region                   = "${var.region}"
+  ami                      = "${var.ops_manager_ami}"
+  optional_ami             = "${var.optional_ops_manager_ami}"
+  instance_type            = "${var.ops_manager_instance_type}"
+  private                  = "${var.ops_manager_private}"
+  vpc_id                   = "${module.infra.vpc_id}"
+  vpc_cidr                 = "${var.vpc_cidr}"
+  dns_suffix               = "${var.dns_suffix}"
+  zone_id                  = "${module.infra.zone_id}"
+  bucket_suffix            = "${local.bucket_suffix}"
+  additional_iam_roles_arn = ["${module.pks.pks_worker_iam_role_arn}", "${module.pks.pks_master_iam_role_arn}"]
 
-  tags                      = "${local.actual_tags}"
+  tags = "${local.actual_tags}"
 }
 
 module "certs" {
   source = "../modules/certs"
 
-  subdomains          = ["*.pks"]
-  env_name            = "${var.env_name}"
-  dns_suffix          = "${var.dns_suffix}"
+  subdomains = ["*.pks"]
+  env_name   = "${var.env_name}"
+  dns_suffix = "${var.dns_suffix}"
 
-  ssl_cert            = "${var.ssl_cert}"
-  ssl_private_key     = "${var.ssl_private_key}"
-  ssl_ca_cert         = "${var.ssl_ca_cert}"
-  ssl_ca_private_key  = "${var.ssl_ca_private_key}"
+  ssl_cert           = "${var.ssl_cert}"
+  ssl_private_key    = "${var.ssl_private_key}"
+  ssl_ca_cert        = "${var.ssl_ca_cert}"
+  ssl_ca_private_key = "${var.ssl_ca_private_key}"
 }
 
 module "pks" {
   source = "../modules/pks"
 
-  env_name                     = "${var.env_name}"
-  availability_zones           = "${var.availability_zones}"
-  vpc_cidr                     = "${var.vpc_cidr}"
-  vpc_id                       = "${module.infra.vpc_id}"
-  private_route_table_ids      = "${module.infra.private_route_table_ids}"
-  public_subnet_ids            = "${module.infra.public_subnet_ids}"
+  env_name                = "${var.env_name}"
+  region                  = "${var.region}"
+  availability_zones      = "${var.availability_zones}"
+  vpc_cidr                = "${var.vpc_cidr}"
+  vpc_id                  = "${module.infra.vpc_id}"
+  private_route_table_ids = "${module.infra.deployment_route_table_ids}"
+  public_subnet_ids       = "${module.infra.public_subnet_ids}"
 
-  zone_id                      = "${module.infra.zone_id}"
-  dns_suffix                   = "${var.dns_suffix}"
-  use_route53                  = "${local.use_route53}"
+  zone_id    = "${module.infra.zone_id}"
+  dns_suffix = "${var.dns_suffix}"
 
-  tags                         = "${local.actual_tags}"
+  tags = "${local.actual_tags}"
 }
 
 module "rds" {
@@ -103,10 +101,14 @@ module "rds" {
   rds_instance_class = "${var.rds_instance_class}"
   rds_instance_count = "${var.rds_instance_count}"
 
+  engine         = "mariadb"
+  engine_version = "10.1.31"
+  db_port        = 3306
+
   env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
   vpc_id             = "${module.infra.vpc_id}"
 
-  tags               = "${local.actual_tags}"
+  tags = "${local.actual_tags}"
 }

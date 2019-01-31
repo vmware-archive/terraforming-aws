@@ -14,3 +14,7 @@ output "rds_password" {
   sensitive = true
   value     = "${element(concat(aws_db_instance.rds.*.password, list("")), 0)}"
 }
+
+output "rds_db_name" {
+  value = "${element(concat(aws_db_instance.rds.*.name, list("")), 0)}"
+}

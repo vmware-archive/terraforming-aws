@@ -42,7 +42,7 @@ variable "ops_manager_private" {
   description = "If true, the Ops Manager will be colocated with the BOSH director on the infrastructure subnet instead of on the public subnet"
 }
 
-variable "ops_manager" {
+variable "ops_manager_vm" {
   default = true
 }
 
@@ -76,10 +76,6 @@ variable "ssl_ca_private_key" {
   type        = "string"
   description = "the contents of a CA private key to be used to sign the generated PKS API certificate, optional if `ssl_cert` is provided"
   default     = ""
-}
-variable "use_route53" {
-  description = "true will create Route53 resources, will skip their creation otherwise."
-  default = true
 }
 
 /******

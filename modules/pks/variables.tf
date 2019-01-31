@@ -2,6 +2,10 @@ variable "env_name" {
   type = "string"
 }
 
+variable "region" {
+  type = "string"
+}
+
 variable "availability_zones" {
   type = "list"
 }
@@ -28,10 +32,6 @@ variable "zone_id" {
 
 variable "dns_suffix" {
   type = "string"
-}
-
-variable "use_route53" {
-  default = true
 }
 
 variable "tags" {

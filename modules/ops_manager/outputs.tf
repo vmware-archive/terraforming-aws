@@ -3,11 +3,11 @@ output "bucket" {
 }
 
 output "public_ip" {
-  value = "${element(concat(aws_eip.ops_manager.*.public_ip, list("")), 0)}"
+  value = "${var.vm_count ? element(concat(aws_eip.ops_manager_attached.*.public_ip, list("")), 0) : element(concat(aws_eip.ops_manager_unattached.*.public_ip, list("")), 0)}"
 }
 
 output "dns" {
-  value = "${element(concat(aws_route53_record.ops_manager.*.name, list("")), 0)}"
+  value = "${var.vm_count ? element(concat(aws_route53_record.ops_manager_attached_eip.*.name, list("")), 0) : element(concat(aws_route53_record.ops_manager_unattached_eip.*.name, list("")), 0)}"
 }
 
 output "optional_dns" {
@@ -47,7 +47,7 @@ output "ops_manager_iam_user_access_key" {
 }
 
 output "ops_manager_iam_user_secret_key" {
-  value = "${aws_iam_access_key.ops_manager.secret}"
+  value     = "${aws_iam_access_key.ops_manager.secret}"
   sensitive = true
 }
 

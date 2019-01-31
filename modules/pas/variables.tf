@@ -2,6 +2,10 @@ variable "env_name" {
   type = "string"
 }
 
+variable "region" {
+  type = "string"
+}
+
 variable "availability_zones" {
   type = "list"
 }
@@ -14,9 +18,11 @@ variable "vpc_id" {
   type = "string"
 }
 
-variable "private_route_table_ids" {
+variable "route_table_ids" {
   type = "list"
 }
+
+variable "internetless" {}
 
 variable "public_subnet_ids" {
   type = "list"
@@ -50,15 +56,8 @@ variable "iam_ops_manager_role_name" {
   type = "string"
 }
 
-variable "ssl_cert_arn" {
-  type        = "string"
-  description = "The ARN for the certificate to be used by the LB"
-}
-
-variable "isoseg_ssl_cert_arn" {
-  type        = "string"
-  description = "The ARN for the certificate to be used by the Isolation Segment LB"
-  default     = ""
+variable "create_isoseg_resources" {
+  default = 0
 }
 
 variable "tags" {
@@ -68,8 +67,4 @@ variable "tags" {
 locals {
   pas_cidr      = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
   services_cidr = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
-}
-
-variable "use_route53" {
-  default = true
 }

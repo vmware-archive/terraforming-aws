@@ -29,7 +29,7 @@ resources:
   type: tracker
   source:
     token: ((cf_infra_tracker_token))
-    project_id: ((cf_infrastructure_private_id))
+    project_id: ((cf_infrastructure_tracker_id))
     tracker_url: https://www.pivotaltracker.com
 
 - name: after-midnight
@@ -148,38 +148,40 @@ jobs:
         KEY: us-east-2
     - put: env-state-aws
       params:
-        env_name: terraforming-aws-pks
+        generate_random_name: true
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
-      attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
         <<: *modify-terraforming-dns-params
         ACTION: add
       input_mapping:
         env-state: env-state-aws
-    - task: check-dns
-      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
-      input_mapping:
-        terraform-state: env-state-aws
-      timeout: 2m
-    - task: configure-director
-      file: ci/scripts/terraforming/configure-director/task.yml
-      params:
-        <<: *om-creds
-        TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+    - aggregate:
+      - task: configure-director
+        file: ci/scripts/terraforming/configure-director/task.yml
+        params:
+          <<: *om-creds
+          TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+        input_mapping:
+          env-state: env-state-aws
+          director-config-template: terraforming
+      - task: download-stemcell
+        file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
+        input_mapping:
+          ert-product: pks
+        params:
+          IAAS_TYPE: aws
+          PIVNET_TOKEN: ((pivnet_token))
+    - task: custom-vm-extensions
+      file: terraforming/ci/tasks/custom-vm-extensions.yml
       input_mapping:
         env-state: env-state-aws
-        director-config-template: terraforming
-    - task: download-stemcell
-      file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
-      input_mapping:
-        ert-product: pks
       params:
-        IAAS_TYPE: aws
-        PIVNET_TOKEN: ((pivnet_token))
+        PRODUCT: pivotal-container-service
+        <<: *om-creds
     - task: upload-configure-stage-pks
       file: ci/scripts/terraforming/upload-configure-stage/task.yml
       params:
@@ -217,8 +219,8 @@ jobs:
             env-state: env-state-aws
         - put: env-state-aws
           params:
-            env_name: terraforming-aws-pks
             terraform_source: terraforming/terraforming-pks
+            env_name_file: env-state-aws/name
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
@@ -255,38 +257,40 @@ jobs:
         KEY: us-east-2
     - put: env-state-aws
       params:
-        env_name: terraforming-aws-pas
+        generate_random_name: true
         terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
     - task: add-dns
-      attempts: 3
       file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
       params:
         <<: *modify-terraforming-dns-params
         ACTION: add
       input_mapping:
         env-state: env-state-aws
-    - task: check-dns
-      file: pcf-releng-ci/tasks/configuration/check-dns/task.yml
-      input_mapping:
-        terraform-state: env-state-aws
-      timeout: 2m
-    - task: configure-director
-      file: ci/scripts/terraforming/configure-director/task.yml
+    - aggregate:
+      - task: configure-director
+        file: ci/scripts/terraforming/configure-director/task.yml
+        params:
+          <<: *om-creds
+          TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+        input_mapping:
+          env-state: env-state-aws
+          director-config-template: terraforming
+      - task: download-stemcell
+        file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
+        input_mapping:
+          ert-product: srt
+        params:
+          IAAS_TYPE: aws
+          PIVNET_TOKEN: ((pivnet_token))
+    - task: custom-vm-extensions
+      file: terraforming/ci/tasks/custom-vm-extensions.yml
       params:
+        PRODUCT: cf
         <<: *om-creds
-        TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
       input_mapping:
         env-state: env-state-aws
-        director-config-template: terraforming
-    - task: download-stemcell
-      file: pcf-releng-ci/tasks/configuration/download-pivnet-stemcell/task.yml
-      input_mapping:
-        ert-product: srt
-      params:
-        IAAS_TYPE: aws
-        PIVNET_TOKEN: ((pivnet_token))
     - task: upload-configure-stage-pas
       file: ci/scripts/terraforming/upload-configure-stage/task.yml
       params:
@@ -325,8 +329,8 @@ jobs:
             env-state: env-state-aws
         - put: env-state-aws
           params:
-            env_name: terraforming-aws-pas
             terraform_source: terraforming/terraforming-pas
+            env_name_file: env-state-aws/name
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
@@ -347,11 +351,15 @@ jobs:
       resource: infrastructure-ci
   - task: release
     file: ci/scripts/terraforming/release/task.yml
+    params:
+      IAAS: aws
   - put: terraforming-release
     params:
       name: release/version
       tag: release/version
       commitish: release/commitish
+      globs:
+      - release/terraforming-aws-*.tar.gz
   - put: version
     params:
       bump: minor

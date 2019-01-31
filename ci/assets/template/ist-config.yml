@@ -1,0 +1,23 @@
+product-properties:
+  .properties.haproxy_forward_tls:
+    value: disable
+  .properties.networking_poe_ssl_certs:
+    value:
+    - certificate:
+        cert_pem: |
+{{indent 10 .ssl_cert}}
+        private_key_pem: |
+{{indent 10 .ssl_private_key}}
+      name: Certificate
+resource-config:
+  isolated_ha_proxy:
+    instances: 0
+  isolated_diego_cell:
+    instances: 1
+  isolated_router:
+    elb_names:
+    {{range .isoseg_target_groups}}
+    - alb:{{.}}
+    {{end}}
+    additional_vm_extensions:
+    - isoseg-lb-security-group

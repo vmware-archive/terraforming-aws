@@ -9,7 +9,7 @@ Set of terraform modules for deploying Ops Manager, PAS and PKS infrastructure r
 - A Virtual Private Network (VPC), subnets, Security Groups
 - Necessary s3 buckets
 - A NAT Box
-- Elastic Load Balancers (ELB)
+- Network Load Balancers
 - An IAM User with proper permissions
 - Tagged resources
 
@@ -17,12 +17,14 @@ Note: This is not an exhaustive list of resources created, this will vary depend
 
 ## Prerequisites
 
+### Terraform CLI
+
 ```bash
 brew update
 brew install terraform
 ```
 
-## AWS Permissions
+### AWS Permissions
 - AmazonEC2FullAccess
 - AmazonRDSFullAccess
 - AmazonRoute53FullAccess
@@ -52,17 +54,18 @@ Note: You will also need to create a custom policy as the following and add to
 
 ## Deploying Ops Manager
 
-Depending if you're deploying PAS or PKS you need to perform the following steps:
+First, you'll need to clone this repo. Then, depending on if you're deploying PAS or PKS you need to perform the following steps:
 
 1. `cd` into the proper directory:
     - [terraforming-pas/](terraforming-pas/)
     - [terraforming-pks/](terraforming-pks/)
+    - [terraforming-control-plane/](terraforming-control-plane/)
 1. Create [`terraform.tfvars`](/README.md#var-file) file
 1. Run terraform apply:
   ```bash
   terraform init
   terraform plan -out=pcf.tfplan
-  terraform apply plan
+  terraform apply pcf.tfplan
   ```
 
 ### Var File
@@ -109,16 +112,16 @@ tags = {
 - availability_zones: **(required)** List of AZs you want to deploy to
 - dns_suffix: **(required)** Domain to add environment subdomain to
 - hosted_zone: **(optional)** Parent domain *already* managed by Route53. If specified, the DNS records will be added to this Route53 zone instead of a new zone.
-- ssl_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` or `ssl_cert_arn` is specified.
-- ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` or `ssl_cert_arn` is specified.
-- ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` or `ssl_cert_arn` is specified.
-- ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` or `ssl_cert_arn` is specified.
-- ssl_cert_arn: **(optional)** Existing SSL certificate in AWS for HTTP load balancer configuration. Required unless `ssl_cert` or `ssl_ca_cert` is specified.
+- ssl_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
+- ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
+- ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
+- ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(default: 10.0.0.0/16)** Internal CIDR block for the AWS VPC.
 
 ### Ops Manager (optional)
 - ops_manager: **(default: true)** Set to false if you don't want an Ops Manager
+- ops_manager_vm: **(default: true)** Set to false if you don't want an ops manager vm, but still want all the other resource included in the module.
 - ops_manager_ami: **(optional)**  Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager)
 - optional_ops_manager: **(default: false)** Set to true if you want an additional Ops Manager (useful for testing upgrades)
 - optional_ops_manager_ami: **(optional)**  Additional Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager)
@@ -135,7 +138,7 @@ tags = {
 - rds_db_username: **(default: admin)** Username for RDS authentication
 
 ### Isolation Segments (optional)  (PAS only)
-- create_isoseg_resources **(deprecated)** Set to 1 to create HTTP load-balancer across 3 zones for isolation segments. Inferred by the use of the certificates variables as described below.
+- create_isoseg_resources **(optional)** Set to 1 to create HTTP load-balancer across 3 zones for isolation segments.
 - isoseg_ssl_cert: **(optional)** SSL certificate for Iso Seg HTTP load balancer configuration. Required unless `isoseg_ssl_ca_cert` is specified.
 - isoseg_ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `isoseg_ssl_ca_cert` is specified.
 - isoseg_ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `isoseg_ssl_cert` is specified.
@@ -149,6 +152,8 @@ You can choose whether you would like an RDS or not. By default we have
 Note: RDS instances take a long time to deploy, keep that in mind. They're not required.
 
 ## Tearing down environment
+
+**Note:** This will only destroy resources deployed by Terraform. You will need to clean up anything deployed on top of that infrastructure yourself (e.g. by running `om delete-installation`)
 
 ```bash
 terraform destroy

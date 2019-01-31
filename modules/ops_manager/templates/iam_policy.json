@@ -117,12 +117,13 @@
       ]
     },
     {
-      "Sid": "OpsManagerElbPermissions",
+      "Sid": "OpsManagerNetworkLBPermissions",
       "Effect": "Allow",
       "Action": [
         "elasticloadbalancing:DescribeLoadBalancers",
-        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-        "elasticloadbalancing:RegisterInstancesWithLoadBalancer"
+        "elasticloadbalancing:DescribeTargetGroups",
+        "elasticloadbalancing:DescribeTargetHealth",
+        "elasticloadbalancing:RegisterTargets"
       ],
       "Resource": [
         "*"

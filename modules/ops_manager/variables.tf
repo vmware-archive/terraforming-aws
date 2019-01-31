@@ -1,6 +1,10 @@
-variable "count" {}
+variable "region" {
+  type = "string"
+}
 
 variable "optional_count" {}
+
+variable "vm_count" {}
 
 variable "private" {}
 
@@ -21,10 +25,6 @@ variable "vpc_cidr" {}
 variable "additional_iam_roles_arn" {
   type    = "list"
   default = []
-}
-
-variable "use_route53" {
-  default = true
 }
 
 variable "dns_suffix" {}

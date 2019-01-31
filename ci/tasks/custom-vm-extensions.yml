@@ -1,0 +1,19 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: cfinfrastructure/releng-tools
+
+inputs:
+- name: terraforming
+- name: env-state
+
+run:
+  path: terraforming/ci/tasks/custom-vm-extensions.sh
+
+params:
+  OM_USERNAME:
+  OM_PASSWORD:
+  PRODUCT:

@@ -6,8 +6,8 @@ output "public_subnet_ids" {
   value = ["${aws_subnet.public_subnets.*.id}"]
 }
 
-output "private_route_table_ids" {
-  value = ["${aws_route_table.private_route_table.*.id}"]
+output "deployment_route_table_ids" {
+  value = ["${aws_route_table.deployment.*.id}"]
 }
 
 output "zone_id" {
@@ -48,4 +48,12 @@ output "infrastructure_subnet_cidrs" {
 
 output "infrastructure_subnet_gateways" {
   value = ["${data.template_file.infrastructure_subnet_gateways.*.rendered}"]
+}
+
+output "aws_lb_interface_endpoint_ips" {
+  value = "${data.aws_network_interface.lb_endpoints.*.private_ip}"
+}
+
+output "aws_ec2_interface_endpoint_ips" {
+  value = "${data.aws_network_interface.ec2_endpoints.*.private_ip}"
 }

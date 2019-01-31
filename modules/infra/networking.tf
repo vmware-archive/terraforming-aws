@@ -1,15 +1,4 @@
-# Private Subnet ===============================================================
-
-resource "aws_route_table" "private_route_table" {
-  count  = "${length(var.availability_zones)}"
-  vpc_id = "${aws_vpc.vpc.id}"
-
-  route {
-    cidr_block  = "0.0.0.0/0"
-    instance_id = "${aws_instance.nat.id}"
-  }
-}
-
+# Bosh Director Subnet
 resource "aws_subnet" "infrastructure_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
@@ -32,11 +21,10 @@ data "template_file" "infrastructure_subnet_gateways" {
 resource "aws_route_table_association" "route_infrastructure_subnets" {
   count          = "${length(var.availability_zones)}"
   subnet_id      = "${element(aws_subnet.infrastructure_subnets.*.id, count.index)}"
-  route_table_id = "${element(aws_route_table.private_route_table.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.deployment.*.id, count.index)}"
 }
 
-# Public Subnet ===============================================================
-
+# Ops Manager Subnet
 resource "aws_internet_gateway" "ig" {
   vpc_id = "${aws_vpc.vpc.id}"
 
