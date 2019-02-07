@@ -64,7 +64,7 @@ data "aws_kms_key" "blobstore_kms_key" {
 //}
 
 data "aws_kms_alias" "blobstore_kms_key_alias" {
-  name          = "pas_kms_key"
+  name          = "alias/pas_kms_key"
 }
 
 //data "template_file" "ert" {
