@@ -48,9 +48,9 @@ variable "create_versioned_pas_buckets" {
   default = false
 }
 
-variable "ops_manager_iam_user_name" {
-  type = "string"
-}
+//variable "ops_manager_iam_user_name" {
+//  type = "string"
+//}
 
 variable "iam_ops_manager_role_name" {
   type = "string"

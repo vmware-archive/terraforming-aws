@@ -101,6 +101,6 @@ output "isoseg_target_groups" {
 
 # ============== KMS ===========================================================
 //TODO:What is this used for?
-//output "blobstore_kms_key_id" {
-//  value = "${aws_kms_key.blobstore_kms_key.key_id}"
-//}
+output "blobstore_kms_key_id" {
+  value = "${data.aws_kms_key.blobstore_kms_key.key_id}"
+}
