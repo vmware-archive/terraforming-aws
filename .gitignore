@@ -2,6 +2,7 @@
 *.tfstate.*
 *.tfstate
 *.tfvars
+*.tfplan
 *.iml
 .idea
 .idea/*
