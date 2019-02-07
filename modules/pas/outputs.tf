@@ -33,11 +33,11 @@ output "services_subnet_gateways" {
 }
 
 output "pas_bucket_iam_instance_profile_name" {
-  value = "${aws_iam_instance_profile.pas_bucket_access.name}"
+  value = "${data.aws_iam_instance_profile.pas_bucket_access.name}"
 }
 
 output "iam_pas_bucket_role_arn" {
-  value = "${aws_iam_role.pas_bucket_access.arn}"
+  value = "${data.aws_iam_role.pas_bucket_access.arn}"
 }
 
 # ========= Buckets ============================================================
@@ -100,7 +100,7 @@ output "isoseg_target_groups" {
 }
 
 # ============== KMS ===========================================================
-
-output "blobstore_kms_key_id" {
-  value = "${aws_kms_key.blobstore_kms_key.key_id}"
-}
+//TODO:What is this used for?
+//output "blobstore_kms_key_id" {
+//  value = "${aws_kms_key.blobstore_kms_key.key_id}"
+//}
