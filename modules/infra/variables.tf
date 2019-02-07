@@ -60,6 +60,10 @@ variable "use_route53" {
   description = "Indicate whether or not to enabled route53"
 }
 
+variable "internet_gateway_id" {
+  description = "pre-exsting IGW ID"
+}
+
 locals {
   infrastructure_cidr = "${cidrsubnet(var.vpc_cidr, 10, 64)}"
   public_cidr         = "${cidrsubnet(var.vpc_cidr, 6, 0)}"
