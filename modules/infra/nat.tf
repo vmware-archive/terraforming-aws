@@ -1,6 +1,6 @@
 resource "aws_route_table" "deployment" {
   count  = "${length(var.availability_zones)}"
-  vpc_id = "${aws_vpc.vpc.id}"
+  vpc_id = "${data.aws_vpc.vpc.id}"
 }
 
 resource "aws_security_group" "nat_security_group" {
@@ -8,7 +8,7 @@ resource "aws_security_group" "nat_security_group" {
 
   name        = "nat_security_group"
   description = "NAT Security Group"
-  vpc_id      = "${aws_vpc.vpc.id}"
+  vpc_id      = "${data.aws_vpc.vpc.id}"
 
   ingress {
     cidr_blocks = ["${var.vpc_cidr}"]
