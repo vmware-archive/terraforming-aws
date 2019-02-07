@@ -1,15 +1,19 @@
-resource "aws_vpc" "vpc" {
-  cidr_block           = "${var.vpc_cidr}"
-  instance_tenancy     = "default"
-  enable_dns_hostnames = true
+//resource "aws_vpc" "vpc" {
+//  cidr_block           = "${var.vpc_cidr}"
+//  instance_tenancy     = "default"
+//  enable_dns_hostnames = true
+//
+//  tags = "${merge(var.tags, map("Name", "${var.env_name}-vpc"))}"
+//}
 
-  tags = "${merge(var.tags, map("Name", "${var.env_name}-vpc"))}"
+data "aws_vpc" "vpc" {
+  id = "vpc-09f0f54518ad8fdc5"
 }
 
 resource "aws_security_group" "vms_security_group" {
   name        = "vms_security_group"
   description = "VMs Security Group"
-  vpc_id      = "${aws_vpc.vpc.id}"
+  vpc_id      = "${data.aws_vpc.vpc.id}"
 
   ingress {
     cidr_blocks = ["${var.vpc_cidr}"]
@@ -36,7 +40,7 @@ locals {
 resource "aws_vpc_endpoint" "ec2" {
   count = "${var.internetless ? 1 : 0}"
 
-  vpc_id              = "${aws_vpc.vpc.id}"
+  vpc_id              = "${data.aws_vpc.vpc.id}"
   service_name        = "${local.ec2_address}"
   vpc_endpoint_type   = "Interface"
   subnet_ids          = ["${aws_subnet.infrastructure_subnets.*.id}"]
@@ -47,7 +51,7 @@ resource "aws_vpc_endpoint" "ec2" {
 resource "aws_vpc_endpoint" "lb" {
   count = "${var.internetless ? 1 : 0}"
 
-  vpc_id              = "${aws_vpc.vpc.id}"
+  vpc_id              = "${data.aws_vpc.vpc.id}"
   service_name        = "${local.lb_api_address}"
   vpc_endpoint_type   = "Interface"
   subnet_ids          = ["${aws_subnet.infrastructure_subnets.*.id}"]
