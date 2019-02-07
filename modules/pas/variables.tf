@@ -63,7 +63,10 @@ variable "create_isoseg_resources" {
 variable "tags" {
   type = "map"
 }
-
+variable "use_route53" {
+  default = true
+  description = "Indicate whether or not to enabled route53"
+}
 locals {
   pas_cidr      = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
   services_cidr = "${cidrsubnet(var.vpc_cidr, 6, 2)}"

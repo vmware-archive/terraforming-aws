@@ -40,6 +40,7 @@ module "infra" {
   dns_suffix  = "${var.dns_suffix}"
 
   tags = "${local.actual_tags}"
+  use_route53 = "${var.use_route53}"
 }
 
 module "ops_manager" {
@@ -63,6 +64,7 @@ module "ops_manager" {
   bucket_suffix            = "${local.bucket_suffix}"
 
   tags = "${local.actual_tags}"
+  use_route53 = "${var.use_route53}"
 }
 
 module "pas_certs" {
@@ -117,6 +119,7 @@ module "pas" {
   create_isoseg_resources = "${var.create_isoseg_resources}"
 
   tags = "${local.actual_tags}"
+  use_route53 = "${var.use_route53}"
 }
 
 module "rds" {

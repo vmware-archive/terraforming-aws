@@ -8,7 +8,7 @@ locals {
   name_servers              = "${var.hosted_zone == "" ? local.resource_dns_name_servers : local.data_dns_name_servers}"
   hosted_zone_count         = "${var.hosted_zone == "" ? 0 : 1}"
 
-  use_route53 = "${var.region == "us-gov-west-1" ? 0 : 1}"
+  use_route53 = "${var.use_route53 == true ? 1 : 0}"
 }
 
 data "aws_route53_zone" "pcf_zone" {

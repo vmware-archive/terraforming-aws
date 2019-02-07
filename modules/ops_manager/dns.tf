@@ -1,5 +1,5 @@
 locals {
-  use_route53 = "${var.region == "us-gov-west-1" ? 0 : 1}"
+  use_route53 = "${var.use_route53 == true ? 1 : 0}"
 }
 
 resource "aws_route53_record" "ops_manager_attached_eip" {

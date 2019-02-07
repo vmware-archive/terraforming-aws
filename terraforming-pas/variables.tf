@@ -1,5 +1,10 @@
 variable "env_name" {}
 
+variable "use_route53" {
+  default = true
+  description = "Indicate whether or not to enabled route53"
+}
+
 variable "dns_suffix" {}
 
 variable "hosted_zone" {
