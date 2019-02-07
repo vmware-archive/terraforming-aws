@@ -11,9 +11,9 @@ variable "hosted_zone" {
   default = ""
 }
 
-variable "access_key" {}
-
-variable "secret_key" {}
+//variable "access_key" {}
+//
+//variable "secret_key" {}
 
 variable "region" {}
 
