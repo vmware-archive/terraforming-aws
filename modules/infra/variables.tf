@@ -64,6 +64,10 @@ variable "internet_gateway_id" {
   description = "pre-exsting IGW ID"
 }
 
+variable "vpc_id" {
+  description = "pre-exsting VPC ID"
+}
+
 locals {
   infrastructure_cidr = "${cidrsubnet(var.vpc_cidr, 10, 64)}"
   public_cidr         = "${cidrsubnet(var.vpc_cidr, 6, 0)}"

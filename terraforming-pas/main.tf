@@ -42,6 +42,7 @@ module "infra" {
   tags = "${local.actual_tags}"
   use_route53 = "${var.use_route53}"
   internet_gateway_id = "${var.internet_gateway_id}"
+  vpc_id = "${var.vpc_id}"
 }
 
 module "ops_manager" {

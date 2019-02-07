@@ -7,7 +7,7 @@
 //}
 
 data "aws_vpc" "vpc" {
-  id = "vpc-09f0f54518ad8fdc5"
+  id = "${var.vpc_id}"
 }
 
 resource "aws_security_group" "vms_security_group" {
