@@ -75,15 +75,18 @@ These vars will be used when you run `terraform apply`.
 You should fill in the stub values with the correct content.
 
 ```hcl
-env_name           = "some-environment-name"
-access_key         = "access-key-id"
-secret_key         = "secret-access-key"
-region             = "us-west-1"
-availability_zones = ["us-west-1a", "us-west-1c"]
-ops_manager_ami    = "ami-4f291f2f"
-rds_instance_count = 1
-dns_suffix         = "example.com"
-vpc_cidr           = "10.0.0.0/16"
+env_name            = "some-environment-name"
+access_key          = "access-key-id"
+secret_key          = "secret-access-key"
+region              = "us-west-1"
+availability_zones  = ["us-west-1a", "us-west-1c"]
+ops_manager_ami     = "ami-4f291f2f"
+rds_instance_count  = 1
+dns_suffix          = "example.com"
+vpc_cidr            = "10.0.0.0/16"
+use_route53         = true
+internet_gateway_id = "igw-askdjlkas"
+vpc_id              = "ID of the targeted pre-existing VPC"
 
 ssl_cert = <<EOF
 -----BEGIN CERTIFICATE-----
@@ -118,6 +121,10 @@ tags = {
 - ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(default: 10.0.0.0/16)** Internal CIDR block for the AWS VPC.
+- use_route53: **(default: true)** Use route53 for DNS
+- internet_gateway_id: **(required)** IGW to use for Public Subnet
+- vpc_id: **(required)** ID of the VPC to target
+
 
 ### Ops Manager (optional)
 - ops_manager: **(default: true)** Set to false if you don't want an Ops Manager
