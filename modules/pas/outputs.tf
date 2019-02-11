@@ -20,6 +20,10 @@ output "services_subnet_ids" {
   value = ["${aws_subnet.services_subnets.*.id}"]
 }
 
+output "pas_subnet_reserved_ips" {
+  value = ["${data.template_file.pas_subnet_reserved_ips.*.rendered}"]
+}
+
 output "services_subnet_availability_zones" {
   value = ["${aws_subnet.services_subnets.*.availability_zone}"]
 }
@@ -30,6 +34,10 @@ output "services_subnet_cidrs" {
 
 output "services_subnet_gateways" {
   value = ["${data.template_file.services_subnet_gateways.*.rendered}"]
+}
+
+output "services_subnet_reserved_ips" {
+  value = ["${data.template_file.services_subnet_reserved_ips.*.rendered}"]
 }
 
 output "pas_bucket_iam_instance_profile_name" {
