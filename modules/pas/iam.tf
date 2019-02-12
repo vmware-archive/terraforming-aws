@@ -54,9 +54,7 @@ data "template_file" "pas_backup_bucket_policy" {
 //  tags = "${merge(var.tags, map("Name", "${var.env_name} Blobstore KMS Key"))}"
 //}
 
-data "aws_kms_key" "blobstore_kms_key" {
-  key_id = "2bb2e23a-e152-4653-ad47-57a325aff0a7"
-}
+
 
 //resource "aws_kms_alias" "blobstore_kms_key_alias" {
 //  name          = "alias/${var.env_name}"
@@ -65,6 +63,10 @@ data "aws_kms_key" "blobstore_kms_key" {
 
 data "aws_kms_alias" "blobstore_kms_key_alias" {
   name          = "alias/pas_kms_key"
+}
+
+data "aws_kms_key" "blobstore_kms_key" {
+  key_id = "${data.aws_kms_alias.blobstore_kms_key_alias.target_key_id}"
 }
 
 //data "template_file" "ert" {
