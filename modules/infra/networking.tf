@@ -24,15 +24,10 @@ resource "aws_route_table_association" "route_infrastructure_subnets" {
   route_table_id = "${element(aws_route_table.deployment.*.id, count.index)}"
 }
 
+# Ops Manager Subnet
 data "aws_internet_gateway" "ig" {
   internet_gateway_id = "${var.internet_gateway_id}"
 }
-# Ops Manager Subnet
-//resource "aws_internet_gateway" "ig" {
-//  vpc_id = "${data.aws_vpc.vpc.id}"
-//
-//  tags = "${var.tags}"
-//}
 
 resource "aws_route_table" "public_route_table" {
   vpc_id = "${data.aws_vpc.vpc.id}"

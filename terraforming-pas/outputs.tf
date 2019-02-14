@@ -74,19 +74,6 @@ output "ops_manager_iam_instance_profile_name" {
   value = "${module.ops_manager.ops_manager_iam_instance_profile_name}"
 }
 
-//output "ops_manager_iam_user_name" {
-//  value = "${module.ops_manager.ops_manager_iam_user_name}"
-//}
-
-//output "ops_manager_iam_user_access_key" {
-//  value = "${module.ops_manager.ops_manager_iam_user_access_key}"
-//}
-//
-//output "ops_manager_iam_user_secret_key" {
-//  value     = "${module.ops_manager.ops_manager_iam_user_secret_key}"
-//  sensitive = true
-//}
-
 output "pas_bucket_iam_instance_profile_name" {
   value = "${module.pas.pas_bucket_iam_instance_profile_name}"
 }

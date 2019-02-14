@@ -11,10 +11,6 @@ variable "hosted_zone" {
   default = ""
 }
 
-//variable "access_key" {}
-//
-//variable "secret_key" {}
-
 variable "region" {}
 
 variable "availability_zones" {
@@ -95,9 +91,9 @@ variable "rds_instance_count" {
   default = 0
 }
 
-/*******************
-* SSL Certificates *
-********************/
+/********************
+ * SSL Certificates *
+ ********************/
 
 variable "ssl_cert" {
   type        = "string"
@@ -152,8 +148,8 @@ variable "isoseg_ssl_ca_private_key" {
 }
 
 /********
-* Tags *
-*********/
+ * Tags *
+ *********/
 
 variable "tags" {
   type        = "map"
@@ -162,8 +158,8 @@ variable "tags" {
 }
 
 /**************
-* Deprecated *
-***************/
+ * Deprecated *
+ ***************/
 
 variable "create_isoseg_resources" {
   type        = "string"

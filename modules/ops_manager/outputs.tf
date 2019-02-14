@@ -38,20 +38,6 @@ output "ops_manager_iam_instance_profile_name" {
   value = "${data.aws_iam_instance_profile.ops_manager.name}"
 }
 
-//Commented out to support no user/key implementation
-//output "ops_manager_iam_user_name" {
-//  value = "${data.aws_iam_user.ops_manager.name}"
-//}
-//
-//output "ops_manager_iam_user_access_key" {
-//  value = "${aws_iam_access_key.ops_manager.id}"
-//}
-//
-//output "ops_manager_iam_user_secret_key" {
-//  value     = "${aws_iam_access_key.ops_manager.secret}"
-//  sensitive = true
-//}
-
 output "ops_manager_iam_role_name" {
   value = "${data.aws_iam_role.ops_manager.name}"
 }
