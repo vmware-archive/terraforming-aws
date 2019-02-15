@@ -2,6 +2,8 @@
 
 set -euox pipefail
 
+command -v psql >/dev/null 2>&1 || { echo >&2 "I require psql but it's not installed.  Aborting."; exit 1; }
+
 ssh_socket=/tmp/session1
 
 function cleanup() {
