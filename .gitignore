@@ -5,5 +5,9 @@
 *.tfplan
 .idea
 .idea/*
+*.pem
 *.pivotal
+*stemcell*.tgz
+*.generated.yml
+OpsManager*onAWS.yml
 om.key
