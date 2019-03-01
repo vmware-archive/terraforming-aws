@@ -10,6 +10,18 @@ terraform {
   required_version = "< 0.12.0"
 }
 
+provider "random" {
+  version = "~> 2.0"
+}
+
+provider "template" {
+  version = "~> 1.0"
+}
+
+provider "tls" {
+  version = "~> 1.2"
+}
+
 locals {
   ops_man_subnet_id = "${var.ops_manager_private ? element(module.infra.infrastructure_subnet_ids, 0) : element(module.infra.public_subnet_ids, 0)}"
 
