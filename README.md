@@ -143,6 +143,22 @@ tags = {
 - isoseg_ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `isoseg_ssl_cert` is specified.
 - isoseg_ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `isoseg_ssl_cert` is specified.
 
+## Terraform Feature Validation Tests
+
+### Run Locally
+
+```bash
+$> ./ci/test/run_terraform_features.sh
+```
+
+### Edit Tests
+
+More info on [clarity test framework](https://github.com/xchapter7x/clarity)
+
+```bash
+$> nvim modules/pas/pas.feature
+```
+
 ## Notes
 
 You can choose whether you would like an RDS or not. By default we have
