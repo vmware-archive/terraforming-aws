@@ -24,6 +24,30 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
+variable "infra_cidr_bits" {
+  default = 10
+}
+
+variable "infra_cidr_netnum" {
+  default = 64
+}
+
+variable "infra_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "public_cidr_bits" {
+  default = 6
+}
+
+variable "public_cidr_netnum" {
+  default = 0
+}
+
+variable "public_cidr_subnets_bits" {
+  default = 2
+}
+
 variable "tags" {
   type        = "map"
   default     = {}
@@ -56,6 +80,6 @@ variable "nat_ami_map" {
 }
 
 locals {
-  infrastructure_cidr = "${cidrsubnet(var.vpc_cidr, 10, 64)}"
-  public_cidr         = "${cidrsubnet(var.vpc_cidr, 6, 0)}"
+  infrastructure_cidr = "${cidrsubnet(var.vpc_cidr, var.infra_cidr_bits, var.infra_cidr_netnum)}"
+  public_cidr         = "${cidrsubnet(var.vpc_cidr, var.public_cidr_bits, var.public_cidr_netnum)}"
 }

@@ -37,6 +37,46 @@ variable "create_backup_pas_buckets" {
   default = false
 }
 
+variable "pas_cidr_bits" {
+  default = 6
+}
+
+variable "pas_cidr_netnum" {
+  default = 1
+}
+
+variable "pas_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "service_cidr_bits" {
+  default = 6
+}
+
+variable "service_cidr_netnum" {
+  default = 2
+}
+
+variable "service_cidr_subnets_bits" {
+  default = 2
+}
+
+/*****************
+* Infrastructure *
+******************/
+
+variable "infra_cidr_netnum" {
+  default = 64
+}
+
+variable "infra_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "public_cidr_bits" {
+  default = 6
+}
+
 /****************
 * Ops Manager *
 *****************/
@@ -81,6 +121,18 @@ variable "rds_instance_class" {
 variable "rds_instance_count" {
   type    = "string"
   default = 0
+}
+
+variable "rds_cidr_bits" {
+  default = 6
+}
+
+variable "rds_cidr_netnum" {
+  default = 3
+}
+
+variable "rds_cidr_subnets_bits" {
+  default = 2
 }
 
 /*******************

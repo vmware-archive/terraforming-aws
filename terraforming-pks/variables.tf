@@ -21,6 +21,46 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
+variable "pks_cidr_bits" {
+  default = 6
+}
+
+variable "pks_cidr_netnum" {
+  default = 1
+}
+
+variable "pks_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "pks_services_cidr_bits" {
+  default = 6
+}
+
+variable "pks_services_cidr_netnum" {
+  default = 2
+}
+
+variable "pks_services_cidr_subnet_bits" {
+  default = 2
+}
+
+/*****************
+* Infrastructure *
+******************/
+
+variable "infra_cidr_netnum" {
+  default = 64
+}
+
+variable "infra_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "public_cidr_bits" {
+  default = 6
+}
+
 /****************
 * Ops Manager *
 *****************/
@@ -93,6 +133,18 @@ variable "rds_instance_class" {
 variable "rds_instance_count" {
   type    = "string"
   default = 0
+}
+
+variable "rds_cidr_bits" {
+  default = 6
+}
+
+variable "rds_cidr_netnum" {
+  default = 3
+}
+
+variable "rds_cidr_subnets_bits" {
+  default = 2
 }
 
 /*******

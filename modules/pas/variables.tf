@@ -18,6 +18,30 @@ variable "vpc_id" {
   type = "string"
 }
 
+variable "pas_cidr_bits" {
+  default = 6
+}
+
+variable "pas_cidr_netnum" {
+  default = 1
+}
+
+variable "pas_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "service_cidr_bits" {
+  default = 6
+}
+
+variable "service_cidr_netnum" {
+  default = 2
+}
+
+variable "service_cidr_subnets_bits" {
+  default = 2
+}
+
 variable "route_table_ids" {
   type = "list"
 }
@@ -65,6 +89,6 @@ variable "tags" {
 }
 
 locals {
-  pas_cidr      = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
-  services_cidr = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
+  pas_cidr      = "${cidrsubnet(var.vpc_cidr, var.pas_cidr_bits, var.pas_cidr_netnum)}"
+  services_cidr = "${cidrsubnet(var.vpc_cidr, var.service_cidr_bits, var.service_cidr_netnum)}"
 }

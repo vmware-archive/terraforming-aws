@@ -1,6 +1,6 @@
 resource "aws_subnet" "control_plane" {
   count             = "${length(var.availability_zones)}"
-  cidr_block        = "${cidrsubnet(local.control_plane_cidr, 4, count.index)}"
+  cidr_block        = "${cidrsubnet(local.control_plane_cidr, var.control_cidr_subnets_bits, count.index)}"
   vpc_id            = "${var.vpc_id}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 

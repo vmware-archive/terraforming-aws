@@ -39,6 +39,10 @@ module "infra" {
   dns_suffix  = "${var.dns_suffix}"
 
   tags = "${local.actual_tags}"
+
+  infra_cidr_netnum       = "${var.infra_cidr_netnum}"
+  infra_cidr_subnets_bits = "${var.infra_cidr_subnets_bits}"
+  public_cidr_bits        = "${var.public_cidr_bits}"
 }
 
 module "ops_manager" {
@@ -91,6 +95,13 @@ module "pks" {
   zone_id    = "${module.infra.zone_id}"
   dns_suffix = "${var.dns_suffix}"
 
+  pks_cidr_bits                 = "${var.pks_cidr_bits}"
+  pks_cidr_netnum               = "${var.pks_cidr_netnum}"
+  pks_cidr_subnets_bits         = "${var.pks_cidr_subnets_bits}"
+  pks_services_cidr_bits        = "${var.pks_services_cidr_bits}"
+  pks_services_cidr_netnum      = "${var.pks_services_cidr_netnum}"
+  pks_services_cidr_subnet_bits = "${var.pks_services_cidr_subnet_bits}"
+
   tags = "${local.actual_tags}"
 }
 
@@ -109,6 +120,10 @@ module "rds" {
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
   vpc_id             = "${module.infra.vpc_id}"
+
+  rds_cidr_bits         = "${var.rds_cidr_bits}"
+  rds_cidr_netnum       = "${var.rds_cidr_netnum}"
+  rds_cidr_subnets_bits = "${var.rds_cidr_subnets_bits}"
 
   tags = "${local.actual_tags}"
 }

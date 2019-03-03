@@ -34,6 +34,10 @@ module "infra" {
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
 
+  infra_cidr_netnum       = "${var.infra_cidr_netnum}"
+  infra_cidr_subnets_bits = "${var.infra_cidr_subnets_bits}"
+  public_cidr_bits        = "${var.public_cidr_bits}"
+
   internetless = "${var.internetless}"
 
   hosted_zone = "${var.hosted_zone}"
@@ -104,6 +108,13 @@ module "pas" {
   public_subnet_ids  = "${module.infra.public_subnet_ids}"
   internetless       = "${var.internetless}"
 
+  pas_cidr_bits             = "${var.pas_cidr_bits}"
+  pas_cidr_netnum           = "${var.pas_cidr_netnum}"
+  pas_cidr_subnets_bits     = "${var.pas_cidr_subnets_bits}"
+  service_cidr_bits         = "${var.service_cidr_bits}"
+  service_cidr_netnum       = "${var.service_cidr_netnum}"
+  service_cidr_subnets_bits = "${var.service_cidr_subnets_bits}"
+
   bucket_suffix = "${local.bucket_suffix}"
   zone_id       = "${module.infra.zone_id}"
   dns_suffix    = "${var.dns_suffix}"
@@ -134,5 +145,10 @@ module "rds" {
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
   vpc_id             = "${module.infra.vpc_id}"
+
+  rds_cidr_bits         = "${var.rds_cidr_bits}"
+  rds_cidr_netnum       = "${var.rds_cidr_netnum}"
+  rds_cidr_subnets_bits = "${var.rds_cidr_subnets_bits}"
+
   tags               = "${local.actual_tags}"
 }

@@ -14,6 +14,18 @@ variable "vpc_cidr" {
   type = "string"
 }
 
+variable "control_cidr_bits" {
+  default = 6
+}
+
+variable "control_cidr_netnum" {
+  default = 1
+}
+
+variable "control_cidr_subnets_bits" {
+  default = 4
+}
+
 variable "region" {
   type = "string"
 }
@@ -39,5 +51,5 @@ variable "tags" {
 }
 
 locals {
-  control_plane_cidr = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
+  control_plane_cidr = "${cidrsubnet(var.vpc_cidr, var.control_cidr_bits, var.control_cidr_netnum)}"
 }

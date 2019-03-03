@@ -21,6 +21,10 @@ module "infra" {
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
 
+  infra_cidr_netnum       = "${var.infra_cidr_netnum}"
+  infra_cidr_subnets_bits = "${var.infra_cidr_subnets_bits}"
+  public_cidr_bits        = "${var.public_cidr_bits}"
+
   hosted_zone = "${var.hosted_zone}"
   dns_suffix  = "${var.dns_suffix}"
 
@@ -64,6 +68,10 @@ module "control_plane" {
   region                  = "${var.region}"
   dns_suffix              = "${var.dns_suffix}"
   zone_id                 = "${module.infra.zone_id}"
+
+  control_cidr_bits         = "${var.control_cidr_bits}"
+  control_cidr_netnum       = "${var.control_cidr_netnum}"
+  control_cidr_subnets_bits = "${var.control_cidr_subnets_bits}"
 }
 
 module "rds" {
@@ -81,6 +89,10 @@ module "rds" {
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
   vpc_id             = "${module.infra.vpc_id}"
+
+  rds_cidr_bits         = "${var.rds_cidr_bits}"
+  rds_cidr_netnum       = "${var.rds_cidr_netnum}"
+  rds_cidr_subnets_bits = "${var.rds_cidr_subnets_bits}"
 
   tags = "${local.actual_tags}"
 }

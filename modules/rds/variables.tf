@@ -37,10 +37,22 @@ variable "vpc_id" {
   type = "string"
 }
 
+variable "rds_cidr_bits" {
+  default = 6
+}
+
+variable "rds_cidr_netnum" {
+  default = 3
+}
+
+variable "rds_cidr_subnets_bits" {
+  default = 2
+}
+
 variable "tags" {
   type = "map"
 }
 
 locals {
-  rds_cidr = "${cidrsubnet(var.vpc_cidr, 6, 3)}"
+  rds_cidr = "${cidrsubnet(var.vpc_cidr, var.rds_cidr_bits, var.rds_cidr_netnum)}"
 }

@@ -2,7 +2,7 @@
 resource "aws_subnet" "infrastructure_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet(local.infrastructure_cidr, 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.infrastructure_cidr, var.infra_cidr_subnets_bits, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-infrastructure-subnet${count.index}"))}"
@@ -43,7 +43,7 @@ resource "aws_route_table" "public_route_table" {
 resource "aws_subnet" "public_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet(local.public_cidr, 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.public_cidr, var.public_cidr_subnets_bits, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-public-subnet${count.index}"))}"

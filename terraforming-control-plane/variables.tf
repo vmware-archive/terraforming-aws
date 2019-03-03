@@ -14,8 +14,36 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
+variable "control_cidr_bits" {
+  default = 6
+}
+
+variable "control_cidr_netnum" {
+  default = 1
+}
+
+variable "control_cidr_subnets_bits" {
+  default = 4
+}
+
 variable "hosted_zone" {
   default = ""
+}
+
+/*****************
+* Infrastructure *
+******************/
+
+variable "infra_cidr_netnum" {
+  default = 64
+}
+
+variable "infra_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "public_cidr_bits" {
+  default = 6
 }
 
 /**************
@@ -60,6 +88,18 @@ variable "rds_instance_class" {
 variable "rds_instance_count" {
   type    = "string"
   default = 1
+}
+
+variable "rds_cidr_bits" {
+  default = 6
+}
+
+variable "rds_cidr_netnum" {
+  default = 3
+}
+
+variable "rds_cidr_subnets_bits" {
+  default = 2
 }
 
 /********

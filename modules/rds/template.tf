@@ -1,7 +1,7 @@
 resource "aws_subnet" "rds_subnets" {
   count             = "${var.rds_instance_count > 0 ? length(var.availability_zones) : 0}"
   vpc_id            = "${var.vpc_id}"
-  cidr_block        = "${cidrsubnet(local.rds_cidr, 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.rds_cidr, var.rds_cidr_subnets_bits, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-rds-subnet${count.index}"))}"

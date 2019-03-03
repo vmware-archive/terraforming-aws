@@ -1,7 +1,7 @@
 resource "aws_subnet" "pks_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${var.vpc_id}"
-  cidr_block        = "${cidrsubnet(local.pks_cidr, 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.pks_cidr, var.pks_cidr_subnets_bits, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags {
@@ -28,7 +28,7 @@ resource "aws_route_table_association" "route_pks_subnets" {
 resource "aws_subnet" "services_subnets" {
   count             = "${length(var.availability_zones)}"
   vpc_id            = "${var.vpc_id}"
-  cidr_block        = "${cidrsubnet(local.pks_services_cidr, 2, count.index)}"
+  cidr_block        = "${cidrsubnet(local.pks_services_cidr, var.pks_services_cidr_subnet_bits, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
   tags = "${merge(var.tags, map("Name", "${var.env_name}-pks-services-subnet${count.index}"))}"

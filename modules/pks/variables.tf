@@ -18,6 +18,30 @@ variable "vpc_cidr" {
   type = "string"
 }
 
+variable "pks_cidr_bits" {
+  default = 6
+}
+
+variable "pks_cidr_netnum" {
+  default = 1
+}
+
+variable "pks_cidr_subnets_bits" {
+  default = 2
+}
+
+variable "pks_services_cidr_bits" {
+  default = 6
+}
+
+variable "pks_services_cidr_netnum" {
+  default = 2
+}
+
+variable "pks_services_cidr_subnet_bits" {
+  default = 2
+}
+
 variable "private_route_table_ids" {
   type = "list"
 }
@@ -39,6 +63,6 @@ variable "tags" {
 }
 
 locals {
-  pks_cidr          = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
-  pks_services_cidr = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
+  pks_cidr          = "${cidrsubnet(var.vpc_cidr, var.pks_cidr_bits, var.pks_cidr_netnum)}"
+  pks_services_cidr = "${cidrsubnet(var.vpc_cidr, var.pks_services_cidr_bits, var.pks_services_cidr_netnum)}"
 }
