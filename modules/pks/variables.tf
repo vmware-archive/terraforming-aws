@@ -38,7 +38,12 @@ variable "tags" {
   type = "map"
 }
 
+module "cidr_lookup" {
+  source = "../calculate_subnets"
+  vpc_cidr = "${var.vpc_cidr}"
+}
+
 locals {
-  pks_cidr          = "${cidrsubnet(var.vpc_cidr, 6, 1)}"
-  pks_services_cidr = "${cidrsubnet(var.vpc_cidr, 6, 2)}"
+  pks_cidr = "${module.cidr_lookup.pks_cidr}"
+  pks_services_cidr = "${module.cidr_lookup.pks_services_cidr}"
 }
