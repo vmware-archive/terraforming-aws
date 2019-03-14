@@ -31,7 +31,14 @@ resource "aws_subnet" "services_subnets" {
   cidr_block        = "${cidrsubnet(local.pks_services_cidr, 2, count.index)}"
   availability_zone = "${element(var.availability_zones, count.index)}"
 
-  tags = "${merge(var.tags, map("Name", "${var.env_name}-pks-services-subnet${count.index}"))}"
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-pks-services-subnet${count.index}"), 
+      map("kubernetes.io/role/internal-elb", "1"), 
+      map("SubnetType", "Private"))}"
+
+  # Ignore additional tags that are added for specifying clusters.
+  lifecycle {
+    ignore_changes = ["tags.%", "tags.kubernetes"]
+  }
 }
 
 data "template_file" "services_subnet_gateways" {
