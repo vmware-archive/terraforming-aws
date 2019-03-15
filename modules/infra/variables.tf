@@ -15,6 +15,9 @@ variable "dns_suffix" {
   type = "string"
 }
 
+variable "use_route53" {
+}
+
 variable "availability_zones" {
   type = "list"
 }

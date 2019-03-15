@@ -51,6 +51,7 @@ module "infra" {
 
   hosted_zone = "${var.hosted_zone}"
   dns_suffix  = "${var.dns_suffix}"
+  use_route53 = "${var.use_route53}"
 
   tags = "${local.actual_tags}"
 }
@@ -72,6 +73,7 @@ module "ops_manager" {
   vpc_cidr                 = "${var.vpc_cidr}"
   dns_suffix               = "${var.dns_suffix}"
   zone_id                  = "${module.infra.zone_id}"
+  use_route53              = "${var.use_route53}"
   bucket_suffix            = "${local.bucket_suffix}"
   additional_iam_roles_arn = ["${module.pks.pks_worker_iam_role_arn}", "${module.pks.pks_master_iam_role_arn}"]
 
@@ -102,8 +104,9 @@ module "pks" {
   private_route_table_ids = "${module.infra.deployment_route_table_ids}"
   public_subnet_ids       = "${module.infra.public_subnet_ids}"
 
-  zone_id    = "${module.infra.zone_id}"
-  dns_suffix = "${var.dns_suffix}"
+  zone_id     = "${module.infra.zone_id}"
+  dns_suffix  = "${var.dns_suffix}"
+  use_route53 = "${var.use_route53}"
 
   tags = "${local.actual_tags}"
 }

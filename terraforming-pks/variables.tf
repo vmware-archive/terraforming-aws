@@ -21,6 +21,11 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
+variable "use_route53" {
+  default = true
+  description = "Indicate whether or not to enable route53"
+}
+
 /****************
 * Ops Manager *
 *****************/

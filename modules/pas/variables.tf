@@ -40,6 +40,9 @@ variable "dns_suffix" {
   type = "string"
 }
 
+variable "use_route53" {
+}
+
 variable "create_backup_pas_buckets" {
   default = false
 }
