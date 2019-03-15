@@ -110,7 +110,9 @@
         "ec2:DeleteVolume",
         "ec2:DetachVolume",
         "ec2:CopyImage",
-        "ec2:CopySnapshot"
+        "ec2:CopySnapshot",
+        "ec2:RegisterImage",
+        "ec2:DeregisterImage"
       ],
       "Resource": [
         "*"
@@ -123,7 +125,9 @@
         "elasticloadbalancing:DescribeLoadBalancers",
         "elasticloadbalancing:DescribeTargetGroups",
         "elasticloadbalancing:DescribeTargetHealth",
-        "elasticloadbalancing:RegisterTargets"
+        "elasticloadbalancing:RegisterTargets",
+        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+        "elasticloadbalancing:DeregisterInstancesWithLoadBalancer"
       ],
       "Resource": [
         "*"
