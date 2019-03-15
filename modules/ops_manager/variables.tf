@@ -29,6 +29,8 @@ variable "additional_iam_roles_arn" {
 
 variable "dns_suffix" {}
 
+variable "use_route53" {}
+
 variable "zone_id" {}
 
 variable "bucket_suffix" {}

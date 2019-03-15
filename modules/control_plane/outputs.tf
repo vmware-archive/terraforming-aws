@@ -1,5 +1,5 @@
 output "domain" {
-  value = "${aws_route53_record.control_plane.name}"
+  value = "${aws_route53_record.control_plane.*.name}"
 }
 
 output "lb_target_groups" {

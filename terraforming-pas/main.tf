@@ -52,6 +52,7 @@ module "infra" {
 
   hosted_zone = "${var.hosted_zone}"
   dns_suffix  = "${var.dns_suffix}"
+  use_route53 = "${var.use_route53}"
 
   tags = "${local.actual_tags}"
 }
@@ -73,6 +74,7 @@ module "ops_manager" {
   vpc_cidr                 = "${var.vpc_cidr}"
   dns_suffix               = "${var.dns_suffix}"
   zone_id                  = "${module.infra.zone_id}"
+  use_route53              = "${var.use_route53}"
   additional_iam_roles_arn = ["${module.pas.iam_pas_bucket_role_arn}"]
   bucket_suffix            = "${local.bucket_suffix}"
 
@@ -121,6 +123,7 @@ module "pas" {
   bucket_suffix = "${local.bucket_suffix}"
   zone_id       = "${module.infra.zone_id}"
   dns_suffix    = "${var.dns_suffix}"
+  use_route53   = "${var.use_route53}"
 
   create_backup_pas_buckets    = "${var.create_backup_pas_buckets}"
   create_versioned_pas_buckets = "${var.create_versioned_pas_buckets}"

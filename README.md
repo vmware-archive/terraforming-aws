@@ -84,6 +84,7 @@ ops_manager_ami    = "ami-4f291f2f"
 rds_instance_count = 1
 dns_suffix         = "example.com"
 vpc_cidr           = "10.0.0.0/16"
+use_route53        = true
 
 ssl_cert = <<EOF
 -----BEGIN CERTIFICATE-----
