@@ -12,7 +12,7 @@ resource "aws_security_group" "vms_security_group" {
   vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
-    cidr_blocks = ["${var.vpc_cidr}"]
+    cidr_blocks = ["0.0.0.0/0"]
     protocol    = "-1"
     from_port   = 0
     to_port     = 0

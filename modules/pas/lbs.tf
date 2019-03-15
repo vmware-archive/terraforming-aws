@@ -126,7 +126,7 @@ resource "aws_lb_listener" "ssh" {
 
 resource "aws_lb_target_group" "ssh" {
   name     = "${var.env_name}-ssh-tg"
-  port     = 2222
+  port     = 22
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
 
