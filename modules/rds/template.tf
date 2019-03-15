@@ -62,6 +62,7 @@ resource "aws_db_instance" "rds" {
   skip_final_snapshot     = true
   backup_retention_period = 7
   apply_immediately       = true
+  name                    = "${var.env_name}"
 
   count = "${var.rds_instance_count}"
 
