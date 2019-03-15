@@ -1,3 +1,75 @@
+resource "aws_security_group" "bosh_elb" {
+  name        = "bosh_elb_security_group"
+  description = "Load Balancer Security Group"
+  vpc_id      = "${var.vpc_id}"
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 25555
+    to_port     = 25555
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 8443
+    to_port     = 8443
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 8844
+    to_port     = 8844
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-lb-security-group"))}"
+}
+
+resource "aws_elb" "bosh" {
+  name                             = "${var.env_name}-bosh-elb"
+  cross_zone_load_balancing        = true
+  subnets                          = ["${var.public_subnet_ids}"]
+  security_groups = ["${aws_security_group.bosh_elb.id}"]
+
+  listener {
+    instance_port = 25555
+    instance_protocol = "TCP"
+    lb_port = 25555
+    lb_protocol = "TCP"
+  }
+
+  listener {
+    instance_port = 8443
+    instance_protocol = "TCP"
+    lb_port = 8443
+    lb_protocol = "TCP"
+  }
+
+  listener {
+    instance_port = 8844
+    instance_protocol = "TCP"
+    lb_port = 8844
+    lb_protocol = "TCP"
+  }
+
+  health_check {
+    target = "TCP:22"
+    timeout = 2
+    interval = 5
+    unhealthy_threshold = 5
+    healthy_threshold = 2
+  }
+}
+
 # Web Load Balancer
 
 resource "aws_security_group" "web_lb" {
