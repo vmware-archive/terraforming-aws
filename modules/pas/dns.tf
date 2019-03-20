@@ -38,7 +38,7 @@ resource "aws_route53_record" "ssh" {
 }
 
 resource "aws_route53_record" "tcp" {
-  count   = "${var.use_route53}"
+  count   = "${var.use_route53 && var.use_tcp_routes ? 1 : 0}"
   zone_id = "${var.zone_id}"
   name    = "tcp.${var.env_name}.${var.dns_suffix}"
   type    = "A"
