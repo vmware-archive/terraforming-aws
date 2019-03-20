@@ -85,6 +85,7 @@ rds_instance_count = 1
 dns_suffix         = "example.com"
 vpc_cidr           = "10.0.0.0/16"
 use_route53        = true
+use_tcp_routes     = true
 
 ssl_cert = <<EOF
 -----BEGIN CERTIFICATE-----
@@ -119,6 +120,8 @@ tags = {
 - ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(default: 10.0.0.0/16)** Internal CIDR block for the AWS VPC.
+- use_route53: **(default: true)** Controls whether or not Route53 DNS resources are created.
+- use_tcp_routes: **(default: true)** Controls whether or not tcp routing is enabled.
 
 ### Ops Manager (optional)
 - ops_manager_vm: **(default: true)** Set to false if you don't want an ops manager vm, but still want all the other resource included in the module.
