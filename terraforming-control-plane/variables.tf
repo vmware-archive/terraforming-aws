@@ -1,8 +1,6 @@
 variable "env_name" {}
 
 variable "dns_suffix" {}
-variable "access_key" {}
-variable "secret_key" {}
 variable "region" {}
 
 variable "availability_zones" {
@@ -96,4 +94,16 @@ locals {
   }
 
   actual_tags = "${merge(var.tags, local.default_tags)}"
+}
+
+/*******************************
+ * Deprecated, Delete After Next Release *
+ *******************************/
+
+variable "access_key" {
+  default = ""
+}
+
+variable "secret_key" {
+  default = ""
 }

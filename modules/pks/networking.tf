@@ -37,7 +37,7 @@ resource "aws_subnet" "services_subnets" {
 
   # Ignore additional tags that are added for specifying clusters.
   lifecycle {
-    ignore_changes = ["tags.%", "tags.kubernetes"]
+    ignore_changes = ["tags"]
   }
 }
 

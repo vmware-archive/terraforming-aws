@@ -73,6 +73,10 @@ resources:
       rds_instance_count: 0
       dns_suffix: aws.infrastructure.cf-app.com
       top_level_zone_id: ((terraforming-aws-root-zone-id))
+    env:
+      AWS_ACCESS_KEY_ID: ((aws_access_key_id))
+      AWS_SECRET_ACCESS_KEY: ((aws_secret_access_key))
+      AWS_DEFAULT_REGION: us-east-2
 
 - name: infrastructure-ci
   type: git
