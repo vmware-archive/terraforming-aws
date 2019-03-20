@@ -6,10 +6,6 @@ variable "hosted_zone" {
   default = ""
 }
 
-variable "access_key" {}
-
-variable "secret_key" {}
-
 variable "region" {}
 
 variable "availability_zones" {
@@ -165,4 +161,12 @@ variable "create_isoseg_resources" {
   type        = "string"
   default     = "0"
   description = "Optionally create a LB and DNS entries for a single isolation segment. Valid values are 0 or 1."
+}
+
+variable "access_key" {
+  default = ""
+}
+
+variable "secret_key" {
+  default = ""
 }

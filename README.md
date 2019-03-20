@@ -8,7 +8,7 @@ Set of terraform modules for deploying Ops Manager, PAS and PKS infrastructure r
 - A RDS instance (optional)
 - A Virtual Private Network (VPC), subnets, Security Groups
 - Necessary s3 buckets
-- A NAT Box
+- NAT Gateway services
 - Network Load Balancers
 - An IAM User with proper permissions
 - Tagged resources
@@ -52,7 +52,7 @@ Note: You will also need to create a custom policy as the following and add to
 }
 ```
 
-## Deploying Ops Manager
+## Deploying Infrastructure
 
 First, you'll need to clone this repo. Then, depending on if you're deploying PAS or PKS you need to perform the following steps:
 
@@ -61,6 +61,7 @@ First, you'll need to clone this repo. Then, depending on if you're deploying PA
     - [terraforming-pks/](terraforming-pks/)
     - [terraforming-control-plane/](terraforming-control-plane/)
 1. Create [`terraform.tfvars`](/README.md#var-file) file
+1. Populate [credentials](/README.md#credentials) file or env variables
 1. Run terraform apply:
   ```bash
   terraform init
@@ -76,8 +77,6 @@ You should fill in the stub values with the correct content.
 
 ```hcl
 env_name           = "some-environment-name"
-access_key         = "access-key-id"
-secret_key         = "secret-access-key"
 region             = "us-west-1"
 availability_zones = ["us-west-1a", "us-west-1c"]
 ops_manager_ami    = "ami-4f291f2f"
@@ -106,11 +105,31 @@ tags = {
 }
 ```
 
+### Credentials
+
+Create a `credentials.yml` file with the following contents:
+
+```
+provider "aws" {
+  access_key = "YOUR_AWS_ACCESS_KEY"
+  secret_key = "YOUR_AWS_SECRET_KEY"
+  region     = "YOUR_AWS_REGION"
+}
+```
+
+Alternatively, populate the following environment variables before running the `terraform plan`:
+
+```
+$ export AWS_ACCESS_KEY_ID="anaccesskey"
+$ export AWS_SECRET_ACCESS_KEY="asecretkey"
+$ export AWS_DEFAULT_REGION="us-west-2"
+```
+
+See Terraform documentation on the [AWS Provider](https://www.terraform.io/docs/providers/aws/) for more ways on providing credentials, especially if using [EC2 Roles](https://www.terraform.io/docs/providers/aws/#ec2-role) or [`AWS_SESSION_TOKEN`](https://www.terraform.io/docs/providers/aws/#environment-variables).
+
 ### Variables
 
 - env_name: **(required)** An arbitrary unique name for namespacing resources
-- access_key **(required)** Your Amazon access_key, used for deployment
-- secret_key: **(required)** Your Amazon secret_key, also used for deployment
 - region: **(required)** Region you want to deploy your resources to
 - availability_zones: **(required)** List of AZs you want to deploy to
 - dns_suffix: **(required)** Domain to add environment subdomain to
