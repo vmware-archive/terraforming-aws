@@ -1,3 +1,7 @@
+output "load_balancer_name" {
+  value = "${aws_lb.pks_api.name}"
+}
+
 output "pks_api_target_groups" {
   value = [
     "${aws_lb_target_group.pks_api_9021.name}",
