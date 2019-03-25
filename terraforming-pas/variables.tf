@@ -47,7 +47,8 @@ variable "create_backup_pas_buckets" {
 *****************/
 
 variable "ops_manager_ami" {
-  default = ""
+  type        = "string"
+  description = "Ops Manager AMI on AWS. Ops Manager VM will be skipped if this is empty"
 }
 
 variable "optional_ops_manager_ami" {
@@ -61,10 +62,6 @@ variable "ops_manager_instance_type" {
 variable "ops_manager_private" {
   default     = false
   description = "If true, the Ops Manager will be colocated with the BOSH director on the infrastructure subnet instead of on the public subnet"
-}
-
-variable "ops_manager_vm" {
-  default = true
 }
 
 variable "optional_ops_manager" {
@@ -154,12 +151,16 @@ variable "tags" {
   description = "Key/value tags to assign to all AWS resources"
 }
 
-/**************
-* Deprecated *
-***************/
+/*******************************
+ * Deprecated, Delete After Next Release *
+ *******************************/
 
 variable "create_isoseg_resources" {
   type        = "string"
   default     = "0"
   description = "Optionally create a LB and DNS entries for a single isolation segment. Valid values are 0 or 1."
+}
+
+variable "ops_manager_vm" {
+  default = true
 }
