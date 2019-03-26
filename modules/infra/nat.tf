@@ -28,15 +28,15 @@ resource "aws_security_group" "nat_security_group" {
 }
 
 resource "aws_nat_gateway" "nat" {
-  count = "${var.internetless ? 0 : 1}"
-  allocation_id = "${aws_eip.nat_eip.id}"
-  subnet_id     = "${element(aws_subnet.public_subnets.*.id, 0)}"
+  count = "${var.internetless ? 0 : length(var.availability_zones)}"
+  allocation_id = "${element(aws_eip.nat_eip.*.id, count.index)}"
+  subnet_id     = "${element(aws_subnet.public_subnets.*.id, count.index)}"
 
-  tags = "${merge(var.tags, map("Name", "${var.env_name}-nat"))}"
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-nat${count.index}"))}"
 }
 
 resource "aws_eip" "nat_eip" {
-  count = "${var.internetless ? 0 : 1}"
+  count = "${var.internetless ? 0 : length(var.availability_zones)}"
 
   vpc = true
 
@@ -47,6 +47,6 @@ resource "aws_route" "toggle_internet" {
   count = "${var.internetless ? 0 : length(var.availability_zones)}"
 
   route_table_id         = "${element(aws_route_table.deployment.*.id, count.index)}"
-  nat_gateway_id         = "${aws_nat_gateway.nat.id}"
+  nat_gateway_id         = "${element(aws_nat_gateway.nat.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
 }
