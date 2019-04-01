@@ -139,12 +139,12 @@ jobs:
       trigger: true
       params:
         globs:
-        - '*AWS.yml'
+        - '*aws*.yml'
   - do:
     - task: opsman-url
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
-        IAAS: AWS
+        IAAS: aws
         KEY: us-east-2
     - put: env-state-aws
       params:
@@ -248,12 +248,12 @@ jobs:
       trigger: true
       params:
         globs:
-        - '*AWS.yml'
+        - '*aws*.yml'
   - do:
     - task: opsman-url
       file: ci/scripts/terraforming/latest-opsman/task.yml
       params:
-        IAAS: AWS
+        IAAS: aws
         KEY: us-east-2
     - put: env-state-aws
       params:
