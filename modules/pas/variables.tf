@@ -67,6 +67,10 @@ variable "tags" {
   type = "map"
 }
 
+variable "tcp_lb_port_count" {
+  default = 10
+}
+
 module "cidr_lookup" {
   source = "../calculate_subnets"
   vpc_cidr = "${var.vpc_cidr}"

@@ -132,6 +132,9 @@ module "pas" {
 
   create_isoseg_resources = "${var.create_isoseg_resources}"
 
+  tcp_lb_port_count = "${var.tcp_lb_port_count}"
+
+
   tags = "${local.actual_tags}"
 }
 

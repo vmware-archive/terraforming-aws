@@ -143,6 +143,9 @@ tags = {
 - isoseg_ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed Iso Seg HTTP load balancer certificate. Required unless `isoseg_ssl_cert` is specified.
 - isoseg_ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `isoseg_ssl_cert` is specified.
 
+### Load Balancers (optional) (PAS only) 
+- tcp_lb_port_count: **(optional)** Number of ports the tcp load balancer should listen on (default: 10).
+ 
 ## Notes
 
 You can choose whether you would like an RDS or not. By default we have

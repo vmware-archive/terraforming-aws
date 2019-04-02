@@ -42,6 +42,10 @@ variable "create_backup_pas_buckets" {
   default = false
 }
 
+variable "tcp_lb_port_count" {
+  default = 10
+}
+
 /****************
 * Ops Manager *
 *****************/

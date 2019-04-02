@@ -138,7 +138,7 @@ resource "aws_lb_target_group" "ssh" {
 # TCP Load Balancer
 
 locals {
-  tcp_port_count = 10
+  tcp_lb_port_count = "${var.tcp_lb_port_count}"
 }
 
 resource "aws_security_group" "tcp_lb" {
@@ -150,7 +150,7 @@ resource "aws_security_group" "tcp_lb" {
     cidr_blocks = ["0.0.0.0/0"]
     protocol    = "tcp"
     from_port   = 1024
-    to_port     = "${1024 + local.tcp_port_count}"
+    to_port     = "${1024 + local.tcp_lb_port_count}"
   }
 
   egress {
@@ -176,7 +176,7 @@ resource "aws_lb_listener" "tcp" {
   port              = "${1024 + count.index}"
   protocol          = "TCP"
 
-  count = "${local.tcp_port_count}"
+  count = "${local.tcp_lb_port_count}"
 
   default_action {
     type             = "forward"
@@ -190,7 +190,7 @@ resource "aws_lb_target_group" "tcp" {
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
 
-  count = "${local.tcp_port_count}"
+  count = "${local.tcp_lb_port_count}"
 
   health_check {
     protocol = "TCP"
