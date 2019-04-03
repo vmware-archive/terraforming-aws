@@ -124,7 +124,7 @@ tags = {
 - use_tcp_routes: **(default: true)** Controls whether or not tcp routing is enabled.
 
 ### Ops Manager (optional)
-- ops_manager_ami: **(optional)**  Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager) (if not provided you get no Ops Manager)
+- ops_manager_ami: **(optional)**  Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager) (if set to `""` no Ops Manager VM will be created)
 - optional_ops_manager: **(default: false)** Set to true if you want an additional Ops Manager (useful for testing upgrades)
 - optional_ops_manager_ami: **(optional)**  Additional Ops Manager AMI, get the right AMI according to your region from the AWS guide downloaded from [Pivotal Network](https://network.pivotal.io/products/ops-manager)
 - ops_manager_instance_type: **(default: m4.large)** Ops Manager instance type
