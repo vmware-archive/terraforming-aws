@@ -124,6 +124,7 @@ module "pas" {
   dns_suffix     = "${var.dns_suffix}"
   use_route53    = "${var.use_route53}"
   use_tcp_routes = "${var.use_tcp_routes}"
+  use_ssh_routes = "${var.use_ssh_routes}"
 
   create_backup_pas_buckets    = "${var.create_backup_pas_buckets}"
   create_versioned_pas_buckets = "${var.create_versioned_pas_buckets}"

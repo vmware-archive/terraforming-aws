@@ -88,7 +88,7 @@ output "tcp_target_groups" {
 }
 
 output "ssh_target_groups" {
-  value = ["${aws_lb_target_group.ssh.name}"]
+  value = ["${aws_lb_target_group.ssh.*.name}"]
 }
 
 output "isoseg_target_groups" {

@@ -85,6 +85,7 @@ rds_instance_count = 1
 dns_suffix         = "example.com"
 vpc_cidr           = "10.0.0.0/16"
 use_route53        = true
+use_ssh_routes     = true
 use_tcp_routes     = true
 
 ssl_cert = <<EOF
@@ -121,6 +122,7 @@ tags = {
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(default: 10.0.0.0/16)** Internal CIDR block for the AWS VPC.
 - use_route53: **(default: true)** Controls whether or not Route53 DNS resources are created.
+- use_ssh_routes: **(default: true)** Enable ssh routing
 - use_tcp_routes: **(default: true)** Controls whether or not tcp routing is enabled.
 
 ### Ops Manager (optional)

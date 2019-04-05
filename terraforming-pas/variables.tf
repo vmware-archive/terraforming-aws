@@ -31,6 +31,11 @@ variable "use_tcp_routes" {
   description = "Indicate whether or not to enable tcp routes and elbs"
 }
 
+variable "use_ssh_routes" {
+  default = true
+  description = "Indicate whether or not to enable ssh routes and elbs"
+}
+
 /******
 * PAS *
 *******/
