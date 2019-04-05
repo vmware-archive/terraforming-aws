@@ -46,6 +46,9 @@ variable "use_route53" {
 variable "use_tcp_routes" {
 }
 
+variable "use_ssh_routes" {
+}
+
 variable "create_backup_pas_buckets" {
   default = false
 }

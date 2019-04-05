@@ -25,7 +25,7 @@ resource "aws_route53_record" "wildcard_apps_dns" {
 }
 
 resource "aws_route53_record" "ssh" {
-  count   = "${var.use_route53}"
+  count   = "${var.use_route53 && var.use_ssh_routes? 1 : 0}"
   zone_id = "${var.zone_id}"
   name    = "ssh.sys.${var.env_name}.${var.dns_suffix}"
   type    = "A"
