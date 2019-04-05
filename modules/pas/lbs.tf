@@ -142,7 +142,7 @@ locals {
 }
 
 resource "aws_security_group" "tcp_lb" {
-  count       = "${var.use_tcp_routes}"
+  count       = "${var.use_tcp_routes ? 1 : 0}"
   name        = "tcp_lb_security_group"
   description = "Load Balancer TCP Security Group"
   vpc_id      = "${var.vpc_id}"
@@ -165,7 +165,7 @@ resource "aws_security_group" "tcp_lb" {
 }
 
 resource "aws_lb" "tcp" {
-  count                            = "${var.use_tcp_routes}"
+  count                            = "${var.use_tcp_routes ? 1 : 0}"
   name                             = "${var.env_name}-tcp-lb"
   load_balancer_type               = "network"
   enable_cross_zone_load_balancing = true
