@@ -16,6 +16,14 @@ variable "availability_zones" {
   type = "list"
 }
 
+variable "internetless" {
+  default = false
+}
+
+variable "iam_users" {
+  default = true
+}
+
 variable "vpc_cidr" {
   type    = "string"
   default = "10.0.0.0/16"

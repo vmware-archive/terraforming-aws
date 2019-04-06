@@ -45,19 +45,27 @@ resource "aws_iam_role_policy_attachment" "ops_manager_policy" {
 resource "aws_iam_policy" "ops_manager_user" {
   name   = "${var.env_name}_ops_manager_user"
   policy = "${data.aws_iam_policy_document.ops_manager.json}"
+
+  count = "${var.iam_users}"
 }
 
 resource "aws_iam_user_policy_attachment" "ops_manager" {
   user       = "${aws_iam_user.ops_manager.name}"
   policy_arn = "${aws_iam_policy.ops_manager_user.arn}"
+
+  count = "${var.iam_users}"
 }
 
 resource "aws_iam_user" "ops_manager" {
   name = "${var.env_name}_om_user"
+
+  count = "${var.iam_users}"
 }
 
 resource "aws_iam_access_key" "ops_manager" {
   user = "${aws_iam_user.ops_manager.name}"
+
+  count = "${var.iam_users}"
 }
 
 resource "aws_iam_role" "ops_manager" {

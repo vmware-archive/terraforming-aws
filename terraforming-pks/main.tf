@@ -47,7 +47,7 @@ module "infra" {
   env_name           = "${var.env_name}"
   availability_zones = "${var.availability_zones}"
   vpc_cidr           = "${var.vpc_cidr}"
-  internetless       = false
+  internetless       = "${var.internetless}"
 
   hosted_zone = "${var.hosted_zone}"
   dns_suffix  = "${var.dns_suffix}"
@@ -74,6 +74,8 @@ module "ops_manager" {
   use_route53              = "${var.use_route53}"
   bucket_suffix            = "${local.bucket_suffix}"
   additional_iam_roles_arn = ["${module.pks.pks_worker_iam_role_arn}", "${module.pks.pks_master_iam_role_arn}"]
+
+  iam_users = "${var.iam_users ? 1 : 0}"
 
   tags = "${local.actual_tags}"
 }
