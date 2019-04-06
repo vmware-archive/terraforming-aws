@@ -39,19 +39,19 @@ output "ops_manager_private_ip" {
 }
 
 output "ops_manager_iam_instance_profile_name" {
-  value = "${aws_iam_instance_profile.ops_manager.name}"
+  value = "${aws_iam_instance_profile.ops_manager.*.name}"
 }
 
 output "ops_manager_iam_user_name" {
-  value = "${aws_iam_user.ops_manager.name}"
+  value = "${aws_iam_user.ops_manager.*.name}"
 }
 
 output "ops_manager_iam_user_access_key" {
-  value = "${aws_iam_access_key.ops_manager.id}"
+  value = "${aws_iam_access_key.ops_manager.*.id}"
 }
 
 output "ops_manager_iam_user_secret_key" {
-  value     = "${aws_iam_access_key.ops_manager.secret}"
+  value     = "${aws_iam_access_key.ops_manager.*.secret}"
   sensitive = true
 }
 

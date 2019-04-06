@@ -18,6 +18,10 @@ variable "vpc_id" {}
 
 variable "vpc_cidr" {}
 
+variable "iam_users" {
+  default = 1
+}
+
 variable "additional_iam_roles_arn" {
   type    = "list"
   default = []
