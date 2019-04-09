@@ -1,5 +1,5 @@
 product-properties:
-  .properties.haproxy_forward_tls:
+.properties.haproxy_forward_tls:
     value: disable
   .properties.networking_poe_ssl_certs:
     value:
