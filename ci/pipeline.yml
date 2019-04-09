@@ -75,8 +75,8 @@ resources:
       region: us-east-2
       access_key: ((aws_access_key_id))
       secret_key: ((aws_secret_access_key))
-      ssl_cert: ((ssl_cert.certificate))
-      ssl_private_key: ((ssl_cert.private_key))
+      ssl_cert: ((terraforming-aws.certificate))
+      ssl_private_key: ((terraforming-aws.private_key))
       availability_zones: ["us-east-2a", "us-east-2c"]
       rds_instance_count: 0
       dns_suffix: aws.infrastructure.cf-app.com
@@ -148,7 +148,7 @@ jobs:
         KEY: us-east-2
     - put: env-state-aws
       params:
-        generate_random_name: true
+        env_name: tf-pks-ci
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
@@ -165,6 +165,7 @@ jobs:
         params:
           <<: *om-creds
           TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+          CA_CERT: ((terraforming-ca.ca))
         input_mapping:
           env-state: env-state-aws
           director-config-template: terraforming
@@ -257,7 +258,7 @@ jobs:
         KEY: us-east-2
     - put: env-state-aws
       params:
-        generate_random_name: true
+        env_name: tf-ci
         terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
@@ -274,6 +275,7 @@ jobs:
         params:
           <<: *om-creds
           TEMPLATE_PATH: director-config-template/ci/assets/template/director-config.yml
+          CA_CERT: ((terraforming-aws.ca))
         input_mapping:
           env-state: env-state-aws
           director-config-template: terraforming

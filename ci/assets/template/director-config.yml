@@ -5,11 +5,10 @@ az-configuration:
 properties-configuration:
   director_configuration:
     ntp_servers_string: 169.254.169.123
+{{if index . "terraforming_ca_cert"}}
   security_configuration:
-    opsmanager_root_ca_trusted_certs: true
-{{if index . "ssl_cert"}}
     trusted_certificates: |
-{{indent 6 .ssl_cert}}
+{{indent 6 .terraforming_ca_cert}}
 {{end}}
   iaas_configuration:
     access_key_id: {{.ops_manager_iam_user_access_key}}
