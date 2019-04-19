@@ -58,10 +58,9 @@ module "infra" {
 }
 
 module "ops_manager" {
-  source         = "../modules/ops_manager"
-  vm_count       = "${var.ops_manager_ami == "" ? 0 : 1}"
-  optional_count = "${var.optional_ops_manager_ami == "" ? 0 : 1}"
-  subnet_id      = "${local.ops_man_subnet_id}"
+  source = "../modules/ops_manager"
+
+  subnet_id = "${local.ops_man_subnet_id}"
 
   env_name                 = "${var.env_name}"
   region                   = "${var.region}"

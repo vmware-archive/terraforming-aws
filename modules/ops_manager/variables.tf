@@ -34,8 +34,3 @@ variable "bucket_suffix" {}
 variable "tags" {
   type = "map"
 }
-
-# Deprecated - delete after next release
-
-variable "vm_count" {}
-variable "optional_count" {}

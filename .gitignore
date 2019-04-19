@@ -11,3 +11,6 @@
 *.generated.yml
 OpsManager*onAWS.yml
 om.key
+*control-plane-*.yml
+*.tgz
+*secrets.yml

@@ -22,17 +22,17 @@ variable "vpc_cidr" {
 }
 
 variable "use_route53" {
-  default = true
+  default     = true
   description = "Indicate whether or not to enable route53"
 }
 
 variable "use_tcp_routes" {
-  default = true
+  default     = true
   description = "Indicate whether or not to enable tcp routes and elbs"
 }
 
 variable "use_ssh_routes" {
-  default = true
+  default     = true
   description = "Indicate whether or not to enable ssh routes and elbs"
 }
 
@@ -72,10 +72,6 @@ variable "ops_manager_instance_type" {
 variable "ops_manager_private" {
   default     = false
   description = "If true, the Ops Manager will be colocated with the BOSH director on the infrastructure subnet instead of on the public subnet"
-}
-
-variable "optional_ops_manager" {
-  default = false
 }
 
 /******
@@ -169,8 +165,4 @@ variable "create_isoseg_resources" {
   type        = "string"
   default     = "0"
   description = "Optionally create a LB and DNS entries for a single isolation segment. Valid values are 0 or 1."
-}
-
-variable "ops_manager_vm" {
-  default = true
 }
