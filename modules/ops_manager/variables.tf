@@ -34,3 +34,8 @@ variable "bucket_suffix" {}
 variable "tags" {
   type = "map"
 }
+
+locals {
+  ops_man_vm          = "${var.ami == "" ? 0 : 1}"
+  optional_ops_man_vm = "${var.optional_ami == "" ? 0 : 1}"
+}
