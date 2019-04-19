@@ -46,8 +46,8 @@ module "infra" {
 module "ops_manager" {
   source = "../modules/ops_manager"
 
-  vm_count       = "${var.ops_manager_vm ? 1 : 0}"
-  optional_count = "${var.optional_ops_manager ? 1 : 0}"
+  vm_count       = "${var.ops_manager_ami == "" ? 0 : 1}"
+  optional_count = "${var.optional_ops_manager_ami == "" ? 0 : 1}"
   subnet_id      = "${local.ops_man_subnet_id}"
 
   env_name      = "${var.env_name}"
@@ -62,7 +62,6 @@ module "ops_manager" {
   zone_id       = "${module.infra.zone_id}"
   use_route53   = "${var.use_route53}"
 
-  # additional_iam_roles_arn = ["${module.pas.iam_pas_bucket_role_arn}"]
   bucket_suffix = "${local.bucket_suffix}"
 
   tags = "${local.actual_tags}"

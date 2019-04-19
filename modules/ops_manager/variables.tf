@@ -2,10 +2,6 @@ variable "region" {
   type = "string"
 }
 
-variable "optional_count" {}
-
-variable "vm_count" {}
-
 variable "private" {}
 
 variable "env_name" {}
@@ -38,3 +34,8 @@ variable "bucket_suffix" {}
 variable "tags" {
   type = "map"
 }
+
+# Deprecated - delete after next release
+
+variable "vm_count" {}
+variable "optional_count" {}
