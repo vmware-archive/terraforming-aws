@@ -15,7 +15,7 @@ output "zone_id" {
 }
 
 output "name_servers" {
-  value = "${formatlist("%s.", compact(split(",", local.name_servers)))}"
+  value = "${local.name_servers}"
 }
 
 output "vms_security_group_id" {
