@@ -24,6 +24,13 @@ resource "aws_security_group" "ops_manager_security_group" {
     to_port     = 443
   }
 
+  ingress {
+    self      = "true"
+    protocol  = "-1"
+    from_port = 0
+    to_port   = 0
+  }
+
   egress {
     cidr_blocks = ["${var.private ? var.vpc_cidr : "0.0.0.0/0"}"]
     protocol    = "-1"
