@@ -43,9 +43,6 @@ main() {
 		mv /tmp/env-state/metadata{_tmp,}
 
     export PRODUCT=${product}
-    piper -c "${PROJECT_DIR}/ci/tasks/custom-vm-extensions.yml" \
-      -i "terraforming=${PROJECT_DIR}" \
-      -i env-state=/tmp/env-state
 
     om -k configure-product \
       -c <(texplate execute "${product_template}" -f /tmp/env-state/metadata -o yaml)

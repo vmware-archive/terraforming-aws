@@ -22,8 +22,7 @@ variable "zone_id" {
   type = "string"
 }
 
-variable "use_route53" {
-}
+variable "use_route53" {}
 
 variable "dns_suffix" {
   type = "string"
@@ -41,8 +40,23 @@ variable "tags" {
   type = "map"
 }
 
+variable "lb_cert_pem" {
+  type        = "string"
+  description = "Certificate attached directly to LB fronting the uaa and credhub"
+}
+
+variable "lb_private_key_pem" {
+  type        = "string"
+  description = "Private key for lb_cert_pem, this will be loaded into ACM"
+}
+
+variable "lb_issuer" {
+  type        = "string"
+  description = "The intermediate certificate chain for our LB cert"
+}
+
 module "cidr_lookup" {
-  source = "../calculate_subnets"
+  source   = "../calculate_subnets"
   vpc_cidr = "${var.vpc_cidr}"
 }
 

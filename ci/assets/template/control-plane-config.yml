@@ -9,8 +9,15 @@ network-properties:
   singleton_availability_zone:
     name: {{index .azs 0}}
 product-properties:
-  .properties.domain:
-    value: {{.control_plane_domain}}
+  .properties.root_domain:
+    value: {{.control_plane_root_domain}}
+  .properties.tls:
+    value:
+      cert_pem: {{printf "%q" .control_plane_cert}}
+      private_key_pem: {{printf "%q" .control_plane_key}}
+  .properties.uaa_ca_cert:
+    value: {{printf "%q" .control_plane_lb_ca_cert}}
+{{if index . "rds_address"}}
   .properties.control_plane_database:
     value: external
   .properties.control_plane_database.external.host:
@@ -40,15 +47,14 @@ product-properties:
       secret: {{.rds_password}}
   .properties.control_plane_database.external.ca_cert:
     value: {{toJson .rds_ca_cert}}
+{{end}}
 resource-config:
   web:
     instances: automatic
     elb_names:
-    {{range .control_plane_lb_target_groups}}
-    - alb:{{.}}
-    {{end}}
+    - alb:{{.control_plane_web_target_group}}
     additional_vm_extensions:
-    - control-plane-lb-security-groups
+    - control-plane-lb-cloud-properties
     internet_connected: false
   db:
     instances: automatic
@@ -56,3 +62,13 @@ resource-config:
   worker:
     instances: automatic
     internet_connected: true
+  credhub:
+    elb_names:
+    - alb:{{.control_plane_credhub_target_group}}
+    additional_vm_extensions:
+    - credhub-lb-cloud-properties
+  uaa:
+    elb_names:
+    - alb:{{.control_plane_uaa_target_group}}
+    additional_vm_extensions:
+    - uaa-lb-cloud-properties

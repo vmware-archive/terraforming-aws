@@ -1,3 +1,25 @@
+vmextensions-configuration:
+- name: control-plane-lb-cloud-properties
+ cloud_properties:
+    security_groups:
+    - {{.control_plane_web_target_group}}
+    - vms_security_group
+    lb_target_groups:
+    - {{.control_plane_web_target_group}}
+- name: credhub-lb-cloud-properties
+  cloud_properties:
+    security_groups:
+    - {{.control_plane_credhub_security_group}}
+    - vms_security_group
+    lb_target_groups:
+    - {{.control_plane_credhub_target_group}}
+- name: uaa-lb-cloud-properties
+  cloud_properties:
+      security_groups:
+      - {{.control_plane_uaa_security_group}}
+      - vms_security_group
+      lb_target_groups:
+      - {{.control_plane_uaa_target_group}}
 az-configuration:
 {{range .azs}}
 - name: {{.}}
