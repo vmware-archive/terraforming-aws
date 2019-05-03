@@ -1,3 +1,4 @@
+{{if index . "control_plane_domain"}}
 vmextensions-configuration:
 - name: control-plane-lb-cloud-properties
  cloud_properties:
@@ -20,6 +21,7 @@ vmextensions-configuration:
       - vms_security_group
       lb_target_groups:
       - {{.control_plane_uaa_target_group}}
+{{end}}
 az-configuration:
 {{range .azs}}
 - name: {{.}}
