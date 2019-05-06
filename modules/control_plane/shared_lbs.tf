@@ -1,5 +1,5 @@
 resource "aws_security_group" "credhub" {
-  name        = "${env_name}-credhub-sg"
+  name        = "${var.env_name}-credhub-sg"
   description = "Allows users to access the credhub"
   vpc_id      = "${var.vpc_id}"
 
@@ -23,7 +23,7 @@ resource "aws_security_group" "credhub" {
 }
 
 resource "aws_security_group" "uaa" {
-  name        = "${env_name}-uaa-sg"
+  name        = "${var.env_name}-uaa-sg"
   description = "Allows users to access the uaa"
   vpc_id      = "${var.vpc_id}"
 
@@ -47,7 +47,7 @@ resource "aws_security_group" "uaa" {
 }
 
 resource "aws_security_group" "lb" {
-  name        = "${env_name}-alb-sg"
+  name        = "${var.env_name}-alb-sg"
   description = "Allow access to VMs from LB"
   vpc_id      = "${var.vpc_id}"
 
@@ -78,7 +78,7 @@ resource "aws_security_group" "lb" {
 }
 
 resource "aws_lb" "credhub_uaa" {
-  name               = "${env_name}-shared-lb"
+  name               = "${var.env_name}-shared-lb"
   internal           = false
   load_balancer_type = "application"
   subnets            = ["${var.public_subnet_ids}"]
@@ -90,7 +90,7 @@ resource "aws_lb" "credhub_uaa" {
 }
 
 resource "aws_lb_target_group" "uaa" {
-  name     = "${env_name}-uaa-tg"
+  name     = "${var.env_name}-uaa-tg"
   port     = 8443
   protocol = "HTTPS"
   vpc_id   = "${var.vpc_id}"
@@ -106,7 +106,7 @@ resource "aws_lb_target_group" "uaa" {
 }
 
 resource "aws_lb_target_group" "credhub" {
-  name     = "${env_name}-credhub-tg"
+  name     = "${var.env_name}-credhub-tg"
   port     = 8844
   protocol = "HTTPS"
   vpc_id   = "${var.vpc_id}"
