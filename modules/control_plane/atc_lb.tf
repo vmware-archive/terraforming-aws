@@ -30,7 +30,7 @@ resource "aws_security_group" "control_plane" {
 }
 
 resource "aws_lb" "control_plane" {
-  name                             = "${var.env_name}-control-plane-lb"
+  name                             = "${var.env_name}-atc-lb"
   load_balancer_type               = "network"
   enable_cross_zone_load_balancing = true
   internal                         = false
