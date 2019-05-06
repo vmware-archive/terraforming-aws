@@ -7,5 +7,5 @@ resource "aws_route53_record" "name_servers" {
   type = "NS"
   ttl  = 60
 
-  records = ["${flatten(var.name_servers)}"]
+  records = ["${var.name_servers}"]
 }
