@@ -1,9 +1,9 @@
 {{if index . "control_plane_domain"}}
 vmextensions-configuration:
 - name: control-plane-lb-cloud-properties
- cloud_properties:
+  cloud_properties:
     security_groups:
-    - {{.control_plane_web_target_group}}
+    - {{.control_plane_web_security_group}}
     - vms_security_group
     lb_target_groups:
     - {{.control_plane_web_target_group}}
