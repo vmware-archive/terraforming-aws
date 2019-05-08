@@ -1,5 +1,5 @@
 output "domain" {
-  value = "${aws_route53_record.control_plane.*.name}"
+  value = "${var.use_route53 ? aws_route53_record.control_plane.0.name : ""}"
 }
 
 output "subnet_ids" {
