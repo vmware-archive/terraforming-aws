@@ -20,6 +20,16 @@ data "aws_iam_policy_document" "ops_manager" {
       "${compact(concat(list(aws_iam_role.ops_manager.arn), var.additional_iam_roles_arn))}",
     ]
   }
+
+  statement {
+    sid     = "AllowOperationsForCreatingOpsMan"
+    effect  = "Allow"
+    actions = ["ec2:ModifyVolume", "ec2:StopInstances", "ec2:StartInstances"]
+
+    resources = [
+      "*",
+    ]
+  }
 }
 
 resource "aws_iam_policy" "ops_manager_role" {

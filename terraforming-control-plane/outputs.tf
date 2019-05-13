@@ -123,6 +123,10 @@ output "ops_manager_ssh_public_key" {
   value = "${module.ops_manager.ssh_public_key}"
 }
 
+output "ops_manager_subnet_id" {
+  value = "${ops_man_subnet_id}"
+}
+
 /******
 * RDS *
 *******/

@@ -159,6 +159,7 @@ jobs:
         ACTION: add
       input_mapping:
         env-state: env-state-aws
+      timeout: 60m
     - aggregate:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
@@ -269,6 +270,7 @@ jobs:
         ACTION: add
       input_mapping:
         env-state: env-state-aws
+      timeout: 60m
     - aggregate:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
