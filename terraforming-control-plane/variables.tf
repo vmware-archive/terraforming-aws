@@ -23,11 +23,6 @@ variable "use_route53" {
   description = "Indicate whether or not to enable route53"
 }
 
-variable "registration_email" {
-  default     = ""
-  description = "Used when provisioning a certificate with let's encrypt"
-}
-
 variable "top_level_zone_id" {
   default     = ""
   description = "Root hosted zone that we are going to wire NS records to for Let's encrypt"
