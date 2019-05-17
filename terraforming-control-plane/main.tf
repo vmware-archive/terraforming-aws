@@ -50,16 +50,6 @@ module "add_ns_to_hosted_zone" {
   name_servers      = "${module.infra.name_servers}"
 }
 
-module "acme_cert" {
-  source             = "../modules/acme_cert"
-  access_key         = "${var.access_key}"
-  secret_key         = "${var.secret_key}"
-  common_name        = "${var.env_name}.${var.dns_suffix}"
-  aws_hosted_zone    = "${module.infra.zone_id}"
-  registration_email = "${var.registration_email}"
-  sans               = ["uaa.${var.env_name}.${var.dns_suffix}", "credhub.${var.env_name}.${var.dns_suffix}"]
-}
-
 module "ops_manager" {
   source = "../modules/ops_manager"
 
@@ -96,9 +86,9 @@ module "control_plane" {
   zone_id                 = "${module.infra.zone_id}"
   use_route53             = "${var.use_route53}"
 
-  lb_cert_pem        = "${module.acme_cert.cert_pem}"
-  lb_private_key_pem = "${module.acme_cert.private_key_pem}"
-  lb_issuer          = "${module.acme_cert.issuer_pem}"
+  lb_cert_pem        = "${var.tls_wildcard_certificate}"
+  lb_issuer          = "${var.tls_ca_certificate}"
+  lb_private_key_pem = "${var.tls_private_key}"
 }
 
 module "rds" {

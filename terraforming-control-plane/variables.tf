@@ -33,6 +33,18 @@ variable "top_level_zone_id" {
   description = "Root hosted zone that we are going to wire NS records to for Let's encrypt"
 }
 
+variable "tls_wildcard_certificate" {
+  description = "Public certificate used for tls connections to UAA and Credhub."
+}
+
+variable "tls_ca_certificate" {
+  description = "CA certificate used for tls wildcard certificate."
+}
+
+variable "tls_private_key" {
+  description = "Private key used for tls wildcard certificate."
+}
+
 /**************
 * Ops Manager *
 ***************/
