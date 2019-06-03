@@ -80,6 +80,7 @@ resources:
       availability_zones: ["us-east-2a", "us-east-2c"]
       rds_instance_count: 0
       dns_suffix: aws.infrastructure.cf-app.com
+      top_level_zone_id: ((terraforming-aws-root-zone-id))
 
 - name: infrastructure-ci
   type: git
@@ -152,14 +153,7 @@ jobs:
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
-    - task: add-dns
-      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
-      params:
-        <<: *modify-terraforming-dns-params
-        ACTION: add
-      input_mapping:
-        env-state: env-state-aws
-      timeout: 60m
+        override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
     - aggregate:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
@@ -226,6 +220,7 @@ jobs:
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
+            override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
           get_params:
             action: destroy
 
@@ -263,14 +258,7 @@ jobs:
         terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
-    - task: add-dns
-      file: ci/scripts/common/manage-gcp-dns/task-terraforming.yml
-      params:
-        <<: *modify-terraforming-dns-params
-        ACTION: add
-      input_mapping:
-        env-state: env-state-aws
-      timeout: 60m
+        override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
     - aggregate:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
@@ -337,6 +325,7 @@ jobs:
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
+            override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
           get_params:
             action: destroy
 
