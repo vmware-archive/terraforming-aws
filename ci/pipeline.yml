@@ -153,7 +153,8 @@ jobs:
         terraform_source: terraforming/terraforming-pks
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
-        override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
+        override_files:
+        - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
     - aggregate:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
@@ -220,7 +221,8 @@ jobs:
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
-            override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
+            override_files:
+            - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
           get_params:
             action: destroy
 
@@ -258,7 +260,8 @@ jobs:
         terraform_source: terraforming/terraforming-pas
         delete_on_failure: true
         var_files: [tfvars/terraform.yml]
-        override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
+        override_files:
+        - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
     - aggregate:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
@@ -325,7 +328,8 @@ jobs:
             delete_on_failure: true
             action: destroy
             var_files: [tfvars/terraform.yml]
-            override_files: terraforming/ci/dns-override/aws_dns_root_zone_override.tf
+            override_files:
+            - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
           get_params:
             action: destroy
 
