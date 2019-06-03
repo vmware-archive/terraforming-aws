@@ -7,3 +7,7 @@ resource "aws_route53_record" "name_servers" {
 
   records = ["${module.infra.name_servers}"]
 }
+
+variable "top_level_zone_id" {
+  description = "top level aws zone id that NS records will be added to"
+}
