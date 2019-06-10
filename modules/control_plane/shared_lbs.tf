@@ -78,6 +78,7 @@ resource "aws_security_group" "lb" {
 }
 
 resource "aws_lb" "credhub_uaa" {
+  count              = "${var.use_alb}"
   name               = "${var.env_name}-shared-lb"
   internal           = false
   load_balancer_type = "application"
@@ -89,7 +90,32 @@ resource "aws_lb" "credhub_uaa" {
   }
 }
 
+resource "aws_lb" "credhub_lb" {
+  count              = "${var.use_alb ? 0 : 1}"
+  name               = "${var.env_name}-credhub-lb"
+  internal           = false
+  load_balancer_type = "network"
+  subnets            = ["${var.public_subnet_ids}"]
+
+  tags = {
+    Environment = "${var.env_name}"
+  }
+}
+
+resource "aws_lb" "uaa_lb" {
+  count              = "${var.use_alb ? 0 : 1}"
+  name               = "${var.env_name}-uaa-lb"
+  internal           = false
+  load_balancer_type = "network"
+  subnets            = ["${var.public_subnet_ids}"]
+
+  tags = {
+    Environment = "${var.env_name}"
+  }
+}
+
 resource "aws_lb_target_group" "uaa" {
+  count    = "${var.use_alb}"
   name     = "${var.env_name}-uaa-tg"
   port     = 8443
   protocol = "HTTPS"
@@ -106,6 +132,7 @@ resource "aws_lb_target_group" "uaa" {
 }
 
 resource "aws_lb_target_group" "credhub" {
+  count    = "${var.use_alb}"
   name     = "${var.env_name}-credhub-tg"
   port     = 8844
   protocol = "HTTPS"
@@ -122,6 +149,7 @@ resource "aws_lb_target_group" "credhub" {
 }
 
 resource "aws_lb_listener" "credhub_uaa" {
+  count             = "${var.use_alb}"
   load_balancer_arn = "${aws_lb.credhub_uaa.arn}"
   port              = "443"
   protocol          = "HTTPS"
@@ -140,6 +168,7 @@ resource "aws_lb_listener" "credhub_uaa" {
 }
 
 resource "aws_lb_listener_rule" "redirect_to_uaa" {
+  count        = "${var.use_alb}"
   listener_arn = "${aws_lb_listener.credhub_uaa.arn}"
 
   action {
@@ -154,6 +183,7 @@ resource "aws_lb_listener_rule" "redirect_to_uaa" {
 }
 
 resource "aws_lb_listener_rule" "redirect_to_credhub" {
+  count        = "${var.use_alb}"
   listener_arn = "${aws_lb_listener.credhub_uaa.arn}"
 
   action {
@@ -164,5 +194,59 @@ resource "aws_lb_listener_rule" "redirect_to_credhub" {
   condition {
     field  = "host-header"
     values = ["${aws_route53_record.credhub.name}"]
+  }
+}
+
+resource "aws_lb_listener" "uaa" {
+  count             = "${var.use_alb ? 0 : 1}"
+  load_balancer_arn = "${aws_lb.uaa_lb.arn}"
+  port              = 443
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.uaa_tcp.arn}"
+  }
+}
+
+resource "aws_lb_target_group" "uaa_tcp" {
+  count    = "${var.use_alb ? 0 : 1}"
+  name     = "${var.env_name}-uaa-https-tg"
+  port     = 8443
+  protocol = "TCP"
+  vpc_id   = "${var.vpc_id}"
+
+  health_check {
+    healthy_threshold   = 6
+    unhealthy_threshold = 6
+    interval            = 10
+    protocol            = "TCP"
+  }
+}
+
+resource "aws_lb_listener" "credhub" {
+  count             = "${var.use_alb ? 0 : 1}"
+  load_balancer_arn = "${aws_lb.credhub_lb.arn}"
+  port              = 443
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = "${aws_lb_target_group.credhub_tcp.arn}"
+  }
+}
+
+resource "aws_lb_target_group" "credhub_tcp" {
+  count    = "${var.use_alb ? 0 : 1}"
+  name     = "${var.env_name}-credhub-tg"
+  port     = 8844
+  protocol = "TCP"
+  vpc_id   = "${var.vpc_id}"
+
+  health_check {
+    healthy_threshold   = 6
+    unhealthy_threshold = 6
+    interval            = 10
+    protocol            = "TCP"
   }
 }

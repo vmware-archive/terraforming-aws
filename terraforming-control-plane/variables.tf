@@ -23,6 +23,11 @@ variable "use_route53" {
   description = "Indicate whether or not to enable route53"
 }
 
+variable "use_alb" {
+  default     = true
+  description = "if false, use NLBs instead of ALBs for Credhub and UAA"
+}
+
 variable "top_level_zone_id" {
   default     = ""
   description = "Root hosted zone that we are going to wire NS records to for Let's encrypt"
