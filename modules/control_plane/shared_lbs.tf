@@ -115,7 +115,7 @@ resource "aws_lb_target_group" "credhub" {
     healthy_threshold   = 3
     unhealthy_threshold = 3
     interval            = 30
-    port                = 8844
+    port                = 8845
     protocol            = "HTTPS"
     path                = "/health"
   }
