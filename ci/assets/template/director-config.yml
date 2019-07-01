@@ -116,4 +116,4 @@ networks-configuration:
 resource-configuration:
   compilation:
     instance_type:
-      id: c4.xlarge
+      id: automatic
