@@ -21,12 +21,6 @@ product-properties:
     value: {{.pks_api_endpoint}}
   .properties.plan1_selector:
     value: "Plan Active"
-  .properties.plan1_selector.active.master_vm_type:
-    value: t2.micro
-  .properties.plan1_selector.active.worker_vm_type:
-    value: t2.micro
-  .properties.plan1_selector.active.errand_vm_type:
-    value: t2.micro
   .properties.plan1_selector.active.master_az_placement:
     value:
     - {{index .azs 0}}
