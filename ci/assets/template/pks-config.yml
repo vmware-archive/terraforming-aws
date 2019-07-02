@@ -19,6 +19,8 @@ product-properties:
 {{indent 10 .ssl_private_key}}
   .properties.pks_api_hostname:
     value: {{.pks_api_endpoint}}
+  .properties.plan1_selector:
+    value: "Plan Active"
   .properties.plan1_selector.active.master_vm_type:
     value: t2.micro
   .properties.plan1_selector.active.worker_vm_type:
