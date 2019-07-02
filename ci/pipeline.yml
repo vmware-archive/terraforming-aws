@@ -118,7 +118,7 @@ jobs:
   serial: true
   public: false
   plan:
-  - aggregate:
+  - in_parallel:
     - get: after-midnight
       trigger: true
     - get: terraforming
@@ -147,7 +147,7 @@ jobs:
         var_files: [tfvars/terraform.yml]
         override_files:
         - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
-    - aggregate:
+    - in_parallel:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
         params:
@@ -198,24 +198,23 @@ jobs:
           OPSMAN_URL_SUFFIX: aws.infrastructure.cf-app.com
         input_mapping:
           environment: env-state-aws
-      - aggregate:
-        - put: env-state-aws
-          params:
-            terraform_source: terraforming/terraforming-pks
-            env_name_file: env-state-aws/name
-            delete_on_failure: true
-            action: destroy
-            var_files: [tfvars/terraform.yml]
-            override_files:
-            - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
-          get_params:
-            action: destroy
+      - put: env-state-aws
+        params:
+          terraform_source: terraforming/terraforming-pks
+          env_name_file: env-state-aws/name
+          delete_on_failure: true
+          action: destroy
+          var_files: [tfvars/terraform.yml]
+          override_files:
+          - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
+        get_params:
+          action: destroy
 
 - name: deploy-pas
   serial: true
   public: false
   plan:
-  - aggregate:
+  - in_parallel:
     - get: after-midnight
       trigger: true
     - get: terraforming
@@ -247,7 +246,7 @@ jobs:
         var_files: [tfvars/terraform.yml]
         override_files:
         - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
-    - aggregate:
+    - in_parallel:
       - task: configure-director
         file: ci/scripts/terraforming/configure-director/task.yml
         params:
@@ -298,23 +297,22 @@ jobs:
           OPSMAN_URL_SUFFIX: aws.infrastructure.cf-app.com
         input_mapping:
           environment: env-state-aws
-      - aggregate:
-        - put: env-state-aws
-          params:
-            terraform_source: terraforming/terraforming-pas
-            env_name_file: env-state-aws/name
-            delete_on_failure: true
-            action: destroy
-            var_files: [tfvars/terraform.yml]
-            override_files:
-            - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
-          get_params:
-            action: destroy
+      - put: env-state-aws
+        params:
+          terraform_source: terraforming/terraforming-pas
+          env_name_file: env-state-aws/name
+          delete_on_failure: true
+          action: destroy
+          var_files: [tfvars/terraform.yml]
+          override_files:
+          - terraforming/ci/dns-override/aws_dns_root_zone_override.tf
+        get_params:
+          action: destroy
 
 - name: publish
   serial: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: terraforming
       passed: [deploy-pas, deploy-pks]
       trigger: true
