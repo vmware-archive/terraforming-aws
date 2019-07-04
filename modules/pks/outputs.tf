@@ -60,3 +60,7 @@ output "domain" {
 output "pks_master_security_group_id" {
   value = "${aws_security_group.pks_master_security_group.id}"
 }
+
+output "pks_api_lb_security_group_id" {
+  value = "${aws_security_group.pks_api_lb_security_group.id}"
+}
