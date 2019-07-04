@@ -193,6 +193,10 @@ output "pks_api_target_groups" {
   value = "${module.pks.pks_api_target_groups}"
 }
 
+output "pks_api_lb_security_group_id" {
+  value = "${module.pks.pks_api_lb_security_group_id}"
+}
+
 # PKS Services =================================================================
 
 output "services_subnet_ids" {
