@@ -54,6 +54,8 @@ Note: You will also need to create a custom policy as the following and add to
 
 ## Deploying Infrastructure
 
+*Note:* If you're using Platform Automation, be sure to skip this step as explained [here](/README.md#ops-manager-optional). If you create your Ops Manager here, you will not be able to manage it with [Platform Automation](docs.pivotal.io/platform-automation).
+
 First, you'll need to clone this repo. Then, depending on if you're deploying PAS or PKS you need to perform the following steps:
 
 1. `cd` into the proper directory:
