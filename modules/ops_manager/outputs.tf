@@ -43,7 +43,7 @@ output "ops_manager_iam_instance_profile_name" {
 }
 
 output "ops_manager_iam_user_name" {
-  value = "${aws_iam_user.ops_manager.*.name}"
+  value = "${element(concat(aws_iam_user.ops_manager.*.name, list("")), 0)}"
 }
 
 output "ops_manager_iam_user_access_key" {
