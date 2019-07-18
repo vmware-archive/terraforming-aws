@@ -39,7 +39,7 @@ output "ops_manager_private_ip" {
 }
 
 output "ops_manager_iam_instance_profile_name" {
-  value = "${aws_iam_instance_profile.ops_manager.*.name}"
+  value = "${element(concat(aws_iam_instance_profile.ops_manager.*.name, list("")), 0)}"
 }
 
 output "ops_manager_iam_user_name" {
