@@ -47,11 +47,11 @@ output "ops_manager_iam_user_name" {
 }
 
 output "ops_manager_iam_user_access_key" {
-  value = "${aws_iam_access_key.ops_manager.*.id}"
+  value = "${element(concat(aws_iam_access_key.ops_manager.*.id, list("")), 0)}"
 }
 
 output "ops_manager_iam_user_secret_key" {
-  value     = "${aws_iam_access_key.ops_manager.*.secret}"
+  value     = "${element(concat(aws_iam_access_key.ops_manager.*.secret, list("")), 0)}"
   sensitive = true
 }
 
