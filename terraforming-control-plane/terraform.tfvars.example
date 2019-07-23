@@ -1,0 +1,33 @@
+env_name           = "some-environment-name"
+region             = "us-west-1"
+availability_zones = ["us-west-1a", "us-west-1c"]
+ops_manager_ami    = "ami-4f291f2f"
+rds_instance_count = 1
+dns_suffix         = "example.com"
+vpc_cidr           = "10.0.0.0/16"
+use_route53        = true
+use_ssh_routes     = true
+use_tcp_routes     = true
+
+tls_ca_certificate = <<EOF
+-----BEGIN CERTIFICATE-----  
+some cert                    
+-----END CERTIFICATE-----    
+EOF
+
+tls_wildcard_certificate = <<EOF
+-----BEGIN CERTIFICATE-----  
+some cert                    
+-----END CERTIFICATE-----    
+EOF
+
+tls_private_key = <<EOF
+-----BEGIN RSA PRIVATE KEY-----
+some cert private key
+-----END RSA PRIVATE KEY-----
+EOF
+
+tags = {
+    Team = "Dev"
+    Project = "WebApp3"
+}
