@@ -39,8 +39,12 @@ product-properties:
     value: {{.pks_master_iam_instance_profile_name}}
   .properties.cloud_provider.aws.iam_instance_profile_worker:
     value: {{.pks_worker_iam_instance_profile_name}}
+  .properties.oidc_selector:
+    value: disabled
   .properties.telemetry_selector:
     value: disabled
+  .properties.telemetry_installation_purpose_selector:
+    value: not_provided
 resource-config:
   pivotal-container-service:
     elb_names:
