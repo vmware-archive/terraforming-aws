@@ -52,9 +52,12 @@ Note: You will also need to create a custom policy as the following and add to
 }
 ```
 
-## Deploying Infrastructure
+## Are you using Platform Automation?
+Be sure to skip the creation of the Ops Manager VM. Do not include the vars listed [here](/README.md#ops-manager-optional). If you create your Ops Manager using terraform, you will not be able to manage it with [Platform Automation](https://docs.pivotal.io/platform-automation).
 
-*Note:* If you're using Platform Automation, be sure to skip this step as explained [here](/README.md#ops-manager-optional). If you create your Ops Manager here, you will not be able to manage it with [Platform Automation](https://docs.pivotal.io/platform-automation).
+Deployment of the infrastructure is still required.
+
+## Deploying Infrastructure
 
 First, you'll need to clone this repo. Then, depending on if you're deploying PAS or PKS you need to perform the following steps:
 
