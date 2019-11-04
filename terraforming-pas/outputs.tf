@@ -136,8 +136,8 @@ output "public_subnet_cidrs" {
   value = "${module.infra.public_subnet_cidrs}"
 }
 
-output "infrastructure_subnet_ids" {
-  value = "${module.infra.infrastructure_subnet_ids}"
+output "infrastructure_subnet_id" {
+  value = "${element(module.infra.infrastructure_subnet_ids, 0)}"
 }
 
 output "infrastructure_subnets" {
@@ -303,4 +303,8 @@ output "management_subnet_cidrs" {
 
 output "management_subnet_gateways" {
   value = "${module.infra.infrastructure_subnet_gateways}"
+}
+
+output "infrastructure_subnet_ids" {
+  value = "${module.infra.infrastructure_subnet_ids}"
 }

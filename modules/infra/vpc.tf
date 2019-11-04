@@ -39,7 +39,7 @@ resource "aws_vpc_endpoint" "ec2" {
   vpc_id              = "${aws_vpc.vpc.id}"
   service_name        = "${local.ec2_address}"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  subnet_ids          = ["${aws_subnet.infrastructure_subnet.id}"]
   private_dns_enabled = true
   security_group_ids  = ["${aws_security_group.vms_security_group.id}"]
 }
@@ -50,7 +50,7 @@ resource "aws_vpc_endpoint" "lb" {
   vpc_id              = "${aws_vpc.vpc.id}"
   service_name        = "${local.lb_api_address}"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  subnet_ids          = ["${aws_subnet.infrastructure_subnet.id}"]
   private_dns_enabled = true
   security_group_ids  = ["${aws_security_group.vms_security_group.id}"]
 }

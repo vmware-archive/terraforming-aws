@@ -31,23 +31,23 @@ output "public_subnet_cidrs" {
 }
 
 output "infrastructure_subnet_ids" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  value = ["${aws_subnet.infrastructure_subnet.id}"]
 }
 
 output "infrastructure_subnets" {
-  value = ["${aws_subnet.infrastructure_subnets.*.id}"]
+  value = ["${aws_subnet.infrastructure_subnet.id}"]
 }
 
 output "infrastructure_subnet_availability_zones" {
-  value = ["${aws_subnet.infrastructure_subnets.*.availability_zone}"]
+  value = ["${aws_subnet.infrastructure_subnet.availability_zone}"]
 }
 
 output "infrastructure_subnet_cidrs" {
-  value = ["${aws_subnet.infrastructure_subnets.*.cidr_block}"]
+  value = ["${aws_subnet.infrastructure_subnet.cidr_block}"]
 }
 
 output "infrastructure_subnet_gateways" {
-  value = ["${data.template_file.infrastructure_subnet_gateways.*.rendered}"]
+  value = ["${data.template_file.infrastructure_subnet_gateway.rendered}"]
 }
 
 output "aws_lb_interface_endpoint_ips" {

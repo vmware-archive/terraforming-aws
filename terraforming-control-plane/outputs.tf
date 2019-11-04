@@ -38,8 +38,8 @@ output "public_subnet_cidrs" {
   value = "${module.infra.public_subnet_cidrs}"
 }
 
-output "infrastructure_subnet_ids" {
-  value = "${module.infra.infrastructure_subnet_ids}"
+output "infrastructure_subnet_id" {
+  value = "${element(module.infra.infrastructure_subnet_ids, 0)}"
 }
 
 output "infrastructure_subnets" {
@@ -201,3 +201,10 @@ output "control_plane_web_security_group" {
 output "control_plane_lb_ca_cert" {
   value = "${var.tls_ca_certificate}"
 }
+
+# Deprecated ===================================================================
+
+output "infrastructure_subnet_ids" {
+  value = "${module.infra.infrastructure_subnet_ids}"
+}
+
