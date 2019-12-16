@@ -63,8 +63,8 @@ output "public_subnet_cidrs" {
   value = "${module.infra.public_subnet_cidrs}"
 }
 
-output "infrastructure_subnet_ids" {
-  value = "${module.infra.infrastructure_subnet_ids}"
+output "infrastructure_subnet_id" {
+  value = "${element(module.infra.infrastructure_subnet_ids, 0)}"
 }
 
 output "infrastructure_subnets" {
@@ -225,4 +225,10 @@ output "services_subnet_gateways" {
 
 output "tags" {
   value = "${local.actual_tags}"
+}
+
+# Deprecated ===================================================================
+
+output "infrastructure_subnet_ids" {
+  value = "${module.infra.infrastructure_subnet_ids}"
 }

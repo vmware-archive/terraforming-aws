@@ -1,27 +1,23 @@
 # Bosh Director Subnet
-resource "aws_subnet" "infrastructure_subnets" {
-  count             = "${length(var.availability_zones)}"
+resource "aws_subnet" "infrastructure_subnet" {
   vpc_id            = "${aws_vpc.vpc.id}"
-  cidr_block        = "${cidrsubnet(local.infrastructure_cidr, 2, count.index)}"
-  availability_zone = "${element(var.availability_zones, count.index)}"
+  cidr_block        = "${cidrsubnet(local.infrastructure_cidr, 2, 0)}"
+  availability_zone = "${element(var.availability_zones, 0)}"
 
-  tags = "${merge(var.tags, map("Name", "${var.env_name}-infrastructure-subnet${count.index}"))}"
+  tags = "${merge(var.tags, map("Name", "${var.env_name}-infrastructure-subnet"))}"
 }
 
-data "template_file" "infrastructure_subnet_gateways" {
-  # Render the template once for each availability zone
-  count    = "${length(var.availability_zones)}"
+data "template_file" "infrastructure_subnet_gateway" {
   template = "$${gateway}"
 
   vars {
-    gateway = "${cidrhost(element(aws_subnet.infrastructure_subnets.*.cidr_block, count.index), 1)}"
+    gateway = "${cidrhost(aws_subnet.infrastructure_subnet.cidr_block, 1)}"
   }
 }
 
 resource "aws_route_table_association" "route_infrastructure_subnets" {
-  count          = "${length(var.availability_zones)}"
-  subnet_id      = "${element(aws_subnet.infrastructure_subnets.*.id, count.index)}"
-  route_table_id = "${element(aws_route_table.deployment.*.id, count.index)}"
+  subnet_id      = "${aws_subnet.infrastructure_subnet.id}"
+  route_table_id = "${element(aws_route_table.deployment.id, count.index)}"
 }
 
 # Ops Manager Subnet
