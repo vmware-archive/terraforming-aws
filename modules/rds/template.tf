@@ -56,6 +56,9 @@ resource "aws_db_instance" "rds" {
   username                = "${var.rds_db_username}"
   password                = "${random_string.rds_password.result}"
   db_subnet_group_name    = "${aws_db_subnet_group.rds_subnet_group.name}"
+  parameter_group_name    = "mysqlparamdefaults"
+  option_group_name       = "mysqloptiondefaults"
+  ca_cert_identifier      = "${var.rds_ca_identifier}"
   publicly_accessible     = false
   vpc_security_group_ids  = ["${aws_security_group.rds_security_group.id}"]
   iops                    = 1000
@@ -69,17 +72,17 @@ resource "aws_db_instance" "rds" {
   tags = "${var.tags}"
 }
 
-resource "aws_db_parameter_group" "default" {
+resource "aws_db_parameter_group" "mysqlparamdefaults" {
   name   = "rds-params-${var.env_name}"
   family = "mysql5.6"
 
   parameter {
-    name  = "max_allows_packets"
+    name  = "max_allowed_packets"
     value = "64000000"
   }
 }
 
-resource "aws_db_option_group" "default" {
+resource "aws_db_option_group" "mysqloptiondefaults" {
   name   = "rds-options-${var.env_name}"
   family = "mysql5.6"
 }
