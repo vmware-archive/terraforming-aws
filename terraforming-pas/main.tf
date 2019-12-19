@@ -143,8 +143,8 @@ module "rds" {
   rds_instance_class = "${var.rds_instance_class}"
   rds_instance_count = "${var.rds_instance_count}"
 
-  engine         = "mariadb"
-  engine_version = "10.1.31"
+  engine         = "mysql"
+  engine_version = "5.6.22"
   db_port        = 3306
 
   env_name           = "${var.env_name}"
