@@ -6,6 +6,10 @@ variable "rds_instance_class" {
   default = "db.m4.large"
 }
 
+variable "rds_ca_cert_identifier" {
+  default = "rds-ca-2019"
+}
+
 variable "engine" {
   type = "string"
 }
