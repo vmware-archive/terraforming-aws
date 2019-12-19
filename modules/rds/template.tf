@@ -68,3 +68,18 @@ resource "aws_db_instance" "rds" {
 
   tags = "${var.tags}"
 }
+
+resource "aws_db_parameter_group" "default" {
+  name   = "rds-params-${var.env_name}"
+  family = "mysql5.6"
+
+  parameter {
+    name  = "max_allows_packets"
+    value = "64000000"
+  }
+}
+
+resource "aws_db_option_group" "default" {
+  name   = "rds-options-${var.env_name}"
+  family = "mysql5.6"
+}
