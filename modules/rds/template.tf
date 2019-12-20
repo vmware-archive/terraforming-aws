@@ -47,6 +47,22 @@ resource "random_string" "rds_password" {
   special = false
 }
 
+resource "aws_db_parameter_group" "mysql_param_defaults" {
+  name   = "rds-params-${var.env_name}"
+  family = "mysql5.6"
+
+  parameter {
+    name  = "max_allowed_packet"
+    value = "64000000"
+  }
+}
+
+resource "aws_db_option_group" "mysql_option_defaults" {
+  name                 = "rds-options-${var.env_name}"
+  engine_name          = "${var.engine}"
+  major_engine_version = "5.6"
+}
+
 resource "aws_db_instance" "rds" {
   allocated_storage       = 100
   instance_class          = "${var.rds_instance_class}"
@@ -56,8 +72,8 @@ resource "aws_db_instance" "rds" {
   username                = "${var.rds_db_username}"
   password                = "${random_string.rds_password.result}"
   db_subnet_group_name    = "${aws_db_subnet_group.rds_subnet_group.name}"
-  parameter_group_name    = "mysqlparamdefaults"
-  option_group_name       = "mysqloptiondefaults"
+  parameter_group_name    = "${aws_db_parameter_group.mysql_param_defaults.name}"
+  option_group_name       = "${aws_db_option_group.mysql_option_defaults.name}""
   ca_cert_identifier      = "${var.rds_ca_identifier}"
   publicly_accessible     = false
   vpc_security_group_ids  = ["${aws_security_group.rds_security_group.id}"]
@@ -70,19 +86,8 @@ resource "aws_db_instance" "rds" {
   count = "${var.rds_instance_count}"
 
   tags = "${var.tags}"
+
+   ### NOT SUPPORTED UNTIL AWS PROVIDER V2.37.0 ###
+   # ca_cert_identifier      = "${var.rds_ca_cert_identifier}"
 }
 
-resource "aws_db_parameter_group" "mysqlparamdefaults" {
-  name   = "rds-params-${var.env_name}"
-  family = "mysql5.6"
-
-  parameter {
-    name  = "max_allowed_packets"
-    value = "64000000"
-  }
-}
-
-resource "aws_db_option_group" "mysqloptiondefaults" {
-  name   = "rds-options-${var.env_name}"
-  family = "mysql5.6"
-}

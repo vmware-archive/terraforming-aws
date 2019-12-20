@@ -144,7 +144,7 @@ module "rds" {
   rds_instance_count = "${var.rds_instance_count}"
 
   engine         = "mysql"
-  engine_version = "5.6.22"
+  engine_version = "5.6.44"
   db_port        = 3306
 
   env_name           = "${var.env_name}"
