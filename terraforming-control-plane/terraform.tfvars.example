@@ -6,8 +6,6 @@ rds_instance_count = 1
 dns_suffix         = "example.com"
 vpc_cidr           = "10.0.0.0/16"
 use_route53        = true
-use_ssh_routes     = true
-use_tcp_routes     = true
 
 tls_ca_certificate = <<EOF
 -----BEGIN CERTIFICATE-----  
