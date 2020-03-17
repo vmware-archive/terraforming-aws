@@ -98,6 +98,16 @@ variable "rds_instance_count" {
   default = 0
 }
 
+
+/*********
+* Harbor *
+**********/
+
+variable "enable_harbor" {
+  description = "Indicate whether to provision resources for Harbor"
+  default     = true
+}
+
 /*******
 * Tags *
 ********/
