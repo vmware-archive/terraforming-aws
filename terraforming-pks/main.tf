@@ -129,3 +129,16 @@ module "rds" {
 
   tags = "${local.actual_tags}"
 }
+
+module "harbor" {
+  source = "../modules/harbor"
+  env_name                = "${var.env_name}"
+  vpc_id                  = "${module.infra.vpc_id}"
+  public_subnet_ids       = "${module.infra.public_subnet_ids}"
+
+  zone_id     = "${module.infra.zone_id}"
+  dns_suffix  = "${var.dns_suffix}"
+  use_route53 = "${var.use_route53}"
+
+  tags = "${local.actual_tags}"
+}

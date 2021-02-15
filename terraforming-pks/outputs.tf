@@ -226,3 +226,22 @@ output "services_subnet_gateways" {
 output "tags" {
   value = "${local.actual_tags}"
 }
+
+# Harbor =======================================================================
+
+output "harbor_endpoint" {
+  value = "${module.harbor.domain}"
+}
+
+
+output "harbor_target_groups" {
+  value = "${module.harbor.harbor_target_groups}"
+}
+
+output "harbor_lb_security_group_id" {
+  value = "${module.harbor.harbor_lb_security_group_id}"
+}
+
+output "harbor_lb_security_group_name" {
+  value = "${module.harbor.harbor_lb_security_group_name}"
+}

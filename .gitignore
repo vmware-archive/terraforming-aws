@@ -15,3 +15,5 @@ credentials.yml
 *control-plane-*.yml
 *.tgz
 *secrets.yml
+*.tfoutput
+*.tfoutput.json
