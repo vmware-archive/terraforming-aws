@@ -145,10 +145,17 @@ See Terraform documentation on the [AWS Provider](https://www.terraform.io/docs/
 - availability_zones: **(required)** List of AZs you want to deploy to
 - dns_suffix: **(required)** Domain to add environment subdomain to
 - hosted_zone: **(optional)** Parent domain *already* managed by Route53. If specified, the DNS records will be added to this Route53 zone instead of a new zone.
+
+#### Certs: specify either CA cert or cert for HTTP Load Balancer
+Option 1
 - ssl_cert: **(optional)** SSL certificate for HTTP load balancer configuration. Required unless `ssl_ca_cert` is specified.
 - ssl_private_key: **(optional)** Private key for above SSL certificate. Required unless `ssl_ca_cert` is specified.
-- ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required unless `ssl_cert` is specified.
-- ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required unless `ssl_cert` is specified.
+
+Option 2
+- ssl_ca_cert: **(optional)** SSL CA certificate used to generate self-signed HTTP load balancer certificate. Required if `ssl_cert` is not specified.
+- ssl_ca_private_key: **(optional)** Private key for above SSL CA certificate. Required if `ssl_cert` is not specified.
+
+#### Variables continued
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(default: 10.0.0.0/16)** Internal CIDR block for the AWS VPC.
 - use_route53: **(default: true)** Controls whether or not Route53 DNS resources are created.
