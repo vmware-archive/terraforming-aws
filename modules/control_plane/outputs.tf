@@ -1,5 +1,5 @@
 output "domain" {
-  value = "${var.use_route53 ? aws_route53_record.control_plane.0.name : ""}"
+  value = "${join("",aws_route53_record.control_plane.*.name)}"
 }
 
 output "subnet_ids" {
@@ -19,11 +19,15 @@ output "subnet_availability_zones" {
 }
 
 output "credhub_lb_target_group" {
-  value = "${aws_lb_target_group.credhub.name}"
+  # https://github.com/hashicorp/terraform/issues/12475
+  # outputs do not allow for the ternary operator. Because only one of these target groups will ever be created, this is a safe alternative
+  value = "${coalesce(join("", aws_lb_target_group.credhub.*.name), join("",aws_lb_target_group.credhub_tcp.*.name))}"
 }
 
 output "uaa_lb_target_group" {
-  value = "${aws_lb_target_group.uaa.name}"
+  # https://github.com/hashicorp/terraform/issues/12475
+  # outputs do not allow for the ternary operator. Because only one of these target groups will ever be created, this is a safe alternative
+  value = "${coalesce(join("", aws_lb_target_group.uaa.*.name), join("",aws_lb_target_group.uaa_tcp.*.name))}"
 }
 
 output "atc_lb_target_group" {

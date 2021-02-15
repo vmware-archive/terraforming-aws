@@ -24,6 +24,8 @@ variable "zone_id" {
 
 variable "use_route53" {}
 
+variable "use_alb" {}
+
 variable "dns_suffix" {
   type = "string"
 }

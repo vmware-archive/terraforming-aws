@@ -85,6 +85,7 @@ module "control_plane" {
   dns_suffix              = "${var.dns_suffix}"
   zone_id                 = "${module.infra.zone_id}"
   use_route53             = "${var.use_route53}"
+  use_alb                 = "${var.use_alb}"
 
   lb_cert_pem        = "${var.tls_wildcard_certificate}"
   lb_issuer          = "${var.tls_ca_certificate}"
