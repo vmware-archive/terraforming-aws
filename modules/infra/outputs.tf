@@ -50,6 +50,10 @@ output "infrastructure_subnet_gateways" {
   value = ["${data.template_file.infrastructure_subnet_gateways.*.rendered}"]
 }
 
+output "infrastructure_subnet_reserved_ips" {
+  value = ["${data.template_file.infrastructure_subnet_reserved_ips.*.rendered}"]
+}
+
 output "aws_lb_interface_endpoint_ips" {
   value = "${data.aws_network_interface.lb_endpoints.*.private_ip}"
 }

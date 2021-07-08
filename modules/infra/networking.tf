@@ -18,6 +18,16 @@ data "template_file" "infrastructure_subnet_gateways" {
   }
 }
 
+data "template_file" "infrastructure_subnet_reserved_ips" {
+  # Render the template once for each availability zone
+  count    = "${length(var.availability_zones)}"
+  template = "$${reserved_ips}"
+
+  vars {
+    reserved_ips = "${cidrhost(element(aws_subnet.infrastructure_subnets.*.cidr_block, count.index), 0)}-${cidrhost(element(aws_subnet.infrastructure_subnets.*.cidr_block, count.index), 3)}"
+  }
+}
+
 resource "aws_route_table_association" "route_infrastructure_subnets" {
   count          = "${length(var.availability_zones)}"
   subnet_id      = "${element(aws_subnet.infrastructure_subnets.*.id, count.index)}"

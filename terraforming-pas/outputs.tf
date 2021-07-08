@@ -164,6 +164,10 @@ output "infrastructure_subnet_gateways" {
   value = "${module.infra.infrastructure_subnet_gateways}"
 }
 
+output "infrastructure_subnet_reserved_ips" {
+  value = "${module.infra.infrastructure_subnet_reserved_ips}"
+}
+
 output "pas_subnet_ids" {
   value = "${module.pas.pas_subnet_ids}"
 }
@@ -184,6 +188,10 @@ output "pas_subnet_gateways" {
   value = "${module.pas.pas_subnet_gateways}"
 }
 
+output "pas_subnet_reserved_ips" {
+  value = "${module.pas.pas_subnet_reserved_ips}"
+}
+
 output "services_subnet_ids" {
   value = "${module.pas.services_subnet_ids}"
 }
@@ -202,6 +210,10 @@ output "services_subnet_cidrs" {
 
 output "services_subnet_gateways" {
   value = "${module.pas.services_subnet_gateways}"
+}
+
+output "services_subnet_reserved_ips" {
+  value = "${module.pas.services_subnet_reserved_ips}"
 }
 
 output "vpc_id" {

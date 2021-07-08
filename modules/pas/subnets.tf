@@ -19,6 +19,16 @@ data "template_file" "pas_subnet_gateways" {
   template = "$${gateway}"
 }
 
+data "template_file" "pas_subnet_reserved_ips" {
+  # Render the template once for each availability zone
+  count    = "${length(var.availability_zones)}"
+  template = "$${reserved_ips}"
+
+  vars {
+    reserved_ips = "${cidrhost(element(aws_subnet.pas_subnets.*.cidr_block, count.index), 0)}-${cidrhost(element(aws_subnet.pas_subnets.*.cidr_block, count.index), 3)}"
+  }
+}
+
 resource "aws_route_table_association" "route_pas_subnets" {
   count          = "${length(var.availability_zones)}"
   subnet_id      = "${element(aws_subnet.pas_subnets.*.id, count.index)}"
@@ -42,6 +52,16 @@ data "template_file" "services_subnet_gateways" {
   # Render the template once for each availability zone
   count    = "${length(var.availability_zones)}"
   template = "$${gateway}"
+}
+
+data "template_file" "services_subnet_reserved_ips" {
+  # Render the template once for each availability zone
+  count    = "${length(var.availability_zones)}"
+  template = "$${reserved_ips}"
+
+  vars {
+    reserved_ips = "${cidrhost(element(aws_subnet.services_subnets.*.cidr_block, count.index), 0)}-${cidrhost(element(aws_subnet.services_subnets.*.cidr_block, count.index), 3)}"
+  }
 }
 
 resource "aws_route_table_association" "route_services_subnets" {
